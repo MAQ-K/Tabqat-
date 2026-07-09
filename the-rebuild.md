@@ -1,8 +1,46 @@
 # The Rebuild — Tabqat Website
 
-This file is the working log for the Tabqat website rebuild. Every task gets logged here after it's done, tasks are organized into 4 groups, and there's a timeline + revert reference so any change can be traced and undone.
+This file is the working log for the Tabqat website rebuild. Every task gets logged here after it's done, tasks are organized into groups, and there's a timeline + revert reference so any change can be traced and undone.
 
 ***each time we make and edit this file gets updated***
+
+---
+
+## 🧠 READ THIS FIRST — Full Context (written so a fresh session can pick up with zero memory)
+
+**What this project is:** a static HTML website for Tabqat (طبقات) — a Saudi construction-services company (waterproofing, thermal insulation, epoxy flooring, concrete repair, structural support). All pages are flat `.html` files in the repo root. Content is Arabic (RTL). Assets live in `assets/`, shared header/footer components in `components/`.
+
+**The main job:** rebuild the ~34 service pages. For EVERY service page, two passes:
+1. **Content pass** — replace the page text with the new content from its Word file, insert the new images, rearrange sections to fit.
+2. **SEO pass** — meta title/description, canonical, Open Graph, headings, image alts, fix internal links.
+A page is only Done when both passes are done.
+
+**The 3 unbreakable rules:**
+1. **The Word file is law.** Each service page has a `.docx` in `updates/` saying exactly what its content should be. Implement it EXACTLY — no inventing, no rewording, no skipping.
+2. **Use ALL the images.** Each service page has an image folder under `assets/my-images/our-services/`. Every image in that folder must be used on the page. Images mostly come as `.png` + `.webp` pairs — use webp, png as fallback.
+3. **Log everything here.** After each task: check the ☐ boxes in the group table, add a Timeline row, write a History entry, and record the pre-change git commit hash in Revert Ability. Commit per group so each group is one revert checkpoint.
+
+**Key facts you (future me) already figured out — don't re-derive them:**
+- **Page renaming is ALREADY DONE.** Old short slugs (`s-water-1.html`, `service-epoxy.html`, `product-iso.html`…) were renamed to the descriptive filenames now in the repo. The full old→new mapping is in the "Pages Names change" table below. Old names matter only for (a) matching image folders, which still use old slugs, and (b) fixing stale internal links.
+- **Image folder ↔ page mapping** uses OLD slugs: e.g. `assets/my-images/our-services/Waterheat-insulation/s-water/s-water-1/` belongs to `bitumen-waterproofing.html`. Full mapping is in each group's table (Group Tasks 2–8 below).
+- **Word file locations:** `updates/عزل مائي/` (7 docx), `updates/عزل حراري/` (4), `updates/العزل المائي والحراري/` (1), `updates/ايبوكسي/` (7), `updates/إصلاح الخرسانة/` (3), `updates/خدمات التدعيم/` (6), plus `updates/الصفحات الرئيسية.docx` (main category pages) and `updates/الصفحات ال4 للخدمات.docx` (needs checking — probably the services hub / 4 main pages). `updates/Alt.docx` = image alt texts. The two `.xlsx` files = the old→new page names (already extracted into this doc).
+- **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
+- **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
+- **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
+- **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fix most of these.
+- **Site preview:** static files — just open the `.html` in a browser, no build step. `embed-components.js` injects the shared header/footer from `components/`.
+
+**Workflow per group (agreed with the user):**
+1. Read ALL the group's Word files first (extract text before touching HTML).
+2. Per page: content pass (text exactly per docx → insert all images from its folder → arrange sections) → SEO pass → verify in browser (rendering, image paths, links).
+3. Check the page's ☐ boxes in the group table.
+4. Group finished → Timeline row + History entry + git commit + Revert Ability row with the pre-change hash.
+
+**Open questions (ask the user if still unanswered):**
+1. Is `الصفحات ال4 للخدمات.docx` the content for `our-services.html` (Group 8), or something else? Read it first.
+2. "Images Gallery" in the original nav plan — same as `projects.html` or a new page?
+3. Which group to start with (default assumption: Group 2, in order).
+4. `polyurea-spray-waterproofing.html` has no Arabic title in the Excel — confirm with user.
 
 ---
 
@@ -217,45 +255,102 @@ This task applies to these pages:
 - `/contact-us.html` (was `contact.html`)
 
 - [x] Task 1.1 — Add the provided SEO `<title>` tag to each main page using the supplied metadata document. *(source: `updates/الصفحات الرئيسية.docx`)*
-
 - [x] Task 1.2 — Add the provided `<meta name="description">` tag to each page.
-
 - [x] Task 1.3 — Add `<meta name="robots" content="index, follow">` to every main page.
-
 - [x] Task 1.4 — Add the correct canonical URL (`<link rel="canonical">`) for each page.
-
 - [x] Task 1.5 — Add complete Open Graph metadata for every page:
   - `og:title`
   - `og:description`
   - `og:url`
   - `og:type`
   - `og:locale`
-
 - [x] Task 1.6 — Ensure every page has unique SEO metadata (no duplicated titles or descriptions).
-
 - [x] Task 1.7 — Validate title length (≈50–60 characters) and meta description length (≈140–160 characters) without changing the provided copy unless necessary for SEO limits. *(descriptions 142–160 chars; titles 51–58 chars except index.html at 68 chars — kept as supplied verbatim, flagged for optional trim)*
-
 - [x] Task 1.8 — Add the shared LocalBusiness JSON-LD Schema to every page immediately before the closing `</head>` tag.
-
 - [x] Task 1.9 — Validate the JSON-LD schema for valid JSON syntax and Schema.org compliance.
-
 - [x] Task 1.10 — Verify all canonical URLs, Open Graph URLs, and page URLs match the final website routing exactly. *(used current filenames `projects.html` / `contact-us.html`, not the doc's old `gallery.html` / `contact.html`)*
-
 - [x] Task 1.11 — Preserve existing CSS, JavaScript, layout, functionality, and page performance while applying the SEO changes.
-
 - [x] Task 1.12 — Ensure all pages remain W3C-valid with no duplicate meta tags or structured data after implementation. *(verified: no duplicate title/description/robots/canonical/og:title/JSON-LD tags in any of the 6 files)*
 
-### Group Task 2 — (name this group)
-- [ ] Task 2.1 —
-- [ ] Task 2.2 —
+> **Service page groups (2–8):** one group per service category. For every page in a group: **do exactly what its Word file says for the content** (no inventing/changing text), and **use ALL the images in its image folder**. Both passes from the Per-Page Workflow apply (Content ➜ SEO). A page is done only when both boxes are checked.
+>
+> Image folders live under `assets/my-images/our-services/` and are named with the OLD slugs — the "Pages Names change" table maps them to the final pages. Most images exist as `.png` + `.webp` (use webp, png as fallback).
 
-### Group Task 3 — (name this group)
-- [ ] Task 3.1 —
-- [ ] Task 3.2 —
+### Group Task 2 — العزل المائي (Waterproofing) — 8 pages
+Word files: `updates/عزل مائي/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-water/`
 
-### Group Task 4 — (name this group)
-- [ ] Task 4.1 —
-- [ ] Task 4.2 —
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| waterproofing-insulation.html (main) | الصفحات الرئيسية.docx | s-water/ (top-level 1–7) | ☐ | ☐ |
+| bitumen-waterproofing.html | العزل بلفات البيتومين.docx | s-water/s-water-1/ | ☐ | ☐ |
+| cementitious-waterproofing.html | العزل الاسمنتي.docx | s-water/s-water-2/ | ☐ | ☐ |
+| polyurethane-waterproofing.html | عزل البولي يوريثان.docx | s-water/s-water-3/ | ☐ | ☐ |
+| acrylic-waterproofing-coating.html | عزل الاكليريك.docx | s-water/s-water-4/ | ☐ | ☐ |
+| polyurea-spray-waterproofing.html | عزل البولي يوريا.docx | s-water/s-water-5/ | ☐ | ☐ |
+| pvc-waterproofing.html | عزل PVC.docx | s-water/s-water-6/ | ☐ | ☐ |
+| epdm-waterproofing.html | عزل EPMD.docx | s-water/s-water-7/ | ☐ | ☐ |
+
+### Group Task 3 — العزل الحراري (Thermal Insulation) — 5 pages
+Word files: `updates/عزل حراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heat/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| thermal-insulation.html (main) | الصفحات الرئيسية.docx | s-heat/ (top-level 1–4) | ☐ | ☐ |
+| perlite-thermal-insulation.html | عزل البيرلايت.docx | s-heat/s-heat-1/ | ☐ | ☐ |
+| polystyrene-board-thermal-insulation.html | عزل البوليسترين.docx | s-heat/s-heat-2/ | ☐ | ☐ |
+| polyurethane-board-thermal-insulation.html | عزل البولي يوريثان.docx | s-heat/s-heat-3/ | ☐ | ☐ |
+| rockwool-board-thermal-insulation.html | العزل بألواح الصوف الصخري.docx | s-heat/s-heat-4/ | ☐ | ☐ |
+
+### Group Task 4 — العزل المائي والحراري (Waterproofing + Thermal) — 1 page
+Word files: `updates/العزل المائي والحراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heatwater/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| waterproofing-thermal-insulation.html | العزل المائي والحراري.docx | s-heatwater/ | ☐ | ☐ |
+
+### Group Task 5 — دهانات الإيبوكسي (Epoxy Coatings) — 8 pages
+Word files: `updates/ايبوكسي/` · Images: `assets/my-images/our-services/epoxy/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| epoxy-flooring-coating.html (main) | الصفحات الرئيسية.docx | epoxy/ (top-level 1–7) | ☐ | ☐ |
+| epoxy-flooring-car-parks-warehouses.html | مواقف السيارات.docx | epoxy/s-epoxy-1/ | ☐ | ☐ |
+| epoxy-flooring-cold-storage-freezer-rooms.html | أرضيات ثلاجات التجميد.docx | epoxy/s-epoxy-2/ | ☐ | ☐ |
+| epoxy-coating-wastewater-sewage-tanks.html | خزانات مياه الصرف.docx | epoxy/s-epoxy-3/ | ☐ | ☐ |
+| epoxy-lining-potable-water-tanks.html | خزانات مياه الشرب.docx | epoxy/s-epoxy-4/ | ☐ | ☐ |
+| epoxy-flooring-food-processing-facilities.html | مصانع الاغذية.docx | epoxy/s-epoxy-5/ | ☐ | ☐ |
+| anti-static-epoxy-flooring.html | انتي ستاتيك.docx | epoxy/s-epoxy-6/ | ☐ | ☐ |
+| epoxy-mortar-flooring-systems.html | المونة الايبوكسية.docx | epoxy/s-epoxy-7/ | ☐ | ☐ |
+
+### Group Task 6 — إصلاح الخرسانة (Concrete Injection & Repair) — 4 pages
+Word files: `updates/إصلاح الخرسانة/` · Images: `assets/my-images/our-services/service-injection/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| concrete-repair-injection.html (main) | الصفحات الرئيسية.docx | service-injection/ (top-level 1–3) | ☐ | ☐ |
+| concrete-repair-structural-materials.html | إصلاح بالمواد الإنشائية.docx | service-injection/s-injection-1/ | ☐ | ☐ |
+| polyurethane-injection-concrete-leak-stopping.html | حقن البولي يوريثان.docx | service-injection/s-injection-2/ | ☐ | ☐ |
+| epoxy-injection-concrete-repair.html | حقن ايبوكسي.docx | service-injection/s-injection-3/ | ☐ | ☐ |
+
+### Group Task 7 — خدمات التدعيم (Structural Support) — 7 pages
+Word files: `updates/خدمات التدعيم/` · Images: `assets/my-images/our-services/service-support/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| structural-strengthening.html (main) | الصفحات الرئيسية.docx | service-support/ (top-level 1–6) | ☐ | ☐ |
+| concrete-jacketing.html | التدعيم بالقمصان الخرسانية.docx | service-support/s-support-1/ | ☐ | ☐ |
+| carbon-fiber-strengthening.html | التدعيم بالكريون فايبر.docx | service-support/s-support-2/ | ☐ | ☐ |
+| steel-jacketing.html | التدعيم بقطاعات الحديد.docx | service-support/s-support-3/ | ☐ | ☐ |
+| soil-injection.html | حقن التربة.docx | service-support/s-support-4/ | ☐ | ☐ |
+| shotcrete.html | الخرسانة المقذوفة.docx | service-support/s-support-5/ | ☐ | ☐ |
+| excavation-shoring.html | سند جوانب الحفر.docx | service-support/s-support-6/ | ☐ | ☐ |
+
+### Group Task 8 — Services hub page — 1 page
+Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what it covers) · Images: `assets/my-images/our-services/all-services/`
+
+| Page | Word file | Image folder | Content | SEO |
+|---|---|---|---|---|
+| our-services.html | الصفحات ال4 للخدمات.docx? | all-services/ | ☐ | ☐ |
 
 ---
 
@@ -267,6 +362,7 @@ This task applies to these pages:
 | 2026-07-09 | — | Services mind map + old→new page names table (from Excel) | ✅ Done |
 | 2026-07-09 | — | Defined per-page workflow (content pass + SEO pass) | ✅ Done |
 | 2026-07-09 | 1 | Main Pages SEO Meta Tags & Structured Data (Tasks 1.1–1.12) | ✅ Done |
+| 2026-07-09 | — | Divided service pages into Group Tasks 2–8 (one per category, with docx + image folder mapping) | ✅ Done |
 
 ---
 
