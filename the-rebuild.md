@@ -212,38 +212,38 @@ This task applies to these pages:
 - `/index.html`
 - `/about-us.html`
 - `/certificates.html`
-- `/gallery.html`
+- `/projects.html` (was `gallery.html`)
 - `/blogs.html`
-- `/contact.html`
+- `/contact-us.html` (was `contact.html`)
 
-- [ ] Task 1.1 — Add the provided SEO `<title>` tag to each main page using the supplied metadata document.
+- [x] Task 1.1 — Add the provided SEO `<title>` tag to each main page using the supplied metadata document. *(source: `updates/الصفحات الرئيسية.docx`)*
 
-- [ ] Task 1.2 — Add the provided `<meta name="description">` tag to each page.
+- [x] Task 1.2 — Add the provided `<meta name="description">` tag to each page.
 
-- [ ] Task 1.3 — Add `<meta name="robots" content="index, follow">` to every main page.
+- [x] Task 1.3 — Add `<meta name="robots" content="index, follow">` to every main page.
 
-- [ ] Task 1.4 — Add the correct canonical URL (`<link rel="canonical">`) for each page.
+- [x] Task 1.4 — Add the correct canonical URL (`<link rel="canonical">`) for each page.
 
-- [ ] Task 1.5 — Add complete Open Graph metadata for every page:
+- [x] Task 1.5 — Add complete Open Graph metadata for every page:
   - `og:title`
   - `og:description`
   - `og:url`
   - `og:type`
   - `og:locale`
 
-- [ ] Task 1.6 — Ensure every page has unique SEO metadata (no duplicated titles or descriptions).
+- [x] Task 1.6 — Ensure every page has unique SEO metadata (no duplicated titles or descriptions).
 
-- [ ] Task 1.7 — Validate title length (≈50–60 characters) and meta description length (≈140–160 characters) without changing the provided copy unless necessary for SEO limits.
+- [x] Task 1.7 — Validate title length (≈50–60 characters) and meta description length (≈140–160 characters) without changing the provided copy unless necessary for SEO limits. *(descriptions 142–160 chars; titles 51–58 chars except index.html at 68 chars — kept as supplied verbatim, flagged for optional trim)*
 
-- [ ] Task 1.8 — Add the shared LocalBusiness JSON-LD Schema to every page immediately before the closing `</head>` tag.
+- [x] Task 1.8 — Add the shared LocalBusiness JSON-LD Schema to every page immediately before the closing `</head>` tag.
 
-- [ ] Task 1.9 — Validate the JSON-LD schema for valid JSON syntax and Schema.org compliance.
+- [x] Task 1.9 — Validate the JSON-LD schema for valid JSON syntax and Schema.org compliance.
 
-- [ ] Task 1.10 — Verify all canonical URLs, Open Graph URLs, and page URLs match the final website routing exactly.
+- [x] Task 1.10 — Verify all canonical URLs, Open Graph URLs, and page URLs match the final website routing exactly. *(used current filenames `projects.html` / `contact-us.html`, not the doc's old `gallery.html` / `contact.html`)*
 
-- [ ] Task 1.11 — Preserve existing CSS, JavaScript, layout, functionality, and page performance while applying the SEO changes.
+- [x] Task 1.11 — Preserve existing CSS, JavaScript, layout, functionality, and page performance while applying the SEO changes.
 
-- [ ] Task 1.12 — Ensure all pages remain W3C-valid with no duplicate meta tags or structured data after implementation.
+- [x] Task 1.12 — Ensure all pages remain W3C-valid with no duplicate meta tags or structured data after implementation. *(verified: no duplicate title/description/robots/canonical/og:title/JSON-LD tags in any of the 6 files)*
 
 ### Group Task 2 — (name this group)
 - [ ] Task 2.1 —
@@ -266,6 +266,7 @@ This task applies to these pages:
 | 2026-07-09 | — | Set up the-rebuild.md structure | ✅ Done |
 | 2026-07-09 | — | Services mind map + old→new page names table (from Excel) | ✅ Done |
 | 2026-07-09 | — | Defined per-page workflow (content pass + SEO pass) | ✅ Done |
+| 2026-07-09 | 1 | Main Pages SEO Meta Tags & Structured Data (Tasks 1.1–1.12) | ✅ Done |
 
 ---
 
@@ -282,6 +283,13 @@ This task applies to these pages:
 - Flagged 5 leftover files marked Delete in the Excel but still in the repo: `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`.
 - No site files changed (documentation only).
 
+### 2026-07-09 — Group Task 1: Main Pages SEO Meta Tags & Structured Data
+- Applied the supplied SEO metadata (from `updates/الصفحات الرئيسية.docx`) to all 6 main pages: `index.html`, `about-us.html`, `certificates.html`, `projects.html`, `blogs.html`, `contact-us.html`.
+- Each page: replaced `<title>` + `<meta name="description">` with the supplied copy, added `<meta name="robots" content="index, follow">`, added `<link rel="canonical">`, added full Open Graph block (`og:title`, `og:description`, `og:url`, `og:type`, `og:locale`), added the shared `LocalBusiness` JSON-LD schema before `</head>`.
+- Canonical/OG URLs use the current final filenames (`projects.html`, `contact-us.html`), not the doc's old names (`gallery.html`, `contact.html`).
+- Existing `<meta name="keywords">`, CSS, JS, and GTM/gtag scripts left untouched.
+- Validated: no duplicate title/description/robots/canonical/og:title/JSON-LD tags per page; all 6 JSON-LD blocks parse as valid JSON; descriptions 142–160 chars; titles 51–58 chars except `index.html` (68 chars, kept verbatim per supplied copy).
+
 ---
 
 ## Revert Ability
@@ -291,6 +299,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | Date | Task | Files touched | Revert reference | Notes |
 |---|---|---|---|---|
 | 2026-07-09 | Set up the-rebuild.md | the-rebuild.md | n/a | Initial doc, nothing to revert |
+| 2026-07-09 | Group Task 1 — SEO meta tags | index.html, about-us.html, certificates.html, projects.html, blogs.html, contact-us.html | `6dd5282` (commit before this change) | `git checkout 6dd5282 -- <file>` restores the pre-SEO head for any of the 6 files |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.

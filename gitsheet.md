@@ -193,3 +193,13 @@ Assign different files to different developers whenever possible.
 ```
 
 Following this workflow consistently helps prevent lost work and reduces merge conflicts.
+
+
+
+
+git push origin main
+git add .
+git commit -m "Resolve merge conflict"
+git push origin main
+
+
