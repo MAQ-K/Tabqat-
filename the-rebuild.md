@@ -26,7 +26,10 @@ A page is only Done when both passes are done.
 - **Word file locations:** `updates/عزل مائي/` (7 docx), `updates/عزل حراري/` (4), `updates/العزل المائي والحراري/` (1), `updates/ايبوكسي/` (7), `updates/إصلاح الخرسانة/` (3), `updates/خدمات التدعيم/` (6), plus `updates/الصفحات الرئيسية.docx` (main category pages) and `updates/الصفحات ال4 للخدمات.docx` (needs checking — probably the services hub / 4 main pages). `updates/Alt.docx` = image alt texts. The two `.xlsx` files = the old→new page names (already extracted into this doc).
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
-- **Group Task 4 (waterproofing-thermal-insulation.html) is DONE** — used as the sample/pilot page to validate the per-page workflow (content + SEO pass) before running Groups 2, 3, 5, 6, 7, 8. Revert ref: commit `c39ae73`. Also fixed a dead `water-thermal-insulation-system.html` link in `waterproofing-insulation.html` and `thermal-insulation.html` sidebars → repointed to `waterproofing-thermal-insulation.html`.
+- **Group Task 4 is DONE (2 pages, restructured)** — `waterproofing-thermal-insulation.html` is the HUB (3 category cards; all navbar links land here) and `waterproofing-thermal-insulation-system.html` is the combined-system detail page (the docx content). Do NOT re-merge them.
+- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE** and **Group Task 2 (العزل المائي, 8 pages) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. Remaining: Groups 3, 5, 6, 8.
+- **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages). Still Arabic-named/unassigned: `حقن وإصلاح الخرسانة.png` (Group 6), `eboxy.png` (Group 5), `ab-co-ce-pr.png` (about/contact/certificates/products?). No banner exists yet for Group 3 (thermal) — ask user.
+- ⚠️ **Everything after the pilot is UNCOMMITTED** on top of `c39ae73` — commit per group before continuing.
 - **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
 - **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fix most of these.
 - **Site preview:** static files — just open the `.html` in a browser, no build step. `embed-components.js` injects the shared header/footer from `components/`.
@@ -108,8 +111,9 @@ index.html
 │   │   ├── polystyrene-board-thermal-insulation.html (العزل بألواح البوليسترين)
 │   │   ├── polyurethane-board-thermal-insulation.html (العزل بألواح البولي يوريثان)
 │   │   └── rockwool-board-thermal-insulation.html (العزل بألواح الصوف الصخري)
-│   ├── 3. waterproofing-thermal-insulation.html (العزل المائي والحراري)
-│   │       ← consolidated from service-Waterheat-insulation.html + services-waterheat.html
+│   ├── 3. waterproofing-thermal-insulation.html (العزل المائي والحراري — HUB, 3 category cards) ← was service-Waterheat-insulation.html
+│   │   └── waterproofing-thermal-insulation-system.html (العزل المائي والحراري المدمج — detail) ← was services-waterheat.html
+│   │       (hub links to: العزل المائي #1, العزل الحراري #2, المدمج system page)
 │   ├── 4. epoxy-flooring-coating.html (دهانات الإيبوكسي) ← was service-epoxy.html
 │   │   ├── epoxy-flooring-car-parks-warehouses.html (مواقف السيارات والمستودعات)
 │   │   ├── epoxy-flooring-cold-storage-freezer-rooms.html (الأرضيات لثلاجات التجميد)
@@ -229,10 +233,10 @@ Source: `updates/Tabqat pages.xlsx` + `updates/Tabqat_20Services_20Pages_20-_20C
 | service-epoxy.html | epoxy-flooring-coating.html | دهانات الإيبوكسي | done |
 | service-injection.html | concrete-repair-injection.html | إصلاح الخرسانة | done |
 | service-support.html | structural-strengthening.html | خدمات التدعيم | done |
-| service-Waterheat-insulation.html | waterproofing-thermal-insulation.html | العزل المائي والحراري | done (merged) |
+| service-Waterheat-insulation.html | waterproofing-thermal-insulation.html | العزل المائي والحراري (hub) | done — hub with 3 category cards |
 | services-heat.html | thermal-insulation.html | العزل الحراري | done |
 | services-water.html | waterproofing-insulation.html | العزل المائي | done |
-| services-waterheat.html | waterproofing-thermal-insulation.html | العزل المائي والحراري | done (merged) |
+| services-waterheat.html | waterproofing-thermal-insulation-system.html | العزل المائي والحراري المدمج (detail) | done — un-merged 2026-07-09, see Group 4 note |
 | shop-details.html | ❌ Delete | | already gone from repo |
 | shop.html | ❌ Delete | | already gone from repo |
 | Support-the-sides-of-the-excavation.html | excavation-shoring-support.html | مقالة: سند جوانب الحفر | done — blog article |
@@ -282,14 +286,22 @@ Word files: `updates/عزل مائي/` · Images: `assets/my-images/our-services
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| waterproofing-insulation.html (main) | الصفحات الرئيسية.docx | s-water/ (top-level 1–7) | ☐ | ☐ |
-| bitumen-waterproofing.html | العزل بلفات البيتومين.docx | s-water/s-water-1/ | ☐ | ☐ |
-| cementitious-waterproofing.html | العزل الاسمنتي.docx | s-water/s-water-2/ | ☐ | ☐ |
-| polyurethane-waterproofing.html | عزل البولي يوريثان.docx | s-water/s-water-3/ | ☐ | ☐ |
-| acrylic-waterproofing-coating.html | عزل الاكليريك.docx | s-water/s-water-4/ | ☐ | ☐ |
-| polyurea-spray-waterproofing.html | عزل البولي يوريا.docx | s-water/s-water-5/ | ☐ | ☐ |
-| pvc-waterproofing.html | عزل PVC.docx | s-water/s-water-6/ | ☐ | ☐ |
-| epdm-waterproofing.html | عزل EPMD.docx | s-water/s-water-7/ | ☐ | ☐ |
+| waterproofing-insulation.html (main) | الصفحات الرئيسية.docx | s-water/ (top-level 1–7) | ✅ | ✅ |
+| bitumen-waterproofing.html | العزل بلفات البيتومين.docx | s-water/s-water-1/ | ✅ | ✅ |
+| cementitious-waterproofing.html | العزل الاسمنتي.docx | s-water/s-water-2/ | ✅ | ✅ |
+| polyurethane-waterproofing.html | عزل البولي يوريثان.docx | s-water/s-water-3/ | ✅ | ✅ |
+| acrylic-waterproofing-coating.html | عزل الاكليريك.docx | s-water/s-water-4/ | ✅ | ✅ |
+| polyurea-spray-waterproofing.html | عزل البولي يوريا.docx | s-water/s-water-5/ | ✅ | ✅ |
+| pvc-waterproofing.html | عزل PVC.docx | s-water/s-water-6/ | ✅ | ✅ |
+| epdm-waterproofing.html | عزل EPMD.docx | s-water/s-water-7/ | ✅ | ✅ |
+
+**Done 2026-07-10:**
+- 7 detail pages rebuilt with exact docx content (intro, تطبيقات, اشتراطات, مراحل التنفيذ with H3 sub-steps, مزايا, لماذا طبقات, FAQ accordion, contact CTA note-box) on the Group-4/7 detail template.
+- SEO heads replaced with docx meta title/description + OG/twitter + Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD; all schema URLs corrected from old slugs (`s-water-N.html`, `service-Waterheat-insulation.html`) to final filenames.
+- All images used per folder: bitumen 5/5, cementitious 4/4, polyurethane 4/4 (incl. the odd `21.webp`), acrylic 3/3, polyurea 2/2, PVC 3/3, EPDM 3/3 — webp+png `<picture>` fallback where pairs exist. Alts from `Alt.docx` (bitumen images 4–5 and cementitious image 4 had no doc alt — authored in matching style).
+- Banner: hub uses `banners/waterproofing-insulation.png`, all 7 detail pages use `banners/waterproofing-insulation-2.png` (renamed from `العزل المائي.png` / `العزل المائي 2.png`).
+- Hub page (`waterproofing-insulation.html`) already had its 7-card grid + full SEO from the earlier pass — banner updated, sidebar third link repointed to the new system page.
+- Verified: all 8 pages have valid JSON-LD, single H1/title, and every referenced image/banner exists on disk.
 
 ### Group Task 3 — العزل الحراري (Thermal Insulation) — 5 pages
 Word files: `updates/عزل حراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heat/`
@@ -302,12 +314,15 @@ Word files: `updates/عزل حراري/` · Images: `assets/my-images/our-servic
 | polyurethane-board-thermal-insulation.html | عزل البولي يوريثان.docx | s-heat/s-heat-3/ | ☐ | ☐ |
 | rockwool-board-thermal-insulation.html | العزل بألواح الصوف الصخري.docx | s-heat/s-heat-4/ | ☐ | ☐ |
 
-### Group Task 4 — العزل المائي والحراري (Waterproofing + Thermal) — 1 page
-Word files: `updates/العزل المائي والحراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heatwater/`
+### Group Task 4 — العزل المائي والحراري (Waterproofing + Thermal) — 2 pages
+Word files: `updates/العزل المائي والحراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heatwater/` (detail) + `Waterheat-insulation/11.png, 22.png, 33.jpg` (hub cards)
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| waterproofing-thermal-insulation.html | العزل المائي والحراري.docx | s-heatwater/ | ✅ | ✅ |
+| waterproofing-thermal-insulation.html (HUB) | — (hub, 3 category cards) | 11.png / 22.png / 33.jpg | ✅ | ✅ |
+| waterproofing-thermal-insulation-system.html (detail) | العزل المائي والحراري.docx | s-heatwater/ | ✅ | ✅ |
+
+> ⚠️ **Restructure 2026-07-09:** the "merged" assumption was wrong — the user confirmed the section needs a HUB (3 categories: العزل المائي / العزل الحراري / المدمج) + the combined-system detail page. The pilot detail content was moved to `waterproofing-thermal-insulation-system.html` (canonical/OG/schema URLs updated, breadcrumb gained the hub level), and `waterproofing-thermal-insulation.html` was rebuilt as the hub card-grid (all navbar/footer links land there unchanged). Sidebar third links in `waterproofing-insulation.html` / `thermal-insulation.html` repointed to the system page.
 
 **Done 2026-07-09 (used as the sample/pilot page for the per-page workflow):**
 - Content: full docx content (intro, definition, 6 benefits, 4 requirement sub-sections, comparison table, applications, why-us, 5 FAQs, contact CTA), built on the site's existing detail-page template (2-col layout + shared `main.css` classes: `.section-heading`, `.section-img`, `.features-grid`/`.feature-card`, `.check-list`, `.info-box`, `.note-box`, `.cta-whatsapp`, `.sidebar-card`/`.sidebar-nav-list`). Comparison table uses Bootstrap `.table`, FAQ uses Bootstrap accordion — both already loaded, no new CSS/JS added.
@@ -345,13 +360,20 @@ Word files: `updates/خدمات التدعيم/` · Images: `assets/my-images/ou
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| structural-strengthening.html (main) | الصفحات الرئيسية.docx | service-support/ (top-level 1–6) | ☐ | ☐ |
-| concrete-jacketing.html | التدعيم بالقمصان الخرسانية.docx | service-support/s-support-1/ | ☐ | ☐ |
-| carbon-fiber-strengthening.html | التدعيم بالكريون فايبر.docx | service-support/s-support-2/ | ☐ | ☐ |
-| steel-jacketing.html | التدعيم بقطاعات الحديد.docx | service-support/s-support-3/ | ☐ | ☐ |
-| soil-injection.html | حقن التربة.docx | service-support/s-support-4/ | ☐ | ☐ |
-| shotcrete.html | الخرسانة المقذوفة.docx | service-support/s-support-5/ | ☐ | ☐ |
-| excavation-shoring.html | سند جوانب الحفر.docx | service-support/s-support-6/ | ☐ | ☐ |
+| structural-strengthening.html (main) | — (hub, 6 cards) | service-support/ (top-level 1–6) | ✅ | ✅ |
+| concrete-jacketing.html | التدعيم بالقمصان الخرسانية.docx | service-support/s-support-1/ | ✅ | ✅ |
+| carbon-fiber-strengthening.html | التدعيم بالكريون فايبر.docx | service-support/s-support-2/ | ✅ | ✅ |
+| steel-jacketing.html | التدعيم بقطاعات الحديد.docx | service-support/s-support-3/ | ✅ | ✅ |
+| soil-injection.html | حقن التربة.docx | service-support/s-support-4/ | ✅ | ✅ |
+| shotcrete.html | الخرسانة المقذوفة.docx | service-support/s-support-5/ | ✅ | ✅ |
+| excavation-shoring.html | سند جوانب الحفر.docx | service-support/s-support-6/ | ✅ | ✅ |
+
+**Done 2026-07-09:**
+- Hub rebuilt from old rs-team stub to card-grid template (6 cards, alts from `Alt.docx`), empty meta description filled, breadcrumb link fixed (خدماتنا pointed to index.html).
+- 6 detail pages rebuilt with exact docx content + FAQ accordions + docx meta/schemas (URLs corrected to final filenames). concrete-jacketing includes the comparison table (قميص خرساني / كربون فايبر / قطاعات حديد).
+- **Fixed 3 broken image paths** — concrete-jacketing, carbon-fiber, steel-jacketing, soil-injection pointed at nonexistent Arabic-named folders (`service-support/التدعيم_بالقمصان_الخرسانية/…`); all now use the real `s-support-N/` folders, all 17 folder images used.
+- Banner: all 7 pages use `banners/structural-strengthening.png` (renamed from `خدمات التدعيم.png`).
+- Verified in browser + JSON-LD/image checks.
 
 ### Group Task 8 — Services hub page — 1 page
 Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what it covers) · Images: `assets/my-images/our-services/all-services/`
@@ -372,6 +394,10 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 | 2026-07-09 | 1 | Main Pages SEO Meta Tags & Structured Data (Tasks 1.1–1.12) | ✅ Done |
 | 2026-07-09 | — | Divided service pages into Group Tasks 2–8 (one per category, with docx + image folder mapping) | ✅ Done |
 | 2026-07-09 | 4 | waterproofing-thermal-insulation.html — content + SEO pass (sample/pilot page) | ✅ Done |
+| 2026-07-09 | 7 | خدمات التدعيم — hub + 6 detail pages (content + SEO + banner, fixed 3 broken image paths) | ✅ Done |
+| 2026-07-09 | 4 | Restructure: hub/system split — hub rebuilt, detail moved to waterproofing-thermal-insulation-system.html | ✅ Done |
+| 2026-07-09 | — | Banners: renamed خدمات التدعيم/العزل المائي والحراري/العزل المائي (×2) to English slugs, applied to Groups 7+4 pages | ✅ Done |
+| 2026-07-10 | 2 | العزل المائي — hub + 7 detail pages (content + SEO + banner) | ✅ Done |
 
 ---
 
@@ -405,6 +431,29 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 - Verified by opening the page in a browser: layout, both images, comparison table, FAQ accordion (Bootstrap collapse), and all links confirmed working.
 - This page was used as the sample/pilot to validate the per-page workflow before running it across Groups 2, 3, 5, 6, 7, 8.
 
+### 2026-07-09 — Group Task 7: خدمات التدعيم (hub + 6 detail pages)
+- `structural-strengthening.html` rebuilt from old rs-team stub to the card-grid hub template: 6 service cards with `Alt.docx` alts, filled the empty meta description, fixed breadcrumb خدماتنا link (pointed to index.html).
+- 6 detail pages rebuilt with exact docx content from `updates/خدمات التدعيم/` + FAQ accordions + docx Service/FAQPage/BreadcrumbList schemas (URLs corrected from `s-support-N.html`/`service-support.html` to final filenames). concrete-jacketing includes the docx comparison table.
+- Fixed 3 pre-existing broken image paths (nonexistent Arabic-named subfolders) in concrete-jacketing, carbon-fiber-strengthening, steel-jacketing, soil-injection — repointed to the real `s-support-1..6/` folders; all 17 images across the 6 folders now used with webp fallback where available.
+- Banners: `banners/خدمات التدعيم.png` renamed → `banners/structural-strengthening.png` (git mv) and applied as breadcrumb background on all 7 Group-7 pages (was generic `pro-serv.png`).
+- Verified: browser render on all 7 pages, valid JSON-LD, single H1, all image paths exist.
+
+### 2026-07-09 — Group Task 4 restructure: hub/system split (user correction)
+- The old "merged" assumption was wrong: the section needs a HUB page with 3 categories plus a separate detail page for the combined polyurethane-spray system.
+- Copied the pilot detail content to **`waterproofing-thermal-insulation-system.html`** (new page, slug approved by user): canonical/OG/Service-schema URLs updated, BreadcrumbList + on-page breadcrumb gained the hub level, sidebar self-link updated.
+- Rebuilt **`waterproofing-thermal-insulation.html`** as the hub: 3 cards (العزل المائي / العزل الحراري / العزل المائي والحراري المدمج) using `Waterheat-insulation/11.png, 22.png, 33.jpg` with `Alt.docx` alts; hub-style SEO head; kept all existing navbar/footer links working with zero edits elsewhere.
+- Renamed `banners/العزل المائي والحراري.png` → `banners/waterproofing-thermal-insulation.png`; applied to both pages.
+- Repointed sidebar third item in `waterproofing-insulation.html` and `thermal-insulation.html` to the system page (label now "العزل المائي والحراري المدمج").
+- Names table updated: `service-Waterheat-insulation.html` → hub, `services-waterheat.html` → system page (no longer "merged").
+
+### 2026-07-10 — Group Task 2: العزل المائي (hub + 7 detail pages)
+- Read all 7 docx files in `updates/عزل مائي/` first, then rebuilt every detail page with the exact docx content: intro, تطبيقات (with image), اشتراطات, مراحل التنفيذ (H3 sub-steps with images), مزايا, لماذا طبقات (info-box), FAQ accordion, contact CTA note-box.
+- SEO heads replaced with docx meta title/description, OG/twitter, and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD — schema URLs corrected from old slugs to final filenames; 4-level breadcrumb kept (خدماتنا → عزل مائي وحراري → العزل المائي → page).
+- Every image in every folder used: bitumen 5, cementitious 4, polyurethane 4 (incl. `21.webp`), acrylic 3, polyurea 2, PVC 3, EPDM 3 — `<picture>` webp+png fallback where pairs exist; alts from `Alt.docx`, 3 missing alts authored in matching style.
+- Banners: `العزل المائي.png` → `waterproofing-insulation.png` (hub), `العزل المائي 2.png` → `waterproofing-insulation-2.png` (all 7 detail pages), via git mv.
+- Hub (`waterproofing-insulation.html`) kept its existing 7-card grid + SEO; banner applied.
+- Verified: all 8 pages valid JSON-LD (3 schemas each on details), single H1/title, all images + banners exist on disk.
+
 ---
 
 ## Revert Ability
@@ -416,6 +465,9 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | 2026-07-09 | Set up the-rebuild.md | the-rebuild.md | n/a | Initial doc, nothing to revert |
 | 2026-07-09 | Group Task 1 — SEO meta tags | index.html, about-us.html, certificates.html, projects.html, blogs.html, contact-us.html | `6dd5282` (commit before this change) | `git checkout 6dd5282 -- <file>` restores the pre-SEO head for any of the 6 files |
 | 2026-07-09 | Group Task 4 — waterproofing-thermal-insulation.html (content + SEO) | waterproofing-thermal-insulation.html, waterproofing-insulation.html, thermal-insulation.html | `c39ae73` (commit before this change) | `git checkout c39ae73 -- <file>` restores the pre-rebuild version of any of the 3 files |
+| 2026-07-09 | Group Task 7 — خدمات التدعيم (7 pages + banner rename) | structural-strengthening.html + 6 detail pages, banners/structural-strengthening.png | `c39ae73` (still uncommitted) | ⚠️ All work after the pilot is uncommitted on top of `c39ae73` — commit per group to create real checkpoints |
+| 2026-07-09 | Group 4 restructure — hub/system split | waterproofing-thermal-insulation.html (hub), waterproofing-thermal-insulation-system.html (NEW), waterproofing-insulation.html, thermal-insulation.html, banners/waterproofing-thermal-insulation.png | `c39ae73` (still uncommitted) | The -system.html file is new; deleting it + restoring the other 3 from `c39ae73` undoes the split |
+| 2026-07-10 | Group Task 2 — العزل المائي (8 pages + 2 banner renames) | waterproofing-insulation.html + 7 detail pages, banners/waterproofing-insulation.png, banners/waterproofing-insulation-2.png | `c39ae73` (still uncommitted) | Same base — commit recommended before starting Group 3 |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
