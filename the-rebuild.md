@@ -30,6 +30,23 @@ add SEO in all pages
 add new content to all services a pages
 add alts for image in all pages after we add the new images
 
+### Per-Page Workflow (applies to EVERY service page)
+
+Each service page gets these two passes — a page isn't "Done" until both are finished:
+
+**1. Content pass**
+- [ ] Edit text — replace old text with the new content from the page's docx in `updates/`
+- [ ] Add images — insert the new images from `my-images` (with alt text from `Alt.docx`)
+- [ ] Arrange the page — reorder/restructure sections to fit the new content
+
+**2. SEO pass**
+- [ ] Meta title + meta description (no empty `content=""`)
+- [ ] Canonical tag (`<link rel="canonical">`)
+- [ ] Open Graph / social tags
+- [ ] Headings structure (one H1, logical H2/H3)
+- [ ] Image alts on all images
+- [ ] Internal links point to final page names (no old/typo'd slugs)
+
 ### Services Mind Map
 
 > ✅ **Direction confirmed 2026-07-09 from the Excel files in `updates/`:** the short slugs (`s-water-1.html`, `service-epoxy.html`…) are the **OLD** names. The descriptive filenames currently in the repo are the **NEW, final** names — the renaming is already done. This tree uses the final filenames; the old names are kept in the "Pages Names change" table below only for fixing leftover internal links.
@@ -248,6 +265,7 @@ This task applies to these pages:
 |---|---|---|---|
 | 2026-07-09 | — | Set up the-rebuild.md structure | ✅ Done |
 | 2026-07-09 | — | Services mind map + old→new page names table (from Excel) | ✅ Done |
+| 2026-07-09 | — | Defined per-page workflow (content pass + SEO pass) | ✅ Done |
 
 ---
 
