@@ -26,6 +26,7 @@ A page is only Done when both passes are done.
 - **Word file locations:** `updates/عزل مائي/` (7 docx), `updates/عزل حراري/` (4), `updates/العزل المائي والحراري/` (1), `updates/ايبوكسي/` (7), `updates/إصلاح الخرسانة/` (3), `updates/خدمات التدعيم/` (6), plus `updates/الصفحات الرئيسية.docx` (main category pages) and `updates/الصفحات ال4 للخدمات.docx` (needs checking — probably the services hub / 4 main pages). `updates/Alt.docx` = image alt texts. The two `.xlsx` files = the old→new page names (already extracted into this doc).
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
+- **Group Task 4 (waterproofing-thermal-insulation.html) is DONE** — used as the sample/pilot page to validate the per-page workflow (content + SEO pass) before running Groups 2, 3, 5, 6, 7, 8. Revert ref: commit `c39ae73`. Also fixed a dead `water-thermal-insulation-system.html` link in `waterproofing-insulation.html` and `thermal-insulation.html` sidebars → repointed to `waterproofing-thermal-insulation.html`.
 - **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
 - **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fix most of these.
 - **Site preview:** static files — just open the `.html` in a browser, no build step. `embed-components.js` injects the shared header/footer from `components/`.
@@ -39,7 +40,7 @@ A page is only Done when both passes are done.
 **Open questions (ask the user if still unanswered):**
 1. Is `الصفحات ال4 للخدمات.docx` the content for `our-services.html` (Group 8), or something else? Read it first.
 2. "Images Gallery" in the original nav plan — same as `projects.html` or a new page?
-3. Which group to start with (default assumption: Group 2, in order).
+3. Which group to start next (Group 4 pilot is done; default assumption: Group 2, in order).
 4. `polyurea-spray-waterproofing.html` has no Arabic title in the Excel — confirm with user.
 
 ---
@@ -306,7 +307,14 @@ Word files: `updates/العزل المائي والحراري/` · Images: `asse
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| waterproofing-thermal-insulation.html | العزل المائي والحراري.docx | s-heatwater/ | ☐ | ☐ |
+| waterproofing-thermal-insulation.html | العزل المائي والحراري.docx | s-heatwater/ | ✅ | ✅ |
+
+**Done 2026-07-09 (used as the sample/pilot page for the per-page workflow):**
+- Content: full docx content (intro, definition, 6 benefits, 4 requirement sub-sections, comparison table, applications, why-us, 5 FAQs, contact CTA), built on the site's existing detail-page template (2-col layout + shared `main.css` classes: `.section-heading`, `.section-img`, `.features-grid`/`.feature-card`, `.check-list`, `.info-box`, `.note-box`, `.cta-whatsapp`, `.sidebar-card`/`.sidebar-nav-list`). Comparison table uses Bootstrap `.table`, FAQ uses Bootstrap accordion — both already loaded, no new CSS/JS added.
+- All 4 images from `s-heatwater/` used (webp+png `<picture>` fallback where both exist). 3 alts from `Alt.docx`; 1 (image 4) has no doc alt — authored in matching style, flagged.
+- SEO: title/description/robots/canonical/OG/twitter + Service+FAQPage+BreadcrumbList JSON-LD from the docx, with URLs corrected to the final filename (`waterproofing-thermal-insulation.html`) instead of the doc's old slugs (`services-waterheat.html` / `service-Waterheat-insulation.html`).
+- Bug fix: `waterproofing-insulation.html` and `thermal-insulation.html` sidebars linked to a nonexistent `water-thermal-insulation-system.html` — repointed both to `waterproofing-thermal-insulation.html`.
+- Verified in browser: layout, images, comparison table, FAQ accordion, links all render correctly.
 
 ### Group Task 5 — دهانات الإيبوكسي (Epoxy Coatings) — 8 pages
 Word files: `updates/ايبوكسي/` · Images: `assets/my-images/our-services/epoxy/`
@@ -363,6 +371,7 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 | 2026-07-09 | — | Defined per-page workflow (content pass + SEO pass) | ✅ Done |
 | 2026-07-09 | 1 | Main Pages SEO Meta Tags & Structured Data (Tasks 1.1–1.12) | ✅ Done |
 | 2026-07-09 | — | Divided service pages into Group Tasks 2–8 (one per category, with docx + image folder mapping) | ✅ Done |
+| 2026-07-09 | 4 | waterproofing-thermal-insulation.html — content + SEO pass (sample/pilot page) | ✅ Done |
 
 ---
 
@@ -386,6 +395,16 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 - Existing `<meta name="keywords">`, CSS, JS, and GTM/gtag scripts left untouched.
 - Validated: no duplicate title/description/robots/canonical/og:title/JSON-LD tags per page; all 6 JSON-LD blocks parse as valid JSON; descriptions 142–160 chars; titles 51–58 chars except `index.html` (68 chars, kept verbatim per supplied copy).
 
+### 2026-07-09 — Group Task 4: waterproofing-thermal-insulation.html (sample/pilot page)
+- Rebuilt from a bare 3-card stub into a full detail page using the docx content exactly (`updates/العزل المائي والحراري/العزل المائي والحراري.docx`): intro, "what is it" section, 6 benefits, 4 requirement sub-sections, comparison table vs. traditional systems, applications list, "why us", 5 FAQs, contact CTA.
+- Used all 4 images in `assets/my-images/our-services/Waterheat-insulation/s-heatwater/` with `<picture>` webp+png fallback; 3 alts from `Alt.docx`, 1 authored to match style (no doc alt existed for image 4).
+- Full SEO head: title/description/robots/canonical/OG/twitter tags + combined Service/FAQPage/BreadcrumbList JSON-LD from the docx, with schema URLs corrected to the final filename instead of the doc's old slugs (`services-waterheat.html`, `service-Waterheat-insulation.html`).
+- Reused the site's existing detail-page template and shared CSS classes from `main.css` (`.section-heading`, `.section-img`, `.features-grid`/`.feature-card`, `.check-list`, `.info-box`, `.note-box`, `.cta-whatsapp`, `.sidebar-card`/`.sidebar-nav-list`) — no new CSS added. Comparison table and FAQ accordion use Bootstrap classes already loaded on the site.
+- Sidebar nav widget lists the 3 sibling category pages (العزل المائي / العزل الحراري / العزل المائي والحراري) with this page marked active.
+- Bug fix: found and fixed a dead link in `waterproofing-insulation.html` and `thermal-insulation.html` — both sidebars pointed to a nonexistent `water-thermal-insulation-system.html`; repointed to `waterproofing-thermal-insulation.html`.
+- Verified by opening the page in a browser: layout, both images, comparison table, FAQ accordion (Bootstrap collapse), and all links confirmed working.
+- This page was used as the sample/pilot to validate the per-page workflow before running it across Groups 2, 3, 5, 6, 7, 8.
+
 ---
 
 ## Revert Ability
@@ -396,6 +415,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 |---|---|---|---|---|
 | 2026-07-09 | Set up the-rebuild.md | the-rebuild.md | n/a | Initial doc, nothing to revert |
 | 2026-07-09 | Group Task 1 — SEO meta tags | index.html, about-us.html, certificates.html, projects.html, blogs.html, contact-us.html | `6dd5282` (commit before this change) | `git checkout 6dd5282 -- <file>` restores the pre-SEO head for any of the 6 files |
+| 2026-07-09 | Group Task 4 — waterproofing-thermal-insulation.html (content + SEO) | waterproofing-thermal-insulation.html, waterproofing-insulation.html, thermal-insulation.html | `c39ae73` (commit before this change) | `git checkout c39ae73 -- <file>` restores the pre-rebuild version of any of the 3 files |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
