@@ -27,7 +27,7 @@ A page is only Done when both passes are done.
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
 - **Group Task 4 is DONE (2 pages, restructured)** — `waterproofing-thermal-insulation.html` is the HUB (3 category cards; all navbar links land here) and `waterproofing-thermal-insulation-system.html` is the combined-system detail page (the docx content). Do NOT re-merge them.
-- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE**, **Group Task 2 (العزل المائي, 8 pages) is DONE**, **Group Task 5 (دهانات الإيبوكسي, 8 pages) is DONE**, **Group Task 3 (العزل الحراري, 5 pages) is DONE**, **Group Task 6 (حقن وإصلاح الخرسانة, 4 pages) is DONE**, and **Group Task 8 (our-services.html, 1 page) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. **All 8 original rebuild groups are now complete.** Remaining: only the user's Groups 9–12 below (redesign our-services.html, certificate categories, small-laptop font sizing, project size report).
+- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE**, **Group Task 2 (العزل المائي, 8 pages) is DONE**, **Group Task 5 (دهانات الإيبوكسي, 8 pages) is DONE**, **Group Task 3 (العزل الحراري, 5 pages) is DONE**, **Group Task 6 (حقن وإصلاح الخرسانة, 4 pages) is DONE**, and **Group Task 8 (our-services.html, 1 page) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. **All 8 original rebuild groups are now complete — and so are Groups 9–12** (our-services.html redesign, certificate categories, small-laptop font fix, project size report). Nothing left in this file except standing cleanup items — see the milestone note near the History section.
 - **Breadcrumb H1 house style (set 2026-07-11):** the big `<h1 class="rs-breadcrumb-title">` on every detail page must be the SHORT title matching that service's card on its category hub page — NOT the long docx-style SEO title. Applied retroactively to all 21 already-built detail pages (Groups 2, 4, 5, 7) and used from the start for Group 3.
 - **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages, `epoxy-flooring-coating.png` for all 8 Group 5 pages, `concrete-repair-injection.png` for all 4 Group 6 pages). **Group 3 (thermal, 5 pages)** has no dedicated banner file — per user decision (2026-07-11) it reuses `banners/waterproofing-insulation-2.png` (same file as all 7 Group 2 detail pages) rather than getting its own image; not renamed since it's explicitly shared. Still Arabic-named/unassigned: `ab-co-ce-pr.png` (about/contact/certificates/products?).
 - ⚠️ **Everything after the pilot is UNCOMMITTED** on top of `c39ae73` — commit per group before continuing.
@@ -447,9 +447,25 @@ devide them and add it to certificats page
 edit the fonts size to fit some small laps screens 
 dont make it effect any screens just the ones i told u 
 
+**Done 2026-07-11:** The "ones I told u" wasn't captured anywhere in this file, so asked the user directly — confirmed scope: **navbar menu text** + **breadcrumb H1 titles**.
+- Root cause found in the CSS/JS: `meanScreenWidth: "1199"` in `assets/js/main.js` means the mobile hamburger menu only replaces the desktop nav *below* 1200px width. So any screen from 1200–1366px (the common small/budget laptop range — 1280×720, 1366×768, 1360×768) was rendering the **full desktop nav** (`.main-menu li a` at 18px font + 40px horizontal padding per item, ~10 menu items + logo + socials + CTA button in one row) with no size reduction at all — genuinely cramped/wrapping on those screens. Same story for `.rs-breadcrumb-one .rs-breadcrumb-title` (fixed 55px, no override between desktop and the ≤991px tablet breakpoint).
+- Added exactly one new scoped breakpoint, `@media (min-width: 1200px) and (max-width: 1366px)`, in `assets/css/main.css`, touching only 2 rules:
+  - `.main-menu li a`: 18px→15px font, `40px 20px`→`40px 12px` padding (vertical padding kept the same so header height doesn't shift).
+  - `.rs-breadcrumb-one .rs-breadcrumb-title`: 55px→42px.
+- Deliberately did **not** touch the SCSS source (`assets/scss/`) since it's confirmed unused/unreferenced by any HTML — see Group 12 below — so `main.css` is the single real source of truth here.
+- Scoped tightly to 1200–1366px only: screens ≥1367px keep the original 55px/18px desktop sizing, and screens <1200px are unaffected since meanmenu already replaces the whole nav with the hamburger there (and the existing 991px/575px/480px breadcrumb-title breakpoints are untouched).
+
 ### Group Task 12 — Project folder size reduce 
 tell me what is taking space and usless in a simple report 
 i mean the completely usless
+
+**Done 2026-07-11 — report only, no files deleted (see chat message for the full report).** Summary: total repo 211MB. `.git/` alone is 119MB (history bloat, not "files" — would need a destructive history rewrite to shrink, not done). Of the working tree (~89MB, mostly `assets/`), found roughly **15.5MB of genuinely unused files**:
+- `assets/scss/` (921KB) — Sass source never compiled/referenced by any HTML; site only loads compiled `assets/css/main.css`.
+- `assets/maps/main.css.map` (848KB) — source map, dev-only.
+- `assets/fonts/` — ~11MB across 12 Font Awesome files (`fa-sharp-*` ×6, fully unreferenced anywhere; `fa-duotone-900`/`fa-light-300`/`fa-thin-100` ×6, defined in `@font-face` but never used via any `fa-*` class in the actual HTML — only `fab`/`fas` are used) + ~1MB of Remixicon demo/reference files (`symbol.html`, `unicode.html`, `remixicon.styl`).
+- `assets/images/` — ~1.8MB across 14 theme-template demo folders (about/award/brand/contact/cta/faq/gallery/history/logo/portfolio/progress/services/shop/team) confirmed to have **zero** references in any `.html` file — leftover from the original theme, never swapped for `assets/my-images/`.
+- Plus the already-known 5 leftover duplicate HTML files (`p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`) from the Pages Names table — small individually but still literally unused duplicates.
+- Did not delete anything — this was requested as a report ("tell me... in a simple report"). Say the word and I'll remove any/all of the above.
 
 
 
@@ -479,6 +495,8 @@ i mean the completely usless
 | 2026-07-11 | 8 | our-services.html — full SEO head added, dead commented-out block removed, alts+webp fixed; also synced SEO on the 4 category hub pages to match الصفحات ال4 للخدمات.docx | ✅ Done |
 | 2026-07-11 | 9 | our-services.html — redesigned card section to reuse the site's .srv-card-link component (simple/modern, same data) | ✅ Done |
 | 2026-07-11 | 10 | certificates.html — 18 certs read + grouped into 3 categories (official registrations / supplier approvals / project docs), 2 orphaned images (certi2, certi18) now shown | ✅ Done |
+| 2026-07-11 | 11 | Small-laptop (1200-1366px) font fix — navbar links + breadcrumb H1, scoped media query in main.css | ✅ Done |
+| 2026-07-11 | 12 | Project folder size report delivered (~15.5MB unused: scss, fonts, css map, unused theme images) — report only, nothing deleted | ✅ Done |
 
 ---
 
@@ -581,7 +599,7 @@ i mean the completely usless
 - ⚠️ `our-services.html` still has no dedicated banner (generic `pro-serv.png` placeholder) — flagged as an open question rather than asked immediately, to avoid back-to-back interruptions right after the Group 3 banner decision.
 - Verified: JSON-LD parses valid, single H1/title, all 12 image references (4 cards × webp+png, plus header/logo images) resolve on disk.
 
-**Milestone: all 8 originally-planned rebuild groups (Word-file-driven service pages) are now content+SEO complete.** Remaining work is the user's separately-added Groups 9–12 (redesign our-services.html, certificate categories, small-laptop responsive fonts, project folder size report) plus the still-open cleanup items (5 leftover duplicate files, stale internal link scan, and committing everything to git — nothing has been committed since `c39ae73`).
+**Milestone: all 8 originally-planned rebuild groups (Word-file-driven service pages) are now content+SEO complete.** **Update 2026-07-11: Groups 9–12 are ALSO now done** (our-services.html redesign, certificate categories, small-laptop font fix, project size report). All 12 groups in this file are complete. What's left is only the still-open cleanup items: 5 leftover duplicate HTML files, a stale internal-link scan, the optional ~15.5MB unused-file cleanup from the Group 12 report (pending user go-ahead), and — most importantly — **committing everything to git, since nothing has been committed since `c39ae73`.**
 
 ### 2026-07-11 — Group Task 9: our-services.html redesign
 - User's own complaint: "this page have a terrible look... redesign it... simple and modern design, same data." Replaced the plain `.rs-team-item` thumbnail-and-title-only card list with the site's established `.srv-card-link`/`.srv-card-body` component (rounded card, hover lift + shadow, arrow icon) already used on every category hub page built this session — makes `our-services.html` look consistent with the rest of the site instead of an older, different template.
@@ -596,6 +614,24 @@ i mean the completely usless
 - Rebuilt the section using the same `.srv-card-link`/`.srv-card-body` component already established in Groups 8/9 — each certificate card links to its full-size image in a new tab, with a real caption and alt text describing what the document actually says (verified firsthand, nothing invented).
 - Fixed the 2 previously-orphaned images so all 18 are now shown, each exactly once. No new CSS/JS.
 - Verified: single H1, 3 category headings, all 18 certificate files resolve on disk with none unreferenced.
+
+### 2026-07-11 — Group Task 11: small-laptop font fix
+- "The ones I told u" wasn't recorded anywhere in this file from whatever earlier session set up this task — asked the user directly. Confirmed: navbar menu text + breadcrumb H1 titles.
+- Investigated why: `meanScreenWidth: "1199"` in `assets/js/main.js` means the mobile hamburger only replaces the desktop nav below 1200px. Screens from 1200–1366px (1280×720, 1366×768, 1360×768 — the common small/budget laptop range) were showing the full desktop `.main-menu` (18px links, 40px horizontal padding, ~10 items + logo + socials + CTA in one row) and the full 55px `.rs-breadcrumb-title`, with zero size reduction anywhere in the stylesheet for that range.
+- Added one new scoped block in `assets/css/main.css`: `@media (min-width: 1200px) and (max-width: 1366px)` touching exactly 2 rules — `.main-menu li a` (18px→15px, padding 40px 20px→40px 12px) and `.rs-breadcrumb-one .rs-breadcrumb-title` (55px→42px). Vertical header padding untouched so header height doesn't shift.
+- Did not touch `assets/scss/` (confirmed dead/unreferenced during the Group 12 audit below) — `main.css` is the only file that actually matters.
+- Scope check: ≥1367px keeps the original 55px/18px sizing; <1200px is untouched (already on the hamburger menu, and the existing 991/575/480px breadcrumb breakpoints are unchanged).
+
+### 2026-07-11 — Group Task 12: project folder size report
+- Requested as a report only ("tell me... in a simple report") — delivered findings in chat, did not delete anything.
+- `du -sh` breakdown: repo total 211MB. `.git/` = 119MB (commit history — not "files", would need a destructive rewrite to shrink, explicitly out of scope). Working tree ≈89MB, almost all under `assets/`.
+- Found ~15.5MB of confirmed-unused files by cross-checking every candidate against actual HTML/CSS references (grep, not guesswork):
+  - `assets/scss/` (921KB): zero `.scss` references in any HTML — site only ever loads compiled `main.css`.
+  - `assets/maps/main.css.map` (848KB): CSS source map, dev-only, referenced only via a `sourceMappingURL` comment inside `main.css` itself (no HTML references it).
+  - `assets/fonts/` (~11MB of its 20MB total): `fa-sharp-*` (6 files) have no `@font-face` declaration anywhere in any CSS file — fully orphaned. `fa-duotone-900`/`fa-light-300`/`fa-thin-100` (6 files) are declared in `@font-face` but the site's HTML only ever uses `fab`/`fas` classes (verified via grep across all `.html` files) — these 3 weights never render. Plus ~1MB of Remixicon package demo files (`symbol.html`, `unicode.html`, `remixicon.styl`) not needed in production.
+  - `assets/images/` (~1.8MB): 14 subfolders from the original theme template (about/award/brand/contact/cta/faq/gallery/history/logo/portfolio/progress/services/shop/team) — checked each with `grep -rl` against every HTML file, zero matches for any of them. (`bg/`, `icon/`, `user/`, `blog/` ARE referenced and were left alone.)
+  - The already-known 5 duplicate HTML files (`p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`) from the Pages Names table.
+- Awaiting the user's go-ahead before deleting any of this.
 
 ---
 
@@ -619,6 +655,8 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | 2026-07-11 | Group Task 8 — our-services.html (SEO + dead-code cleanup) + 4 category hub pages (SEO sync) | our-services.html, waterproofing-thermal-insulation.html, epoxy-flooring-coating.html, concrete-repair-injection.html, structural-strengthening.html | `c39ae73` (still uncommitted) | All 8 original rebuild groups done — nothing has been committed yet; strongly recommend committing now |
 | 2026-07-11 | Group Task 9 — our-services.html card-grid redesign | our-services.html | `c39ae73` (still uncommitted) | Same file touched twice today (Group 8 then Group 9) — restoring from `c39ae73` undoes both in one step |
 | 2026-07-11 | Group Task 10 — certificates.html categorization | certificates.html | `c39ae73` (still uncommitted) | Purely a markup restructure — no new/renamed image files |
+| 2026-07-11 | Group Task 11 — small-laptop font fix | assets/css/main.css | `c39ae73` (still uncommitted) | 2 small additive `@media` blocks only — no existing rules changed or removed |
+| 2026-07-11 | Group Task 12 — project size report | (none — report only) | n/a | No files touched; nothing to revert |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
