@@ -27,8 +27,9 @@ A page is only Done when both passes are done.
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
 - **Group Task 4 is DONE (2 pages, restructured)** — `waterproofing-thermal-insulation.html` is the HUB (3 category cards; all navbar links land here) and `waterproofing-thermal-insulation-system.html` is the combined-system detail page (the docx content). Do NOT re-merge them.
-- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE**, **Group Task 2 (العزل المائي, 8 pages) is DONE**, and **Group Task 5 (دهانات الإيبوكسي, 8 pages) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. Remaining: Groups 3, 6, 8.
-- **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages, `epoxy-flooring-coating.png` for all 8 Group 5 pages). Still Arabic-named/unassigned: `حقن وإصلاح الخرسانة.png` (Group 6), `ab-co-ce-pr.png` (about/contact/certificates/products?). No banner exists yet for Group 3 (thermal) — ask user.
+- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE**, **Group Task 2 (العزل المائي, 8 pages) is DONE**, **Group Task 5 (دهانات الإيبوكسي, 8 pages) is DONE**, **Group Task 3 (العزل الحراري, 5 pages) is DONE**, and **Group Task 6 (حقن وإصلاح الخرسانة, 4 pages) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. Remaining: Group 8 only (plus the user's Groups 9–12 below).
+- **Breadcrumb H1 house style (set 2026-07-11):** the big `<h1 class="rs-breadcrumb-title">` on every detail page must be the SHORT title matching that service's card on its category hub page — NOT the long docx-style SEO title. Applied retroactively to all 21 already-built detail pages (Groups 2, 4, 5, 7) and used from the start for Group 3.
+- **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages, `epoxy-flooring-coating.png` for all 8 Group 5 pages, `concrete-repair-injection.png` for all 4 Group 6 pages). **Group 3 (thermal, 5 pages)** has no dedicated banner file — per user decision (2026-07-11) it reuses `banners/waterproofing-insulation-2.png` (same file as all 7 Group 2 detail pages) rather than getting its own image; not renamed since it's explicitly shared. Still Arabic-named/unassigned: `ab-co-ce-pr.png` (about/contact/certificates/products?).
 - ⚠️ **Everything after the pilot is UNCOMMITTED** on top of `c39ae73` — commit per group before continuing.
 - **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
 - **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fix most of these.
@@ -308,11 +309,20 @@ Word files: `updates/عزل حراري/` · Images: `assets/my-images/our-servic
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| thermal-insulation.html (main) | الصفحات الرئيسية.docx | s-heat/ (top-level 1–4) | ☐ | ☐ |
-| perlite-thermal-insulation.html | عزل البيرلايت.docx | s-heat/s-heat-1/ | ☐ | ☐ |
-| polystyrene-board-thermal-insulation.html | عزل البوليسترين.docx | s-heat/s-heat-2/ | ☐ | ☐ |
-| polyurethane-board-thermal-insulation.html | عزل البولي يوريثان.docx | s-heat/s-heat-3/ | ☐ | ☐ |
-| rockwool-board-thermal-insulation.html | العزل بألواح الصوف الصخري.docx | s-heat/s-heat-4/ | ☐ | ☐ |
+| thermal-insulation.html (main) | — (hub, already had card grid) | s-heat/ (top-level 1–4) | ✅ | ✅ |
+| perlite-thermal-insulation.html | عزل البيرلايت.docx | s-heat/s-heat-1/ | ✅ | ✅ |
+| polystyrene-board-thermal-insulation.html | عزل البوليسترين.docx | s-heat/s-heat-2/ | ✅ | ✅ |
+| polyurethane-board-thermal-insulation.html | عزل البولي يوريثان.docx | s-heat/s-heat-3/ | ✅ | ✅ |
+| rockwool-board-thermal-insulation.html | العزل بألواح الصوف الصخري.docx | s-heat/s-heat-4/ | ✅ | ✅ |
+
+**Done 2026-07-11:**
+- Hub (`thermal-insulation.html`) already had its 4-card grid + decent SEO from an earlier pass — left as-is. Breadcrumb link (خدماتنا) confirmed correct.
+- 4 detail pages fully rebuilt from a thin single-image/single-paragraph stub into the full template: exact docx content (intro, تطبيقات/خصائص sections, مراحل التنفيذ with H3 sub-steps, مزايا, لماذا طبقات info-box, FAQ accordion, contact CTA note-box), full SEO head (docx title/description/OG/twitter), and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD with 4-level breadcrumb (خدماتنا → عزل مائي وحراري → العزل الحراري → page), URLs corrected from `s-heat-N.html` to final filenames.
+- Breadcrumb H1 on all 4 pages uses the SHORT title matching the hub card (per the new house style established this session), not the long docx H1 — e.g. "العزل بالبيرلايت" not "العزل الحراري بالبيرلايت — لكبح الحرارة وتُوفّر الطاقة".
+- Images are messy in this folder (unlike other groups) — several have only one format with no fallback pair: s-heat-1 has just 1 image (1.png only); s-heat-2 has 1.png+1.webp paired but 2.webp/3.webp with no png; s-heat-3 has 1.png alone plus oddly-numbered 26.webp/27.webp with no png; s-heat-4 has 1.webp/2.webp alone plus 4.png alone (no image 3 at all). Used `<picture>` only where a real webp+png pair exists; plain `<img>` pointing straight at the sole available format everywhere else. All folder images used and verified 1:1 against disk (1+3+3+3 = 10 images total).
+- Alt text: only polystyrene (3/3) had full alt coverage in `Alt.docx`; perlite had none at all, and polyurethane/rockwool were missing one alt each — authored matching-style alts for the gaps.
+- Banner: no dedicated thermal banner exists. User decided (asked via question, 2026-07-11) to reuse `banners/waterproofing-insulation-2.png` (the Group 2 detail-page banner) rather than wait for a new image — applied to all 5 Group 3 pages (hub + 4 details), file not renamed since it's intentionally shared.
+- Verified: PowerShell check confirmed valid JSON-LD, single H1/title, and every image path (including the odd webp-only/png-only ones) exists on disk across all 4 detail pages.
 
 ### Group Task 4 — العزل المائي والحراري (Waterproofing + Thermal) — 2 pages
 Word files: `updates/العزل المائي والحراري/` · Images: `assets/my-images/our-services/Waterheat-insulation/s-heatwater/` (detail) + `Waterheat-insulation/11.png, 22.png, 33.jpg` (hub cards)
@@ -358,10 +368,20 @@ Word files: `updates/إصلاح الخرسانة/` · Images: `assets/my-images/
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| concrete-repair-injection.html (main) | الصفحات الرئيسية.docx | service-injection/ (top-level 1–3) | ☐ | ☐ |
-| concrete-repair-structural-materials.html | إصلاح بالمواد الإنشائية.docx | service-injection/s-injection-1/ | ☐ | ☐ |
-| polyurethane-injection-concrete-leak-stopping.html | حقن البولي يوريثان.docx | service-injection/s-injection-2/ | ☐ | ☐ |
-| epoxy-injection-concrete-repair.html | حقن ايبوكسي.docx | service-injection/s-injection-3/ | ☐ | ☐ |
+| concrete-repair-injection.html (main) | — (hub, already had 3-card grid) | service-injection/ (top-level 1–3) | ✅ | ✅ |
+| concrete-repair-structural-materials.html | إصلاح بالمواد الإنشائية.docx | service-injection/s-injection-1/ | ✅ | ✅ |
+| polyurethane-injection-concrete-leak-stopping.html | حقن البولي يوريثان.docx | service-injection/s-injection-2/ | ✅ | ✅ |
+| epoxy-injection-concrete-repair.html | حقن ايبوكسي.docx | service-injection/s-injection-3/ | ✅ | ✅ |
+
+**Done 2026-07-11:**
+- Hub (`concrete-repair-injection.html`) already had its 3-card grid — fixed the empty meta description/title (was `<title>طبقات || حقن و إصلاح الخرسانة</title>` with `content=""`) and swapped the `pro-serv.png` placeholder for the group's own banner.
+- 3 detail pages fully rebuilt from the thin single-image/single-paragraph stub into the full template: exact docx content, FAQ accordion, full SEO head, and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD with a 3-level breadcrumb (خدماتنا → حقن وإصلاح الخرسانة → page).
+  - `concrete-repair-structural-materials.html`: 6-step methodology (فحص وتشخيص → إزالة → معالجة تسليح → مادة ربط → ملء وتسوية → حماية نهائية).
+  - `polyurethane-injection-concrete-leak-stopping.html`: includes the docx's polyurethane-vs-epoxy comparison table; 4-step process (تحديد المسار → حفر النيبلات → الحقن → التحقق).
+  - `epoxy-injection-concrete-repair.html`: includes the docx's epoxy-vs-polyurethane comparison table; 5-step process (فحص هندسي → تنظيف → تثبيت نيبلات → حقن تحت ضغط → معالجة وتشطيب). Breadcrumb H1 uses the hub's card title "حقن الخرسانة بمواد الإيبوكسي" rather than the docx's own H1 "حقن الإيبوكسي لإصلاح الشقوق الإنشائية في الخرسانة", per house style.
+- Banner: `banners/حقن وإصلاح الخرسانة.png` renamed → `banners/concrete-repair-injection.png` (git mv), applied to all 4 pages.
+- All images used per folder: structural-materials 3/3, polyurethane-injection 3/3, epoxy-injection 3/3 — `<picture>` webp+jpg/png fallback for image 1 in each folder (jpg not png for injection-2/3), plain `<img>` for images 2–3 (webp only, no fallback pair). Alts from `Alt.docx`.
+- Verified: all 4 pages valid JSON-LD, single H1/title, every image + banner path exists on disk, every folder image used exactly once.
 
 ### Group Task 7 — خدمات التدعيم (Structural Support) — 7 pages
 Word files: `updates/خدمات التدعيم/` · Images: `assets/my-images/our-services/service-support/`
@@ -390,6 +410,26 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 |---|---|---|---|---|
 | our-services.html | الصفحات ال4 للخدمات.docx? | all-services/ | ☐ | ☐ |
 
+
+### Group Task 9 — The all services page
+this page have a terabile look 
+redesign it using design skill just simple and modern design ssame liks same data
+
+### Group Task 10 — Certificates Categories
+i want to devide all certificats to categories 
+devide them and add it to certificats page
+
+### Group Task 11 — Small Laptobs Screens Responsive
+edit the fonts size to fit some small laps screens 
+dont make it effect any screens just the ones i told u 
+
+### Group Task 12 — Project folder size reduce 
+tell me what is taking space and usless in a simple report 
+i mean the completely usless
+
+
+
+
 ---
 
 ## Timeline
@@ -407,6 +447,11 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 | 2026-07-09 | — | Banners: renamed خدمات التدعيم/العزل المائي والحراري/العزل المائي (×2) to English slugs, applied to Groups 7+4 pages | ✅ Done |
 | 2026-07-10 | 2 | العزل المائي — hub + 7 detail pages (content + SEO + banner) | ✅ Done |
 | 2026-07-11 | 5 | دهانات الإيبوكسي — hub + 7 detail pages (content + SEO + banner), hub restyled to match waterproofing-thermal-insulation.html card layout | ✅ Done |
+| 2026-07-11 | 2, 4, 5, 7 | Cross-group fix: shortened breadcrumb H1 titles on 21 detail pages to match hub card titles; confirmed banners already correct on all built groups | ✅ Done |
+| 2026-07-11 | — | Renamed the-rebuild.md → management.md (git mv, history preserved) | ✅ Done |
+| 2026-07-11 | 3 | العزل الحراري — 4 detail pages rebuilt (content + SEO); hub left as-is, still needs banner | ✅ Done |
+| 2026-07-11 | 3 | العزل الحراري banner — reused banners/waterproofing-insulation-2.png across all 5 pages per user decision | ✅ Done |
+| 2026-07-11 | 6 | حقن وإصلاح الخرسانة — hub fixed (title/description/banner) + 3 detail pages rebuilt (content + SEO + banner rename) | ✅ Done |
 
 ---
 
@@ -471,6 +516,34 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 - Banner: `banners/eboxy.png` renamed → `banners/epoxy-flooring-coating.png` (git mv), applied to all 8 pages.
 - Verified: PowerShell script checked JSON-LD validity, H1/title counts, image + webp path existence, and per-folder image usage across all 8 pages — all passed after the one webp fix.
 
+### 2026-07-11 — Cross-group fix: breadcrumb H1 length + banner check (Groups 2, 4, 5, 7)
+- User reported the breadcrumb H1 (the big title under the banner image) was too long on the detail pages built so far — it was using the full descriptive docx-style title (e.g. "أرضيات إيبوكسي مواقف السيارات والمستودعات — متانة صناعية تتحمل كل الأحمال") instead of matching the short title used for that service's card on its category hub page.
+- Shortened the `<h1 class="rs-breadcrumb-title">` on 21 detail pages to match the corresponding hub card / breadcrumb-trail title exactly: 7 waterproofing pages (Group 2: bitumen, cementitious, polyurethane, acrylic, polyurea, PVC, EPDM), 1 Group 4 system page (`waterproofing-thermal-insulation-system.html` → "العزل المائي والحراري المدمج"), 7 epoxy pages (Group 5), 6 structural-support pages (Group 7: concrete-jacketing, carbon-fiber, steel-jacketing, soil-injection, shotcrete, excavation-shoring). Also fixed `shotcrete.html`'s breadcrumb-trail last item, which said "خرسانة مقذوفة" instead of the hub's "الخرسانة المقذوفة (شوت كريت)".
+- Meta title/OG/twitter/JSON-LD tags (which reuse the same long descriptive copy for SEO) were left untouched — only the on-page breadcrumb `<h1>` was shortened.
+- Checked the banners folder and every built page's `data-background` value: the epoxy banner (`banners/epoxy-flooring-coating.png`, renamed from `eboxy.png` in the Group 5 pass) was already correctly applied to all 8 Group 5 pages, and Groups 2/4/7 already point at their correct banner files. No banner changes were needed this round.
+
+### 2026-07-11 — Group Task 3: العزل الحراري (4 detail pages)
+- Read all 4 docx files in `updates/عزل حراري/` first. Existing detail pages were in the thin "SEO-decent, content-thin" state seen before in other groups: each had only 1 image and a single generic paragraph, no FAQ accordion, no OfferCatalog/FAQPage schema.
+- Rebuilt all 4: perlite (4 steps), polystyrene/فوم (3 steps), polyurethane PU (4 steps), rockwool/الصوف الصخري (3 "خصائص" sub-sections + 4 steps). Each got full docx content, FAQ accordion, docx meta/OG/twitter, and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD with a 4-level breadcrumb (خدماتنا → عزل مائي وحراري → العزل الحراري → page), URLs corrected from `s-heat-N.html` to final filenames.
+- Applied the new short-breadcrumb-H1 house style from the start (e.g. "العزل بالبيرلايت" not the long docx H1) — matching the hub's card titles.
+- Images in this folder are unusually inconsistent: several files have only one format (webp-only or png-only) with no fallback pair, and s-heat-3/s-heat-4 have odd/missing numbering. Used `<picture>` only where a real pair exists, plain `<img>` everywhere else. All 10 images across the 4 folders (1+3+3+3) verified used and present on disk. Alts from `Alt.docx` where available (polystyrene had full coverage; perlite had none; polyurethane/rockwool each missing one) — authored the gaps in matching style.
+- Hub (`thermal-insulation.html`) was already in good shape from an earlier pass (4-card grid, decent SEO, correct breadcrumb link) — left untouched.
+- ⚠️ No banner exists for this group — all 5 pages still use the generic `pro-serv.png` placeholder pending a banner image from the user.
+- Verified: PowerShell check confirmed valid JSON-LD, single H1/title, and every image path exists on disk across all 4 detail pages.
+
+### 2026-07-11 — Group Task 3 banner follow-up
+- User flagged the still-open Group 3 banner gap. Asked which banner to use (new image vs. reuse an existing one); user chose to reuse an existing waterproofing banner rather than supply a new image.
+- Asked a follow-up to pick which of the 3 waterproofing banner files specifically; user picked `banners/waterproofing-insulation-2.png` (currently also used by all 7 Group 2 detail pages).
+- Replaced the `pro-serv.png` placeholder `data-background` with `banners/waterproofing-insulation-2.png` on all 5 Group 3 pages: `thermal-insulation.html` (hub), `perlite-thermal-insulation.html`, `polystyrene-board-thermal-insulation.html`, `polyurethane-board-thermal-insulation.html`, `rockwool-board-thermal-insulation.html`. File not renamed — it's intentionally shared across both groups, unlike every other group's dedicated banner.
+- Verified all 5 pages' `data-background` now point at the correct, existing file.
+
+### 2026-07-11 — Group Task 6: حقن وإصلاح الخرسانة (hub fix + 3 detail pages)
+- Read all 3 docx files in `updates/إصلاح الخرسانة/` first. Hub (`concrete-repair-injection.html`) already had a working 3-card grid but an empty `<title>`/`<meta name="description">` and the generic `pro-serv.png` placeholder banner; the 3 detail pages were in the familiar thin single-image/single-paragraph stub state.
+- Fixed the hub's title/description to match its existing OG copy, and renamed `banners/حقن وإصلاح الخرسانة.png` → `banners/concrete-repair-injection.png` (git mv), applying it to the hub and all 3 detail pages.
+- Rebuilt all 3 detail pages with full docx content, FAQ accordion, docx meta/OG/twitter, and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD (3-level breadcrumb: خدماتنا → حقن وإصلاح الخرسانة → page): `concrete-repair-structural-materials.html` (6-step methodology), `polyurethane-injection-concrete-leak-stopping.html` (includes the docx's PU-vs-epoxy comparison table), `epoxy-injection-concrete-repair.html` (includes the docx's epoxy-vs-PU comparison table; used the hub's short card title "حقن الخرسانة بمواد الإيبوكسي" for the breadcrumb H1 rather than the docx's own longer H1, per house style).
+- Images: each of the 3 folders has an image 1 in jpg or png (paired with a matching webp) plus two webp-only images (2, 3) with no fallback — used `<picture>` for image 1, plain `<img>` for 2–3. All 9 images (3×3) verified used and present on disk. Alts from `Alt.docx`.
+- Verified: PowerShell check confirmed valid JSON-LD, single H1/title, every image + banner path exists on disk across all 4 pages.
+
 ---
 
 ## Revert Ability
@@ -486,6 +559,10 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | 2026-07-09 | Group 4 restructure — hub/system split | waterproofing-thermal-insulation.html (hub), waterproofing-thermal-insulation-system.html (NEW), waterproofing-insulation.html, thermal-insulation.html, banners/waterproofing-thermal-insulation.png | `c39ae73` (still uncommitted) | The -system.html file is new; deleting it + restoring the other 3 from `c39ae73` undoes the split |
 | 2026-07-10 | Group Task 2 — العزل المائي (8 pages + 2 banner renames) | waterproofing-insulation.html + 7 detail pages, banners/waterproofing-insulation.png, banners/waterproofing-insulation-2.png | `c39ae73` (still uncommitted) | Same base — commit recommended before starting Group 3 |
 | 2026-07-11 | Group Task 5 — دهانات الإيبوكسي (8 pages + banner rename) | epoxy-flooring-coating.html + 7 detail pages, banners/epoxy-flooring-coating.png | `c39ae73` (still uncommitted) | Same base — commit recommended before starting Group 3/6/8 |
+| 2026-07-11 | Cross-group fix — breadcrumb H1 shortening (21 pages) | 7 waterproofing detail pages, waterproofing-thermal-insulation-system.html, 7 epoxy detail pages, 6 structural-support detail pages | `c39ae73` (still uncommitted) | Only the `<h1 class="rs-breadcrumb-title">` text changed on each file — safe, isolated edit |
+| 2026-07-11 | Group Task 3 — العزل الحراري (4 detail pages) | perlite-thermal-insulation.html, polystyrene-board-thermal-insulation.html, polyurethane-board-thermal-insulation.html, rockwool-board-thermal-insulation.html | `c39ae73` (still uncommitted) | Hub (thermal-insulation.html) untouched this round; no banner rename yet since none exists for this group |
+| 2026-07-11 | Group Task 3 banner — reused waterproofing-insulation-2.png | thermal-insulation.html, perlite-thermal-insulation.html, polystyrene-board-thermal-insulation.html, polyurethane-board-thermal-insulation.html, rockwool-board-thermal-insulation.html | `c39ae73` (still uncommitted) | Only the breadcrumb `data-background` attribute changed on each file; no file renamed |
+| 2026-07-11 | Group Task 6 — حقن وإصلاح الخرسانة (hub fix + 3 pages + banner rename) | concrete-repair-injection.html, concrete-repair-structural-materials.html, polyurethane-injection-concrete-leak-stopping.html, epoxy-injection-concrete-repair.html, banners/concrete-repair-injection.png | `c39ae73` (still uncommitted) | Only Group 8 (and the user's new Groups 9–12) remain — commit strongly recommended before continuing |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
