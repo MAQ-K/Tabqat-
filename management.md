@@ -383,6 +383,8 @@ Word files: `updates/إصلاح الخرسانة/` · Images: `assets/my-images/
 - All images used per folder: structural-materials 3/3, polyurethane-injection 3/3, epoxy-injection 3/3 — `<picture>` webp+jpg/png fallback for image 1 in each folder (jpg not png for injection-2/3), plain `<img>` for images 2–3 (webp only, no fallback pair). Alts from `Alt.docx`.
 - Verified: all 4 pages valid JSON-LD, single H1/title, every image + banner path exists on disk, every folder image used exactly once.
 
+**Follow-up 2026-07-11 — hub restyle to match epoxy-flooring-coating.html:** the hub's card grid was still the old `.rs-team-item` list markup (never touched when the meta/banner fix landed above). Rebuilt it to reuse the same `.srv-block` / `.srv-card-link` / `.srv-sidebar` component as `epoxy-flooring-coating.html`: 3 cards (`concrete-repair-structural-materials.html`, `polyurethane-injection-concrete-leak-stopping.html`, `epoxy-injection-concrete-repair.html`) in a `col-lg-4` row using the existing `service-injection/1–3.png` images with descriptive alts, plus the standard sidebar (WhatsApp CTA, category nav list with self marked `active`, company-profile download, phone/email contact card). Pure visual restructuring — no data, links, or SEO changed; reused existing CSS classes only, no new CSS/JS.
+
 ### Group Task 7 — خدمات التدعيم (Structural Support) — 7 pages
 Word files: `updates/خدمات التدعيم/` · Images: `assets/my-images/our-services/service-support/`
 
@@ -467,8 +469,15 @@ i mean the completely usless
 - Plus the already-known 5 leftover duplicate HTML files (`p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`) from the Pages Names table — small individually but still literally unused duplicates.
 - Did not delete anything — this was requested as a report ("tell me... in a simple report"). Say the word and I'll remove any/all of the above.
 
+### Group Task 13 — Banners on every remaining page
+ab-co-ce-pr for about/contact/projects/certificates, the rest reuse an existing service banner ("the rest I think u know").
 
-
+**Done 2026-07-11:** Audited every page's `rs-breadcrumb-bg` across the whole site (`Test-Path` on every resolved banner path) — found the generic fallback `assets/my-images/pro-serv.png` referenced everywhere **never existed as a file at all**, so every page still pointing at it had a genuinely broken/missing banner, not just an ugly placeholder.
+- **Real bug found and fixed first:** 7 pages (`about-us.html`, `blogs.html`, `contact-us.html`, `projects.html`, `concrete-crack-repair-techniques.html`, `excavation-shoring-support.html`, `roof-waterproofing-thermal-insulation.html`) were already pointing at `assets/my-images/ab-co-ce-pr.png` — but the file actually lives at `assets/my-images/banners/ab-co-ce-pr.png`. Missing the `/banners/` segment meant the banner never rendered on any of these 7 pages. Fixed the path on all 7.
+- **Assigned `ab-co-ce-pr.png`** (per this request) to the 3 remaining general-purpose pages that had no proper banner: `certificates.html` and `blog-rainfilters.html` (were on a stray `our-services/3.png`), and `our-services.html` (was on the broken `pro-serv.png`) — reused rather than given a dedicated image since none of the 3 fit a specific service category.
+- **Products (`منتجاتنا`) had no precedent or dedicated image** — asked the user; they chose to reuse an existing service banner. Picked `banners/waterproofing-insulation.png` since most of the product catalog (insulation rolls, cementitious materials, primers, adhesives) is waterproofing/insulation-adjacent. Applied to all 14 real product pages: `products.html` (hub), `adhesive-materials.html`, `bitumen-primer-base.html`, `cementitious-waterproofing-products.html`, `construction-materials.html`, `insulation-drain.html`, `insulation-rolls.html`, `max-plug-hydraulic-cement.html`, `max-seal-super-waterproofing.html`, `nitoprime-zinc-rich-primer.html`, `polyfilm-insulation-membrane.html`, `rainwater-drain.html`, `renderoc-fc-repair-mortar.html`, `topsel-insulation-membrane.html`.
+- **Not touched:** the 5 leftover duplicate files (`p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`) — still on the broken placeholder, but they're marked for deletion in the Pages Names table so fixing their banners isn't worth the effort. `index.html` has no breadcrumb section (different homepage hero layout) — not applicable. `project-report.html`/`service-pages-plan.html` are internal planning docs, not real site pages — skipped.
+- Verified with a full-site scan: every real page's banner path now resolves to a file that actually exists on disk, except the 5 duplicates-to-delete noted above.
 
 ---
 
@@ -497,6 +506,8 @@ i mean the completely usless
 | 2026-07-11 | 10 | certificates.html — 18 certs read + grouped into 3 categories (official registrations / supplier approvals / project docs), 2 orphaned images (certi2, certi18) now shown | ✅ Done |
 | 2026-07-11 | 11 | Small-laptop (1200-1366px) font fix — navbar links + breadcrumb H1, scoped media query in main.css | ✅ Done |
 | 2026-07-11 | 12 | Project folder size report delivered (~15.5MB unused: scss, fonts, css map, unused theme images) — report only, nothing deleted | ✅ Done |
+| 2026-07-11 | 13 | Banners on every remaining page — fixed 7 broken ab-co-ce-pr.png paths, assigned it to 3 general pages, assigned waterproofing-insulation.png to all 14 product pages | ✅ Done |
+| 2026-07-11 | 6 | concrete-repair-injection.html hub restyled to match epoxy-flooring-coating.html (.srv-block/.srv-card-link/.srv-sidebar) | ✅ Done |
 
 ---
 
@@ -657,6 +668,8 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | 2026-07-11 | Group Task 10 — certificates.html categorization | certificates.html | `c39ae73` (still uncommitted) | Purely a markup restructure — no new/renamed image files |
 | 2026-07-11 | Group Task 11 — small-laptop font fix | assets/css/main.css | `c39ae73` (still uncommitted) | 2 small additive `@media` blocks only — no existing rules changed or removed |
 | 2026-07-11 | Group Task 12 — project size report | (none — report only) | n/a | No files touched; nothing to revert |
+| 2026-07-11 | Group Task 13 — banners on all remaining pages | 7 pages (path fix), certificates.html, blog-rainfilters.html, our-services.html, + 14 product pages | `c39ae73` (still uncommitted) | Only `data-background` attribute values changed — no images renamed/moved this round |
+| 2026-07-11 | Group Task 6 follow-up — concrete-repair-injection.html hub restyle | concrete-repair-injection.html | `c39ae73` (still uncommitted) | Only the card-grid section markup replaced (old `.rs-team-item` list → `.srv-block`/`.srv-card-link`/`.srv-sidebar`); no data/links/SEO changed |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
