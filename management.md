@@ -1,6 +1,6 @@
-# The Rebuild — Tabqat Website
+# Management — Tabqat Website Rebuild
 
-This file is the working log for the Tabqat website rebuild. Every task gets logged here after it's done, tasks are organized into groups, and there's a timeline + revert reference so any change can be traced and undone.
+This file (renamed from `the-rebuild.md`) is the working log for the Tabqat website rebuild. Every task gets logged here after it's done, tasks are organized into groups, and there's a timeline + revert reference so any change can be traced and undone.
 
 ***each time we make and edit this file gets updated***
 
@@ -27,8 +27,8 @@ A page is only Done when both passes are done.
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group Task 1 (main pages SEO) is DONE** — 6 main pages got title/description/robots/canonical/OG/JSON-LD. Revert ref: commit `6dd5282`.
 - **Group Task 4 is DONE (2 pages, restructured)** — `waterproofing-thermal-insulation.html` is the HUB (3 category cards; all navbar links land here) and `waterproofing-thermal-insulation-system.html` is the combined-system detail page (the docx content). Do NOT re-merge them.
-- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE** and **Group Task 2 (العزل المائي, 8 pages) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. Remaining: Groups 3, 5, 6, 8.
-- **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages). Still Arabic-named/unassigned: `حقن وإصلاح الخرسانة.png` (Group 6), `eboxy.png` (Group 5), `ab-co-ce-pr.png` (about/contact/certificates/products?). No banner exists yet for Group 3 (thermal) — ask user.
+- **Group Task 7 (خدمات التدعيم, 7 pages) is DONE**, **Group Task 2 (العزل المائي, 8 pages) is DONE**, and **Group Task 5 (دهانات الإيبوكسي, 8 pages) is DONE** — full content+SEO per docx, FAQ accordions, corrected schemas, all folder images used. Remaining: Groups 3, 6, 8.
+- **Banners:** every service page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs (`structural-strengthening.png`, `waterproofing-thermal-insulation.png`, `waterproofing-insulation.png` + `-2` for detail pages, `epoxy-flooring-coating.png` for all 8 Group 5 pages). Still Arabic-named/unassigned: `حقن وإصلاح الخرسانة.png` (Group 6), `ab-co-ce-pr.png` (about/contact/certificates/products?). No banner exists yet for Group 3 (thermal) — ask user.
 - ⚠️ **Everything after the pilot is UNCOMMITTED** on top of `c39ae73` — commit per group before continuing.
 - **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
 - **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fix most of these.
@@ -336,14 +336,22 @@ Word files: `updates/ايبوكسي/` · Images: `assets/my-images/our-services/
 
 | Page | Word file | Image folder | Content | SEO |
 |---|---|---|---|---|
-| epoxy-flooring-coating.html (main) | الصفحات الرئيسية.docx | epoxy/ (top-level 1–7) | ☐ | ☐ |
-| epoxy-flooring-car-parks-warehouses.html | مواقف السيارات.docx | epoxy/s-epoxy-1/ | ☐ | ☐ |
-| epoxy-flooring-cold-storage-freezer-rooms.html | أرضيات ثلاجات التجميد.docx | epoxy/s-epoxy-2/ | ☐ | ☐ |
-| epoxy-coating-wastewater-sewage-tanks.html | خزانات مياه الصرف.docx | epoxy/s-epoxy-3/ | ☐ | ☐ |
-| epoxy-lining-potable-water-tanks.html | خزانات مياه الشرب.docx | epoxy/s-epoxy-4/ | ☐ | ☐ |
-| epoxy-flooring-food-processing-facilities.html | مصانع الاغذية.docx | epoxy/s-epoxy-5/ | ☐ | ☐ |
-| anti-static-epoxy-flooring.html | انتي ستاتيك.docx | epoxy/s-epoxy-6/ | ☐ | ☐ |
-| epoxy-mortar-flooring-systems.html | المونة الايبوكسية.docx | epoxy/s-epoxy-7/ | ☐ | ☐ |
+| epoxy-flooring-coating.html (main) | — (hub, 7 cards) | epoxy/ (top-level 1–7) | ✅ | ✅ |
+| epoxy-flooring-car-parks-warehouses.html | مواقف السيارات.docx | epoxy/s-epoxy-1/ | ✅ | ✅ |
+| epoxy-flooring-cold-storage-freezer-rooms.html | أرضيات ثلاجات التجميد.docx | epoxy/s-epoxy-2/ | ✅ | ✅ |
+| epoxy-coating-wastewater-sewage-tanks.html | خزانات مياه الصرف.docx | epoxy/s-epoxy-3/ | ✅ | ✅ |
+| epoxy-lining-potable-water-tanks.html | خزانات مياه الشرب.docx | epoxy/s-epoxy-4/ | ✅ | ✅ |
+| epoxy-flooring-food-processing-facilities.html | مصانع الاغذية.docx | epoxy/s-epoxy-5/ | ✅ | ✅ |
+| anti-static-epoxy-flooring.html | انتي ستاتيك.docx | epoxy/s-epoxy-6/ | ✅ | ✅ |
+| epoxy-mortar-flooring-systems.html | المونة الايبوكسية.docx | epoxy/s-epoxy-7/ | ✅ | ✅ |
+
+**Done 2026-07-11:**
+- Hub (`epoxy-flooring-coating.html`) rebuilt from the old rs-team-item stub into the `.srv-card-link` grid template (matching `waterproofing-thermal-insulation.html`'s style/layout as requested): 7 cards, filled the previously-empty meta description, fixed breadcrumb (was `assets/my-images/pro-serv.png` placeholder + خدماتنا linking to index.html).
+- 7 detail pages fully rebuilt with exact docx content from `updates/ايبوكسي/`: intro, H2 sections (لماذا/تطبيقات/اشتراطات as applicable per docx), مراحل التنفيذ with H3 sub-steps (4 steps for car-parks/potable-water/mortar, 5 for food-processing, 7 for anti-static/ESD — copper-grid + conductive-epoxy + resistance-test steps), مميزات, FAQ accordion (from each docx's FAQPage schema; potable-water page got a 6th FAQ from body text not present in the schema, added to both), contact CTA note-box.
+- SEO heads replaced with docx meta title/description + OG/twitter + Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD; schema URLs corrected from old slugs (`s-epoxy-N.html`, `service-epoxy.html`) to final filenames.
+- All images used per folder: car-parks 3/3, cold-storage 3/3, wastewater 4/4, potable-water 4/4, food-processing 5/5 (image 5 has no webp — plain `<img>`), anti-static 4/4 (image 4 has no webp — plain `<img>`, fixed after initial verification caught a missing-webp reference), mortar 3/3 — `<picture>` webp+png fallback elsewhere. Alts from `Alt.docx`; a handful of images beyond the doc's 3-per-page had no alt — authored in matching style.
+- Banner: renamed `banners/eboxy.png` → `banners/epoxy-flooring-coating.png`, applied to all 8 Group 5 pages (was generic `pro-serv.png` on the detail pages).
+- Verified: all 8 pages have valid JSON-LD, single H1/title, every folder image used exactly once, and all image/banner paths (including webp) exist on disk.
 
 ### Group Task 6 — إصلاح الخرسانة (Concrete Injection & Repair) — 4 pages
 Word files: `updates/إصلاح الخرسانة/` · Images: `assets/my-images/our-services/service-injection/`
@@ -398,6 +406,7 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 | 2026-07-09 | 4 | Restructure: hub/system split — hub rebuilt, detail moved to waterproofing-thermal-insulation-system.html | ✅ Done |
 | 2026-07-09 | — | Banners: renamed خدمات التدعيم/العزل المائي والحراري/العزل المائي (×2) to English slugs, applied to Groups 7+4 pages | ✅ Done |
 | 2026-07-10 | 2 | العزل المائي — hub + 7 detail pages (content + SEO + banner) | ✅ Done |
+| 2026-07-11 | 5 | دهانات الإيبوكسي — hub + 7 detail pages (content + SEO + banner), hub restyled to match waterproofing-thermal-insulation.html card layout | ✅ Done |
 
 ---
 
@@ -454,6 +463,14 @@ Word files: `updates/الصفحات ال4 للخدمات.docx` (to confirm what 
 - Hub (`waterproofing-insulation.html`) kept its existing 7-card grid + SEO; banner applied.
 - Verified: all 8 pages valid JSON-LD (3 schemas each on details), single H1/title, all images + banners exist on disk.
 
+### 2026-07-11 — Group Task 5: دهانات الإيبوكسي (hub + 7 detail pages)
+- User confirmed Group 5 had NOT actually been done (checkboxes were unchecked, pages were the original short template with generic SEO and no FAQ accordion) — redone from scratch reading all 7 docx in `updates/ايبوكسي/` first.
+- Hub (`epoxy-flooring-coating.html`) explicitly requested to match `waterproofing-thermal-insulation.html`'s style/layout: rebuilt from the old `rs-team-item` stub to the `.srv-block`/`.srv-card-link` grid + `.srv-sidebar` template, 7 cards with `Alt.docx` alts, breadcrumb bug fixed (خدماتنا was linking to index.html instead of our-services.html; banner placeholder replaced).
+- 7 detail pages rebuilt with full docx content: car-parks (4 steps), cold-storage (4 steps, HACCP FAQ), wastewater (3 steps), potable-water (4 steps incl. water-fill test, 6 FAQs — body listed a 5th FAQ not in the docx's FAQPage schema, added to both accordion and JSON-LD), food-processing (5 steps incl. coved-skirting corners), anti-static/ESD (7 steps incl. copper-grid + conductive-epoxy + resistance-test), mortar/screed (4 steps). Each got FAQ accordion, docx meta/OG/twitter, and Service(+OfferCatalog)/FAQPage/BreadcrumbList JSON-LD with URLs corrected from `s-epoxy-N.html`/`service-epoxy.html` to final filenames.
+- All folder images used and verified 1:1 against disk: 3+3+4+4+5+4+3 = 26 images across the 7 folders. Two images (food-processing #5, anti-static #4) have no `.webp` pair — used plain `<img>` instead of `<picture>` for those; caught and fixed a leftover `<source>` reference to a nonexistent `s-epoxy-6/4.webp` during verification.
+- Banner: `banners/eboxy.png` renamed → `banners/epoxy-flooring-coating.png` (git mv), applied to all 8 pages.
+- Verified: PowerShell script checked JSON-LD validity, H1/title counts, image + webp path existence, and per-folder image usage across all 8 pages — all passed after the one webp fix.
+
 ---
 
 ## Revert Ability
@@ -468,6 +485,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone. R
 | 2026-07-09 | Group Task 7 — خدمات التدعيم (7 pages + banner rename) | structural-strengthening.html + 6 detail pages, banners/structural-strengthening.png | `c39ae73` (still uncommitted) | ⚠️ All work after the pilot is uncommitted on top of `c39ae73` — commit per group to create real checkpoints |
 | 2026-07-09 | Group 4 restructure — hub/system split | waterproofing-thermal-insulation.html (hub), waterproofing-thermal-insulation-system.html (NEW), waterproofing-insulation.html, thermal-insulation.html, banners/waterproofing-thermal-insulation.png | `c39ae73` (still uncommitted) | The -system.html file is new; deleting it + restoring the other 3 from `c39ae73` undoes the split |
 | 2026-07-10 | Group Task 2 — العزل المائي (8 pages + 2 banner renames) | waterproofing-insulation.html + 7 detail pages, banners/waterproofing-insulation.png, banners/waterproofing-insulation-2.png | `c39ae73` (still uncommitted) | Same base — commit recommended before starting Group 3 |
+| 2026-07-11 | Group Task 5 — دهانات الإيبوكسي (8 pages + banner rename) | epoxy-flooring-coating.html + 7 detail pages, banners/epoxy-flooring-coating.png | `c39ae73` (still uncommitted) | Same base — commit recommended before starting Group 3/6/8 |
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
