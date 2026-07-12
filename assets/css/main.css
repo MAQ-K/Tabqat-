@@ -25910,6 +25910,19 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, li {
 .cta-whatsapp:hover { transform: translateY(-2px); }
 
 
+/* ── Service detail sub-step headings (H3)
+   Base h3 is 38px which renders BIGGER than the 20px .section-heading H2
+   above it. Scope the fix to the details wrapper; accordion FAQ h3s are
+   excluded (their button carries its own size).
+   ─────────────────────────────────────────────────── */
+.rs-services-details-wrapper h3:not(.accordion-header) {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0d1b2a;
+    margin: 24px 0 10px;
+}
+
+
 /* ── END SERVICE PAGE COMPONENTS ─────────────────── */
 
 /*# sourceMappingURL=main.css.map */
