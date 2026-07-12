@@ -468,6 +468,7 @@ i mean the completely usless
 - `assets/images/` — ~1.8MB across 14 theme-template demo folders (about/award/brand/contact/cta/faq/gallery/history/logo/portfolio/progress/services/shop/team) confirmed to have **zero** references in any `.html` file — leftover from the original theme, never swapped for `assets/my-images/`.
 - Plus the already-known 5 leftover duplicate HTML files (`p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html`) from the Pages Names table — small individually but still literally unused duplicates.
 - Did not delete anything — this was requested as a report ("tell me... in a simple report"). Say the word and I'll remove any/all of the above.
+- **Update 2026-07-12:** the report now exists as a file — `size-reduction-report.md` in the repo root — re-measured and expanded with: the .mhtml junk file (2 MB), remixicon SVG extras (~4.2 MB), PNG-with-webp-twin analysis (~31 MB, needs HTML ref switch first), banner recompression (~3-4 MB), and an honest `.git` breakdown (122 MB = 89 MB current content + ~53 MB old versions; **zero** unreachable garbage, so `git gc` won't help — only a destructive history squash would, and NOT before the rebuild is done since history is our revert ability). Realistic outcome: 214 → ~120 MB without touching git, ~65 MB with the end-of-project squash.
 
 ### Group Task 13 — Banners on every remaining page
 ab-co-ce-pr for about/contact/projects/certificates, the rest reuse an existing service banner ("the rest I think u know").
@@ -508,6 +509,7 @@ ab-co-ce-pr for about/contact/projects/certificates, the rest reuse an existing 
 | 2026-07-11 | 12 | Project folder size report delivered (~15.5MB unused: scss, fonts, css map, unused theme images) — report only, nothing deleted | ✅ Done |
 | 2026-07-11 | 13 | Banners on every remaining page — fixed 7 broken ab-co-ce-pr.png paths, assigned it to 3 general pages, assigned waterproofing-insulation.png to all 14 product pages | ✅ Done |
 | 2026-07-11 | 6 | concrete-repair-injection.html hub restyled to match epoxy-flooring-coating.html (.srv-block/.srv-card-link/.srv-sidebar) | ✅ Done |
+| 2026-07-12 | 12 | size-reduction-report.md created — file version of the Group 12 report, re-measured (incl. honest .git analysis: 0 MB garbage, squash-only savings) | ✅ Done |
 
 ---
 
