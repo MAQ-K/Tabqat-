@@ -25923,6 +25923,16 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, li {
 }
 
 
+/* ── Side-by-side step images (Group 14.1 layout)
+   Usage: <img class="img-fluid rounded shadow-lg side-img" ...>
+   Small breathing room above/below when the image sits next to text
+   in a 2-column row, instead of touching the row edges.
+   ─────────────────────────────────────────────────── */
+.side-img {
+    margin: 20px 0;
+}
+
+
 /* ── END SERVICE PAGE COMPONENTS ─────────────────── */
 
 /*# sourceMappingURL=main.css.map */
