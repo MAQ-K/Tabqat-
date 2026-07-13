@@ -8,7 +8,7 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 
 ## 📌 Current Status (updated 2026-07-13)
 
-**Groups 1–17 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12. Group 16 (2 new services: تيرازو + مايكروسمنت) finished 2026-07-13. **Group 17 (profile open/download button, navbar + mobile sidebar) also finished 2026-07-13.** Nothing active right now.
+**Groups 1–18 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12. Group 16 (2 new services: تيرازو + مايكروسمنت) and Group 17 (profile open/download button) finished 2026-07-13. **Group 18 replaced five service breadcrumb-banner families with the supplied WebP assets on 2026-07-13.** Nothing active right now.
 
 **Still open (standing cleanup items):**
 | # | Item | Where tracked |
@@ -45,7 +45,7 @@ A page is only Done when both passes are done.
 - **Reading docx/xlsx:** no openpyxl/python-docx installed. They're zip files — read with Python stdlib: `zipfile` + regex over `word/document.xml` (docx) or `xl/sharedStrings.xml` + `xl/worksheets/sheet1.xml` (xlsx). Arabic comes out as HTML entities from xlsx (`&#1575;…`) — decode with `html.unescape`.
 - **Group 4 structure (do NOT re-merge):** `waterproofing-thermal-insulation.html` is the HUB (3 category cards; all navbar links land here) and `waterproofing-thermal-insulation-system.html` is the combined-system detail page (the docx content).
 - **Breadcrumb H1 house style (set 2026-07-11):** the big `<h1 class="rs-breadcrumb-title">` on every detail page must be the SHORT title matching that service's card on its category hub page — NOT the long docx-style SEO title. Applied to all detail pages.
-- **Banners:** every page's breadcrumb background comes from `assets/my-images/banners/` — files renamed to English page slugs. Per group: `structural-strengthening.png` (Group 7), `waterproofing-thermal-insulation.png` (Group 4), `waterproofing-insulation.png` (Group 2 hub + all 14 product pages), `waterproofing-insulation-2.png` (Group 2 details + all 5 Group 3 thermal pages — intentionally shared per user decision), `epoxy-flooring-coating.png` (all 8 Group 5 pages), `concrete-repair-injection.png` (all 4 Group 6 pages), `ab-co-ce-pr.png` (about/contact/projects/certificates + blogs, blog-rainfilters, our-services). The old `pro-serv.png` fallback never existed as a file — all references to it were fixed in Group 13.
+- **Banners:** every page's breadcrumb background comes from `assets/my-images/banners/`. Current service-page families: `structural-strengthening.webp` (Group 7), `waterproofing-thermal-insulation.webp` (Group 4 hub + system page), `waterproofing-insulation.webp` (Group 2 hub), `waterproofing-thermal-insulation-2.webp` (Group 2 details + all 5 Group 3 thermal pages), `epoxy-flooring-coating.png` (all 8 Group 5 pages), and `concrete-repair-injection.webp` (all 4 Group 6 pages). The 14 product pages deliberately remain on `waterproofing-insulation.png`; general pages use `ab-co-ce-pr.png`. The old `pro-serv.png` fallback never existed as a file — all references to it were fixed in Group 13.
 - **Git state:** everything through 2026-07-12 is committed (history: `6dd5282` → `c39ae73` → "the 1st try" series → merge commits → `bac8187`). To revert a specific file, find its last-good version with `git log --oneline -- <file>`.
 - **5 leftover files still need deleting** (after re-pointing links): `p-attach-1.html`, `p-attach-3.html`, `p-iso-2.html`, `p-iso-4.html`, `product-rain.html` — see the cleanup table.
 - **bug-report.md** (repo root) lists 92 pre-existing bugs: broken links (incl. typo `p-attacg-2.html` → should be `bitumen-primer-base.html`), 26 empty meta descriptions, 36 missing canonicals. The SEO passes fixed most of these.
@@ -564,6 +564,14 @@ Source: user request (2026-07-13). "add a profile open/download btn in navbar, w
 2. Mobile: a profile-download block added to `components/offcanvas.html` (which IS shared live across every page, including index.html), reusing the existing `.sidebar-download` class verbatim (icon + text, same look as the sidebar widget already on every inner page) — confirmed via CSS that `.sidebar-download` needs no `.sidebar-card` wrapper, so no new CSS was written.
 3. Verified: HTML tag-balance parser on all 4 touched files (`header-home.html`, `header-inner.html`, `offcanvas.html`, `index.html`) — all clean. Confirmed `assets/images/icon/pdf.svg`, the `ri-download-line` remixicon class, and Bootstrap's `d-none`/`d-lg-flex` utilities all actually exist before relying on them. Opened `index.html` in-browser for a visual check.
 
+### Group Task 18 — Service breadcrumb banners switched to WebP — DONE 2026-07-13
+Source: user-supplied banner assets in `assets/my-images/banners/`.
+
+- Replaced the breadcrumb banner references on 26 service pages across Groups 2, 3, 4, 6, and 7. Product pages were deliberately excluded even though they reuse the old `waterproofing-insulation.png`, because this task was scoped to service pages.
+- Mapping: `concrete-repair-injection.png` → `concrete-repair-injection.webp`; `structural-strengthening.png` → `structural-strengthening.webp`; Group 2 hub → `waterproofing-insulation.webp`; Group 2 detail + Group 3 pages → `waterproofing-thermal-insulation-2.webp`; Group 4 hub/system → `waterproofing-thermal-insulation.webp`.
+- Renamed the supplied `Roof Insulation.webp` → `waterproofing-insulation.webp` and `waterproofing-thermal-insulation (2).webp` → `waterproofing-thermal-insulation-2.webp` so breadcrumb URLs contain no spaces or parentheses.
+- Verified all 26 updated breadcrumb paths resolve to existing WebP files and no affected service page retains the replaced PNG reference.
+
 ---
 
 ## 📅 Timeline
@@ -602,6 +610,7 @@ Source: user request (2026-07-13). "add a profile open/download btn in navbar, w
 | 2026-07-12 | 14.1 | Pilot approved (with margin tweak) — added `.side-img` margin, rolled out to all 24 remaining detail pages across Groups 2/3/5/6/7 | ✅ Done |
 | 2026-07-13 | 16 | Added 2 new services (تيرازو + مايكروسمنت): 2 new pages, images copied, banners created, navbar (2 files) + our-services.html (2 cards) + mind map/names table updated | ✅ Done |
 | 2026-07-13 | 17 | Profile open/download button added to navbar (3 files, incl. discovering header-home.html is dead code + index.html's separate inline header) and mobile offcanvas sidebar | ✅ Done |
+| 2026-07-13 | 18 | Replaced five service breadcrumb-banner families with supplied WebP assets across 26 service pages; product pages left unchanged | ✅ Done |
 
 ---
 
@@ -785,6 +794,12 @@ Source: user request (2026-07-13). "add a profile open/download btn in navbar, w
 - Built: a compact teal pill button (`.rs-header-profile-btn`, download icon + "البروفايل", `download` attribute matching the site's existing convention) added to all 3 header locations, `d-none d-lg-flex` so it's desktop-only and never collides with the hamburger-collapsed mobile nav. For mobile, added a profile-download block to `components/offcanvas.html` (confirmed shared live across every page including `index.html`) reusing the existing `.sidebar-download` class verbatim — checked the CSS first and confirmed it doesn't require a `.sidebar-card` wrapper, so no new CSS was needed.
 - Verified: HTML tag-balance parser on all 4 touched files (all clean), and confirmed `assets/images/icon/pdf.svg`, the `ri-download-line` remixicon class, and Bootstrap's `d-none`/`d-lg-flex` utilities all actually exist in the loaded CSS before relying on them. Opened `index.html` in-browser for a visual check.
 
+### 2026-07-13 — Group Task 18: service breadcrumb banners switched to WebP
+- Used the five newly supplied banner images for the concrete-repair, structural-strengthening, waterproofing, thermal-insulation, and combined waterproofing/thermal service families.
+- Updated 26 service-page `data-background` values only; no page structure, text, SEO metadata, or product-page banner references changed.
+- Normalized the two supplied filenames containing a space or parentheses to `waterproofing-insulation.webp` and `waterproofing-thermal-insulation-2.webp`.
+- Verified every new path exists and all intended service-page references use WebP.
+
 ### 2026-07-12 — size-reduction-report.md (file version of the Group 12 report)
 - Created `size-reduction-report.md` in the repo root — re-measured everything and expanded the Group 12 findings (see the Group Task 12 section above for the full delta, including the honest `.git` analysis: zero unreachable garbage, squash-only savings, don't squash before the rebuild is fully wrapped).
 
@@ -828,6 +843,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone.
 | 2026-07-12 | Group Task 14.1 — full side-image rollout (24 pages) + margin tweak | assets/css/main.css, epoxy-flooring-car-parks-warehouses.html (margin only), bitumen-waterproofing.html, cementitious-waterproofing.html, polyurethane-waterproofing.html, acrylic-waterproofing-coating.html, polyurea-spray-waterproofing.html, pvc-waterproofing.html, epdm-waterproofing.html, polystyrene-board-thermal-insulation.html, polyurethane-board-thermal-insulation.html, rockwool-board-thermal-insulation.html, epoxy-flooring-cold-storage-freezer-rooms.html, epoxy-coating-wastewater-sewage-tanks.html, epoxy-lining-potable-water-tanks.html, epoxy-flooring-food-processing-facilities.html, anti-static-epoxy-flooring.html, epoxy-mortar-flooring-systems.html, polyurethane-injection-concrete-leak-stopping.html, epoxy-injection-concrete-repair.html, concrete-jacketing.html, carbon-fiber-strengthening.html, steel-jacketing.html, soil-injection.html, shotcrete.html, excavation-shoring.html | `89e6090` (commit right before the rollout) | Only the step-images section's markup restructured on each page (row/column wrapper + image class); image sources, alt text, and every other section untouched. `git checkout 89e6090 -- <file>` reverts any single page to its pre-rollout full-width layout |
 | 2026-07-13 | Group Task 16 — 2 new services (Terrazzo + Microcement) | terrazzo-flooring.html (new), microcement-flooring.html (new), our-services.html, components/header-home.html, components/header-inner.html, management.md, + 18 new image files under assets/my-images/our-services/{terrazzo,microcement}/ and 2 new banner files | `ddadb50` (commit before this task) | The 2 new pages + new image folders are additions — deleting the 2 `.html` files and the 2 new image folders fully removes the services. `git checkout ddadb50 -- our-services.html components/header-home.html components/header-inner.html` reverts the nav/hub changes without touching the new pages |
 | 2026-07-13 | Group Task 17 — profile button (navbar + mobile sidebar) | components/header-home.html, components/header-inner.html, components/offcanvas.html, index.html | `3fea28e` (commit before this task) | Only additive markup blocks (new `<div>`s) — no existing elements changed or removed. `git checkout 3fea28e -- <file>` removes the profile button from any of the 4 files |
+| 2026-07-13 | Group Task 18 — service breadcrumb WebP banners | 26 service HTML pages, 5 WebP banner assets, management.md | `f82050d` (commit before this task) | Only breadcrumb `data-background` paths changed in HTML. Restore pages from `f82050d` to return to the PNG assignments; the five WebP assets are additions. |
 
 **Note:** the commits above list `bac8187`/`6d4606e` as the pre-change references because everything from Group 14/15 onward was committed together as `6d4606e "new updates --"` (which also folded in the earlier size-report/management-arrange work). For a clean per-file rollback use `git log --oneline -- <file>` to find that file's specific last-good commit.
 
