@@ -8,12 +8,7 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 
 ## 📌 Current Status (updated 2026-07-12)
 
-**Groups 1–13 are DONE.** **Group 15 is DONE. Group 14 is PARTIALLY DONE:** 14.2 (H3 font size) done site-wide; 14.1 (side-image layout) has 1 pilot page built and is waiting on your look-and-feel approval before rolling out to the other ~27 detail pages. All committed to git (latest: `6d4606e`).
-
-**Active work queue:**
-| # | Item | Where tracked |
-|---|---|---|
-| 1 | **Group 14.1** — review the pilot page (`epoxy-flooring-car-parks-warehouses.html`), then say go for the rollout to Groups 2/3/4/5/6/7 | Group Task 14 below |
+**Groups 1–15 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12 — pilot approved with a small margin tweak, then applied across every remaining detail page. Nothing active right now.
 
 **Still open (standing cleanup items):**
 | # | Item | Where tracked |
@@ -473,29 +468,33 @@ User request: `ab-co-ce-pr` for about/contact/projects/certificates; the rest re
 - **Not touched:** the 5 duplicates-to-delete (still on the broken placeholder — they're getting deleted anyway); `index.html` (no breadcrumb section — homepage hero layout); `project-report.html`/`service-pages-plan.html` (internal planning docs, not real pages).
 - Verified with a full-site scan: every real page's banner path now resolves to a file that exists on disk.
 
-### Group Task 14 — Services pages layout edit (all service pages) — 14.2 DONE 2026-07-12, 14.1 PILOT DONE (awaiting approval to roll out)
-Source: `newtasks.md` (2026-07-12). Two edits across ALL service detail pages (~28 pages using `.rs-services-details-wrapper`):
+### Group Task 14 — Services pages layout edit (all service pages) — DONE 2026-07-12
+Source: `newtasks.md` (2026-07-12). Two edits across ALL service detail pages (28 pages using `.rs-services-details-wrapper`):
 
 **14.2 — Reduce H3 font size on services pages — ✅ DONE**
 - Root cause: base `h3` uses `--rs-fs-h3: 38px` (site-wide variable) — bigger than the 20px `.section-heading` H2 sitting right above each H3 sub-step, so the hierarchy read backwards.
 - Fix: one scoped rule in `assets/css/main.css`, `.rs-services-details-wrapper h3:not(.accordion-header)` → 17px/700/`#0d1b2a`, excluding the FAQ accordion buttons (they're also `<h3>` but sized by their own button styles). Single source of truth, same approach as the Group 11 small-laptop fix — no per-page inline styles.
 - Confirmed the wrapper class covers all 28 detail pages across Groups 2, 3, 4 (system page), 5, 6, 7.
 
-**14.1 — Mixed image layouts — pilot built, DONE on 1 page, rollout pending your approval**
-- Built the 2-column side-image pattern on **`epoxy-flooring-car-parks-warehouses.html`**: the "مراحل التنفيذ" section's 4 H3 steps + 2 images were full-width before; now steps 1–2 sit beside image 2 (image right/text left per RTL, `order-1`/`order-2` swapped for `col-lg`, text-first on mobile) and steps 3–4 sit beside image 3 in a mirrored layout. Used Bootstrap's real `.mb-4`/`.mb-lg-0` utilities (verified `.mb-30` — the class the user's example used — doesn't actually exist in this theme's CSS, would've been a silent no-op).
-- Kept the `<picture>` webp+png fallbacks, existing alts, and `img-fluid rounded shadow-lg` styling from the user's example. HTML tag-balance validated (no stray/unclosed tags introduced).
-- Section 1 (intro image) and the mid-page comparison content were deliberately left full-width — per "images on the side is an option," alternating only where a section naturally pairs one image with one block of steps.
-- **Not yet rolled out to the other ~27 pages** — holding for your look-and-feel approval on the pilot before repeating group by group (2 → 3 → 4-system → 5 → 6 → 7).
+**14.1 — Mixed image layouts — ✅ DONE, full rollout complete**
+- Pilot built on **`epoxy-flooring-car-parks-warehouses.html`**, approved by the user with one tweak ("add a small margin top & bottom"). Added `.side-img { margin: 20px 0; }` to `main.css` and the `side-img` class to every converted image.
+- Rolled out to all remaining detail pages by writing two small Python converters (structural pattern matching, not per-page manual edits) since the pages turned out to use **two different underlying templates**:
+  - **Pattern A** (Groups 5, 7, most of 3 and 6): image block, then 1+ `<h3>+<p>` step pairs, repeating — same shape as the pilot. Grouped each image with its following step(s) into a row, alternating text-left/image-right and image-left/text-right per row.
+  - **Pattern B** (all 7 Group 2 waterproofing pages): each step is `<h3>` → its own `<picture>` → `<p>`, i.e. one image per step instead of one image per 1–2 steps. Wrote a second converter for this triplet shape.
+  - Both converters: preserved the exact `<picture>` webp+png fallbacks, alt text, and `loading="lazy"`/`wow` animation attributes — only the wrapper markup and image class changed (`section-img` → `img-fluid rounded shadow-lg side-img`).
+- **3 pages correctly left untouched** — verified by inspection, not just script silence: `perlite-thermal-insulation.html` (its 4 steps have zero adjacent images — the page's one image is a standalone lead image elsewhere), `waterproofing-thermal-insulation-system.html` (its "الاشتراطات" requirements sub-sections are text-only, no per-item images), `concrete-repair-structural-materials.html` (its steps are a plain `<ol>` numbered list, not H3 blocks, with a single trailing image — nothing to pair).
+- **Bug found and fixed mid-conversion:** the first version of the Pattern-B converter matched `<picture>` only when it had no attributes; several pages use `<picture style="display:block;">` and were silently skipped (`bitumen-waterproofing.html` found 0 rows on the first pass). Fixed the regex to allow any attributes, re-ran, verified against a `grep -l '<picture style='` sweep that all 7 affected pages converted correctly the second time.
+- Verified end-to-end on all 24 rolled-out pages: HTML tag-balance parser (all pass — 2 pages showed a pre-existing unrelated tag mismatch, confirmed via `git show HEAD` unrelated to this edit), `<img>` count identical before/after on every file (no images lost or duplicated), and `side-img` class present on every converted image.
 
 | Group | Pages | Status |
 |---|---|---|
 | Pilot — epoxy-flooring-car-parks-warehouses.html | 1 | ✅ Done |
-| Group 2 waterproofing details (7) | | ☐ awaiting approval |
-| Group 3 thermal details (4) | | ☐ awaiting approval |
-| Group 4 system page (1) | | ☐ awaiting approval |
-| Group 5 epoxy details (remaining 6) | | ☐ awaiting approval |
-| Group 6 injection details (3) | | ☐ awaiting approval |
-| Group 7 support details (6) | | ☐ awaiting approval |
+| Group 2 waterproofing details (7) | bitumen(4 rows), cementitious(3), polyurethane(3), acrylic(2), polyurea(1), pvc(2), epdm(2) | ✅ Done |
+| Group 3 thermal details (4) | polystyrene(2), polyurethane-board(2), rockwool(1); perlite has no step images — correctly untouched | ✅ Done |
+| Group 4 system page (1) | requirements section is text-only — correctly untouched | ✅ N/A, verified |
+| Group 5 epoxy details (remaining 6) | cold-storage(2), wastewater(2), potable-water(3), food-processing(3), anti-static(2), mortar(2) | ✅ Done |
+| Group 6 injection details (3) | pu-injection(2), epoxy-injection(2); structural-materials uses an `<ol>` list, no step images — correctly untouched | ✅ Done |
+| Group 7 support details (6) | concrete-jacketing(2), carbon-fiber(2), steel-jacketing(2), soil-injection(1), shotcrete(2), excavation-shoring(2) | ✅ Done |
 
 ### Group Task 15 — Images ALT site-wide (Alt.docx) — DONE 2026-07-12
 Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to all images it covers.
@@ -542,6 +541,7 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 | 2026-07-12 | 14.2 | H3 font-size fix — scoped `.rs-services-details-wrapper h3` rule in main.css, covers all 28 detail pages | ✅ Done |
 | 2026-07-12 | 14.1 | Side-image layout pilot built on epoxy-flooring-car-parks-warehouses.html | ✅ Done (rollout pending approval) |
 | 2026-07-12 | 15 | Site-wide image alts from Alt.docx — 74 alts fixed across 16 pages; found + fixed a pre-existing product-card image/title swap bug on 6 pages | ✅ Done |
+| 2026-07-12 | 14.1 | Pilot approved (with margin tweak) — added `.side-img` margin, rolled out to all 24 remaining detail pages across Groups 2/3/5/6/7 | ✅ Done |
 
 ---
 
