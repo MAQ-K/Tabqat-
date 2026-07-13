@@ -6,9 +6,9 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 
 ---
 
-## 📌 Current Status (updated 2026-07-12)
+## 📌 Current Status (updated 2026-07-13)
 
-**Groups 1–15 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12 — pilot approved with a small margin tweak, then applied across every remaining detail page. Nothing active right now.
+**Groups 1–16 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12. **Group 16 (2 new services: تيرازو + مايكروسمنت) finished 2026-07-13** — 2 new pages built, nav/hub/mind-map updated everywhere. Nothing active right now.
 
 **Still open (standing cleanup items):**
 | # | Item | Where tracked |
@@ -18,6 +18,7 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 | 3 | Size cleanup (~17.5 MB safe deletions + more) — pending user go-ahead | `size-reduction-report.md` |
 | 4 | "Images Gallery" from the original nav plan — same as `projects.html` or a new page? | Open questions |
 | 5 | `polyurea-spray-waterproofing.html` has no Arabic title in the Excel | Open questions |
+| 6 | `embed-components.js` re-bake script has a truncation bug (non-greedy regex stops at first nested `</div>`) — never run it as-is; every page's *baked* header/footer is stale (still shows old 4-item services submenu) even though the *live* JS-injected nav is correct everywhere | Group Task 16 note |
 
 ---
 
@@ -133,13 +134,15 @@ index.html
 │   │   ├── concrete-repair-structural-materials.html (الإصلاح بالمواد الإنشائية)
 │   │   ├── polyurethane-injection-concrete-leak-stopping.html (إيقاف تسرب الخرسانة)
 │   │   └── epoxy-injection-concrete-repair.html (حقن الخرسانة بمواد الإيبوكسي)
-│   └── 6. structural-strengthening.html (خدمات التدعيم) ← was service-support.html
-│       ├── concrete-jacketing.html (التدعيم بالقمصان الخرسانية)
-│       ├── carbon-fiber-strengthening.html (التدعيم بالكربون فايبر)
-│       ├── steel-jacketing.html (التدعيم بقطاعات الحديد)
-│       ├── soil-injection.html (حقن التربة)
-│       ├── shotcrete.html (الخرسانة المقذوفة)
-│       └── excavation-shoring.html (سند جوانب الحفر)
+│   ├── 6. structural-strengthening.html (خدمات التدعيم) ← was service-support.html
+│   │   ├── concrete-jacketing.html (التدعيم بالقمصان الخرسانية)
+│   │   ├── carbon-fiber-strengthening.html (التدعيم بالكربون فايبر)
+│   │   ├── steel-jacketing.html (التدعيم بقطاعات الحديد)
+│   │   ├── soil-injection.html (حقن التربة)
+│   │   ├── shotcrete.html (الخرسانة المقذوفة)
+│   │   └── excavation-shoring.html (سند جوانب الحفر)
+│   ├── 7. terrazzo-flooring.html (تيرازو) — NEW 2026-07-13, single one-page service, no sub-pages
+│   └── 8. microcement-flooring.html (مايكروسمنت) — NEW 2026-07-13, single one-page service, no sub-pages
 ├── products.html (منتجاتنا)
 │   ├── insulation-rolls.html (لفات العزل) ← was product-iso.html
 │   │   ├── polyfilm-insulation-membrane.html (لفات بولي فليم)
@@ -249,6 +252,8 @@ Source: `updates/Tabqat pages.xlsx` + `updates/Tabqat_20Services_20Pages_20-_20C
 | Support-the-sides-of-the-excavation.html | excavation-shoring-support.html | مقالة: سند جوانب الحفر | done — blog article |
 | concrete-treatment.html | concrete-crack-repair-techniques.html | مقالة: معالجة الخرسانة | done — blog article |
 | blog-isolation | roof-waterproofing-thermal-insulation.html | مقالة: عزل الأسطح | done — blog article |
+| *(new, no old name)* | terrazzo-flooring.html | تيرازو | done 2026-07-13 — new service, not part of the original rebuild scope |
+| *(new, no old name)* | microcement-flooring.html | مايكروسمنت | done 2026-07-13 — new service, not part of the original rebuild scope |
 
 **Remaining open points:**
 1. Delete the 5 leftover duplicate files (see cleanup table above) after re-pointing links.
@@ -506,6 +511,43 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 - Remaining 49 of the original 123 "flagged" images are correctly left as `alt=""` — decorative icons (download icon next to visible "تحميل البروفايل" text, feature icons next to feature titles, generic reviewer-avatar placeholders in a review widget) where empty alt is the accessible best practice, not a gap. `thermal-insulation.html`/`waterproofing-insulation.html` initially flagged as "no alt" were a false positive from a double-quote-only regex — both already have full single-quoted alts from the Group 2/3 builds.
 - Verified: HTML tag-balance check on all 19 edited files — only 2 pre-existing (not caused by this edit) minor issues found, both confirmed present in `git show HEAD` before any change today.
 
+### Group Task 16 — Add 2 new services: تيرازو (Terrazzo) + مايكروسمنت (Microcement) — DONE 2026-07-13
+Source: user request (2026-07-13). Content in `updates/terrazzo/` (1 docx + 10 images) and `updates/microcement/` (1 docx + 8 images).
+
+**What these are:** two brand-new top-level service categories (siblings of عزل مائي وحراري / دهانات إيبوكسية / حقن وإصلاح الخرسانة / خدمات التدعيم) — NOT sub-services under an existing category. Each is a single one-page service (no hub + sub-pages), confirmed by the microcement docx's own breadcrumb: "الرئيسية ← خدماتنا ← مايكروسمنت".
+
+**Both docx files extracted in full** (zipfile+regex, same method as always): each has Meta Title, Meta Description, Service+FAQPage JSON-LD schema, H1, and full body copy (intro, "why choose us" H3 benefit cards, types/applications, a comparison table, a numbered execution-steps section, "why طبقات", FAQ, closing CTA) — same shape as `waterproofing-thermal-insulation-system.html`, which is being used as the structural template.
+
+**Images verified individually** (not batch-guessed) by opening every one of the 18 photos before writing alt text:
+- Terrazzo's 10 images are stock/reference photography (villa entrances, a "GRAND HORIZON HOTEL" lobby, a "SIGNATURE" boutique, a bathroom) — illustrative of the finish, not claimed as Tabqat's own completed projects.
+- Microcement's 8 images are real project photos of a branded space ("VE"/"VELYA", construction-in-progress details visible in some shots) — the docx's own alt text confidently attributes them to a Tabqat project, so used as supplied.
+
+**Decisions made:**
+- Filenames: `terrazzo-flooring.html`, `microcement-flooring.html` (root-level, matching the site's flat-file convention).
+- Images copied as-is into `assets/my-images/our-services/terrazzo/` and `.../microcement/` (already well-named descriptive English slugs, webp-only — no png fallback exists, so plain `<img>` not `<picture>`, same pattern used for other webp-only folders in the rebuild).
+- Banner: reusing one project photo per service (`indoor-terrazzo-floor.webp` for terrazzo, `microcement-luxury-floor.webp` for microcement) renamed into `assets/my-images/banners/`, same convention as every other category.
+- Applying the Group 14 `.side-img` two-column layout from the start (this page didn't exist yet when Group 14 ran, so no separate rollout step needed).
+- Nav: `components/header-home.html` and `components/header-inner.html` submenus get 2 new `<li>` entries (6 total, was 4). `components/offcanvas.html` has no services submenu — nothing to change there.
+- ⚠️ **Known limitation, deliberately not fixed today:** every page also has the header/footer/offcanvas *baked directly into its own HTML* (not just live-injected via `components-loader.js`). There's a `embed-components.js` re-bake script for exactly this, but its regex (`/<div id="site-header">[\s\S]*?<\/div>/`, non-greedy) would stop at the *first* nested `</div>` inside the real header markup, not the matching one — running it as-is on this repo would truncate/corrupt the baked header in all ~60 pages. Not running it. This means: the *live* site (real visitors, and Googlebot which executes JS) will correctly show the new nav via `components-loader.js`'s runtime fetch of the updated component files — but the raw baked HTML source in each page's `<div id="site-header">` still shows the old 4-item submenu until either (a) someone fixes the regex and re-runs the script, or (b) each page is individually re-saved. Flagged as a standing cleanup item below, not blocking.
+- our-services.html: adding 2 more cards to the 4-card grid (→ 6), and fixing the intro paragraph's "أربعة مجالات رئيسية" (four main areas) claim, which would become false.
+
+**Plan (all done):**
+1. Copy images into `assets/my-images/our-services/{terrazzo,microcement}/` + create 2 banner files. ✅
+2. Build `terrazzo-flooring.html` — full content from docx, side-image layout, docx SEO/schema, sidebar. ✅
+3. Build `microcement-flooring.html` — same. ✅
+4. Update navbar submenu in `header-home.html` + `header-inner.html` (2 files × 2 new links). ✅
+5. Update `our-services.html`: 2 new cards + fix "four areas" text. ✅
+6. Update the Services Mind Map tree and add both pages to the Pages Names table in this file. ✅
+7. Verify: HTML tag balance, image count, all internal links resolve, open both pages in browser. ✅
+8. Log Timeline/History/Revert Ability, commit. ✅ (this entry)
+
+**Execution notes:**
+- **terrazzo-flooring.html:** 9 of the 10 supplied images used in the body (1:1, verified no duplicates/omissions), 10th (`indoor-terrazzo-floor.webp`) reserved exclusively for the banner. Side-image rows applied to the "types" (Epoxy vs Cement terrazzo) and "how we execute" (5 steps) sections, matching the Group 14 pattern; other sections use full-width `.section-img` matching the pre-Group-14 pages' convention for single standalone images. FAQ accordion + JSON-LD both carry the same 5 questions from the docx.
+- **microcement-flooring.html:** all 8 supplied images used, matched to the docx's own per-image alt descriptions (حمام / حوض المغسلة / ردهة المشروع / منظر علوي / الدرج والردهة / المكتب / منطقة استقبال / الصالة الداخلية) rather than guessed — one image (`microcement-luxury-floor.webp`, the one showing the spiral staircase mentioned in alt #5) is deliberately used **both** as the banner and inside the body, since the docx's alt list maps all 8 photos to specific content and excluding one from the body would break that 1:1 mapping. 3 of the 6 "أين يُستخدم" application headings (مطابخ / المنازل / الحوش الخارجي) were kept text-only with no paired image — none of the 8 supplied photos actually show a kitchen, a house interior, or an exterior courtyard (they're all from one commercial/clinic space), so no image was forced onto those headings just to fill a slot. FAQ accordion + JSON-LD both carry all 7 questions (4 from the docx's own schema + 3 more mentioned only in the body FAQ list), same "merge and include everything" precedent used earlier in the rebuild (e.g. Group 5's potable-water page).
+- **Both pages' sidebars** replace the usual "sibling sub-service" nav list (these services have no siblings) with a "خدماتنا الأخرى" list linking to the other 5 top-level services instead, so users can still explore the rest of the site from either page.
+- **our-services.html:** added 2 cards (`col-lg-3`, same grid, now 6 cards total — wraps 4+2 on large screens, no layout changes needed) and corrected "أربعة مجالات رئيسية" → "ستة مجالات رئيسية" with both new services named in the sentence.
+- **Verification:** HTML tag-balance parser on both new pages (both clean) plus `our-services.html`/both header components (one pre-existing, unrelated `<body>` tag issue on `our-services.html`, confirmed via `git show HEAD` to predate this change); image-usage count matched against each source folder's actual file list; every internal `href` on both new pages resolves to a real file (20/20 each).
+
 ---
 
 ## 📅 Timeline
@@ -542,6 +584,7 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 | 2026-07-12 | 14.1 | Side-image layout pilot built on epoxy-flooring-car-parks-warehouses.html | ✅ Done (rollout pending approval) |
 | 2026-07-12 | 15 | Site-wide image alts from Alt.docx — 74 alts fixed across 16 pages; found + fixed a pre-existing product-card image/title swap bug on 6 pages | ✅ Done |
 | 2026-07-12 | 14.1 | Pilot approved (with margin tweak) — added `.side-img` margin, rolled out to all 24 remaining detail pages across Groups 2/3/5/6/7 | ✅ Done |
+| 2026-07-13 | 16 | Added 2 new services (تيرازو + مايكروسمنت): 2 new pages, images copied, banners created, navbar (2 files) + our-services.html (2 cards) + mind map/names table updated | ✅ Done |
 
 ---
 
@@ -703,6 +746,21 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 - Left 49 of the original 123 flagged images untouched — confirmed by inspecting their surrounding markup that they're intentionally decorative (a download icon next to visible "تحميل البروفايل" text, feature icons next to their own feature titles, generic reviewer-avatar placeholders in a review widget) where `alt=""` is the correct accessible choice, not a gap. Also confirmed `thermal-insulation.html`/`waterproofing-insulation.html` were false positives in the initial scan (single-quoted `alt='...'` attributes that a double-quote-only regex missed) — both already have complete alts from their Group 2/3 builds.
 - Verified: ran an HTML tag-balance parser over all 19 edited files. 2 files (`excavation-shoring-support.html`, `cementitious-waterproofing-products.html`) flagged minor pre-existing tag mismatches unrelated to this edit — confirmed via `git show HEAD` that both were already present before today's changes (only `alt="..."` attribute text was touched on those lines, no tags added/removed).
 
+### 2026-07-13 — Group Task 16: 2 new services (Terrazzo + Microcement)
+- User request: add تيرازو and مايكروسمنت as brand-new services, using the content already staged in `updates/terrazzo/` and `updates/microcement/`, and wire them into the navbar and services hub.
+- Extracted both docx files in full (zipfile+regex). Confirmed from the microcement docx's own breadcrumb ("الرئيسية ← خدماتنا ← مايكروسمنت") that these are new **top-level** categories, not sub-services of an existing one — each is a single one-page service with no hub/detail split.
+- Opened and read all 18 supplied images individually (not batch-guessed) before writing any alt text or picking a banner, re-verifying a few after an initial batch-call risked mis-mapping filenames to content. Noted: the 10 terrazzo photos are stock/reference imagery (a "GRAND HORIZON HOTEL" lobby, a "SIGNATURE" boutique, villa entrances) — not claimed as Tabqat's own projects; the 8 microcement photos are real project photos of one branded space ("VE"/"VELYA", with construction-in-progress details visible), and the docx's own alt text attributes them to a Tabqat project, so used as supplied.
+- Copied all 18 images into new folders `assets/my-images/our-services/terrazzo/` and `.../microcement/` (kept their already-descriptive English filenames). Created 2 banner files in `assets/my-images/banners/` by reusing one photo per service (`terrazzo-flooring.webp` ← `indoor-terrazzo-floor.webp`; `microcement-flooring.webp` ← `microcement-luxury-floor.webp`).
+- Built `terrazzo-flooring.html` from the `waterproofing-thermal-insulation-system.html` template (closest existing single-page-service shape): full docx content (intro, 4-card "why choose us" features-grid, Epoxy-vs-Cement types as 2 side-image rows, 5 applications, a terrazzo-vs-marble comparison table, a 5-step "how we execute" section as 4 side-image rows, 4-point "why طبقات" list, 5-question FAQ accordion, closing CTA), full SEO head + Service/FAQPage/BreadcrumbList JSON-LD from the docx. 9 of the 10 images used in the body (1:1, verified), the 10th reserved for the banner only.
+- Built `microcement-flooring.html` the same way: intro, 5-card features-grid, 6 "أين يُستخدم" applications (3 paired with side-images that genuinely matched — حمامات/جدران/تجاري — 3 left text-only since none of the 8 photos show a kitchen, house, or literal exterior courtyard and forcing a mismatched photo onto those headings would misrepresent them), a 7-step execution section as 4 side-image rows, 4-point "why طبقات" list, a 7-question FAQ accordion (4 from the docx's own FAQPage schema + 3 more mentioned only in the body text, merged into both the accordion and JSON-LD — same "include everything, keep schema in sync with the visible accordion" precedent from Group 5's potable-water page), closing CTA. All 8 images used, matched to the docx's own per-image alt descriptions rather than guessed (one image, showing the spiral staircase mentioned in alt #5, deliberately used both as the banner and inline in the body since excluding it would break the docx's 1:1 photo-to-alt mapping).
+- Both pages' sidebars replace the usual "sibling sub-service" nav list (neither service has siblings) with a "خدماتنا الأخرى" list linking to the other 5 top-level services, so visitors can still reach the rest of the site from either page.
+- Updated navbar: added `تيرازو` and `مايكروسمنت` links to the "خدماتنا" submenu in `components/header-home.html` and `components/header-inner.html` (now 6 items, was 4). Checked `components/offcanvas.html` — it has no services submenu, nothing to change there.
+- Updated `our-services.html`: added 2 more `.srv-card-link` cards to the existing 4-card `col-lg-3` grid (now 6, wraps 4+2 with no layout changes needed), and corrected the intro paragraph's "أربعة مجالات رئيسية" (four main areas) claim to "ستة مجالات رئيسية" (six), naming both new services.
+- Updated this file's Services Mind Map tree (added categories 7–8 under `our-services.html`) and the Pages Names table (2 new rows, marked "new, no old name" since these were never part of the original rebuild's Excel source).
+- **Investigated but deliberately did not run `embed-components.js`:** every page has its header/footer/offcanvas baked directly into its own HTML (in addition to the live `components-loader.js` JS injection), and there's a script meant to re-bake all pages after a component edit. Its regex (`/<div id="site-header">[\s\S]*?<\/div>/`) is non-greedy and would match only up to the *first* nested `</div>` inside the real multi-div header markup, not the true closing tag — running it as-is would silently truncate/corrupt the baked header on all ~60 pages. Left it un-run; the live site is unaffected since `components-loader.js` overwrites `#site-header` at runtime from the now-updated component files (this is what real visitors and Googlebot, which executes JS, actually see) — only the raw page-source fallback is stale. Flagged as a standing cleanup item rather than risking a bulk corruption to fix a cosmetic-only gap.
+- Verified: HTML tag-balance parser on both new pages (clean) and on `our-services.html` + both header components (`our-services.html` flagged one pre-existing `<body>` tag issue, confirmed via `git show HEAD` to predate this change); image-usage counted and matched against each source folder's actual file list (9/10 terrazzo, 8/8 microcement, exactly as planned); every internal `href` on both new pages resolves to a real file (20/20 each). Opened both pages plus `our-services.html` in-browser for a visual check.
+
+
 ### 2026-07-12 — size-reduction-report.md (file version of the Group 12 report)
 - Created `size-reduction-report.md` in the repo root — re-measured everything and expanded the Group 12 findings (see the Group Task 12 section above for the full delta, including the honest `.git` analysis: zero unreachable garbage, squash-only savings, don't squash before the rebuild is fully wrapped).
 
@@ -744,6 +802,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone.
 | 2026-07-12 | Group Task 14.1 — side-image pilot | epoxy-flooring-car-parks-warehouses.html | `bac8187` | Only the "مراحل التنفيذ" section markup restructured; image sources, alts, and all other sections untouched |
 | 2026-07-12 | Group Task 15 — site-wide alts + swapped-image bug fix | index.html, about-us.html, blogs.html, concrete-crack-repair-techniques.html, excavation-shoring-support.html, roof-waterproofing-thermal-insulation.html, bitumen-primer-base.html, polyfilm-insulation-membrane.html, topsel-insulation-membrane.html, insulation-drain.html, insulation-rolls.html, adhesive-materials.html, rainwater-drain.html, max-plug-hydraulic-cement.html, max-seal-super-waterproofing.html, nitoprime-zinc-rich-primer.html, renderoc-fc-repair-mortar.html, cementitious-waterproofing-products.html, construction-materials.html | `bac8187` | Alt text + (on 6 files) swapped product image `src`/title corrections only — no structural changes |
 | 2026-07-12 | Group Task 14.1 — full side-image rollout (24 pages) + margin tweak | assets/css/main.css, epoxy-flooring-car-parks-warehouses.html (margin only), bitumen-waterproofing.html, cementitious-waterproofing.html, polyurethane-waterproofing.html, acrylic-waterproofing-coating.html, polyurea-spray-waterproofing.html, pvc-waterproofing.html, epdm-waterproofing.html, polystyrene-board-thermal-insulation.html, polyurethane-board-thermal-insulation.html, rockwool-board-thermal-insulation.html, epoxy-flooring-cold-storage-freezer-rooms.html, epoxy-coating-wastewater-sewage-tanks.html, epoxy-lining-potable-water-tanks.html, epoxy-flooring-food-processing-facilities.html, anti-static-epoxy-flooring.html, epoxy-mortar-flooring-systems.html, polyurethane-injection-concrete-leak-stopping.html, epoxy-injection-concrete-repair.html, concrete-jacketing.html, carbon-fiber-strengthening.html, steel-jacketing.html, soil-injection.html, shotcrete.html, excavation-shoring.html | `89e6090` (commit right before the rollout) | Only the step-images section's markup restructured on each page (row/column wrapper + image class); image sources, alt text, and every other section untouched. `git checkout 89e6090 -- <file>` reverts any single page to its pre-rollout full-width layout |
+| 2026-07-13 | Group Task 16 — 2 new services (Terrazzo + Microcement) | terrazzo-flooring.html (new), microcement-flooring.html (new), our-services.html, components/header-home.html, components/header-inner.html, management.md, + 18 new image files under assets/my-images/our-services/{terrazzo,microcement}/ and 2 new banner files | `ddadb50` (commit before this task) | The 2 new pages + new image folders are additions — deleting the 2 `.html` files and the 2 new image folders fully removes the services. `git checkout ddadb50 -- our-services.html components/header-home.html components/header-inner.html` reverts the nav/hub changes without touching the new pages |
 
 **Note:** the commits above list `bac8187`/`6d4606e` as the pre-change references because everything from Group 14/15 onward was committed together as `6d4606e "new updates --"` (which also folded in the earlier size-report/management-arrange work). For a clean per-file rollback use `git log --oneline -- <file>` to find that file's specific last-good commit.
 
