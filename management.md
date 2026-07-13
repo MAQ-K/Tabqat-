@@ -8,13 +8,12 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 
 ## 📌 Current Status (updated 2026-07-12)
 
-**Groups 1–13 are DONE** (Word-file-driven rebuild + extra requests), all committed to git (`bac8187`). **Groups 14–15 are PENDING** — new tasks from `newtasks.md`, added 2026-07-12.
+**Groups 1–13 are DONE.** **Group 15 is DONE. Group 14 is PARTIALLY DONE:** 14.2 (H3 font size) done site-wide; 14.1 (side-image layout) has 1 pilot page built and is waiting on your look-and-feel approval before rolling out to the other ~27 detail pages. All committed to git (latest: `6d4606e`).
 
 **Active work queue:**
 | # | Item | Where tracked |
 |---|---|---|
-| 1 | **Group 14** — services pages layout edit: mixed side-image sections (14.1) + smaller H3s (14.2) | Group Task 14 below |
-| 2 | **Group 15** — site-wide image alts from `Alt.docx` | Group Task 15 below |
+| 1 | **Group 14.1** — review the pilot page (`epoxy-flooring-car-parks-warehouses.html`), then say go for the rollout to Groups 2/3/4/5/6/7 | Group Task 14 below |
 
 **Still open (standing cleanup items):**
 | # | Item | Where tracked |
@@ -474,35 +473,39 @@ User request: `ab-co-ce-pr` for about/contact/projects/certificates; the rest re
 - **Not touched:** the 5 duplicates-to-delete (still on the broken placeholder — they're getting deleted anyway); `index.html` (no breadcrumb section — homepage hero layout); `project-report.html`/`service-pages-plan.html` (internal planning docs, not real pages).
 - Verified with a full-site scan: every real page's banner path now resolves to a file that exists on disk.
 
-### Group Task 14 — Services pages layout edit (all service pages) — PENDING
-Source: `newtasks.md` (2026-07-12). Two edits across ALL service detail pages (~30 pages, Groups 2–7):
+### Group Task 14 — Services pages layout edit (all service pages) — 14.2 DONE 2026-07-12, 14.1 PILOT DONE (awaiting approval to roll out)
+Source: `newtasks.md` (2026-07-12). Two edits across ALL service detail pages (~28 pages using `.rs-services-details-wrapper`):
 
-**14.1 — Mixed image layouts (stop using only full-width wide images)**
-- Today every content image sits full-width under its section text. Change to varied layouts: convert suitable sections to the 2-column pattern the user supplied (text on one side, image beside it — `rs-service-about` section with `col-lg-6` split, `order-*` classes so mobile stacks text-first, `.img-fluid rounded shadow-lg` on the image).
-- "Images on the side is an option" — not every image must move; alternate for visual rhythm: side-image sections where a section has both text + image, keep full-width only where the image is genuinely panoramic.
-- Keep the existing `<picture>` webp+png fallbacks when converting — only the wrapper layout changes, not the image sources or alts.
-- Plan: build the pattern once on 1 pilot page → user approves the look → roll out group by group (2 → 3 → 4-system → 5 → 6 → 7), verifying rendering per page.
+**14.2 — Reduce H3 font size on services pages — ✅ DONE**
+- Root cause: base `h3` uses `--rs-fs-h3: 38px` (site-wide variable) — bigger than the 20px `.section-heading` H2 sitting right above each H3 sub-step, so the hierarchy read backwards.
+- Fix: one scoped rule in `assets/css/main.css`, `.rs-services-details-wrapper h3:not(.accordion-header)` → 17px/700/`#0d1b2a`, excluding the FAQ accordion buttons (they're also `<h3>` but sized by their own button styles). Single source of truth, same approach as the Group 11 small-laptop fix — no per-page inline styles.
+- Confirmed the wrapper class covers all 28 detail pages across Groups 2, 3, 4 (system page), 5, 6, 7.
+
+**14.1 — Mixed image layouts — pilot built, DONE on 1 page, rollout pending your approval**
+- Built the 2-column side-image pattern on **`epoxy-flooring-car-parks-warehouses.html`**: the "مراحل التنفيذ" section's 4 H3 steps + 2 images were full-width before; now steps 1–2 sit beside image 2 (image right/text left per RTL, `order-1`/`order-2` swapped for `col-lg`, text-first on mobile) and steps 3–4 sit beside image 3 in a mirrored layout. Used Bootstrap's real `.mb-4`/`.mb-lg-0` utilities (verified `.mb-30` — the class the user's example used — doesn't actually exist in this theme's CSS, would've been a silent no-op).
+- Kept the `<picture>` webp+png fallbacks, existing alts, and `img-fluid rounded shadow-lg` styling from the user's example. HTML tag-balance validated (no stray/unclosed tags introduced).
+- Section 1 (intro image) and the mid-page comparison content were deliberately left full-width — per "images on the side is an option," alternating only where a section naturally pairs one image with one block of steps.
+- **Not yet rolled out to the other ~27 pages** — holding for your look-and-feel approval on the pilot before repeating group by group (2 → 3 → 4-system → 5 → 6 → 7).
 
 | Group | Pages | Status |
 |---|---|---|
-| Pilot (1 page, pattern approval) | TBD with user | ☐ |
-| Group 2 waterproofing details (7) | | ☐ |
-| Group 3 thermal details (4) | | ☐ |
-| Group 4 system page (1) | | ☐ |
-| Group 5 epoxy details (7) | | ☐ |
-| Group 6 injection details (3) | | ☐ |
-| Group 7 support details (6) | | ☐ |
+| Pilot — epoxy-flooring-car-parks-warehouses.html | 1 | ✅ Done |
+| Group 2 waterproofing details (7) | | ☐ awaiting approval |
+| Group 3 thermal details (4) | | ☐ awaiting approval |
+| Group 4 system page (1) | | ☐ awaiting approval |
+| Group 5 epoxy details (remaining 6) | | ☐ awaiting approval |
+| Group 6 injection details (3) | | ☐ awaiting approval |
+| Group 7 support details (6) | | ☐ awaiting approval |
 
-**14.2 — Reduce H3 font size on services pages**
-- The H3 sub-step headings (مراحل التنفيذ steps etc.) render too large. Preferred fix: ONE scoped CSS rule in `main.css` targeting H3 inside the service-detail content wrapper (same single-source approach as the Group 11 small-laptop fix) — not per-page inline styles. Investigate the shared class first; fall back to per-page edits only if there's no common wrapper.
-- Status: ☐
-
-### Group Task 15 — Images ALT site-wide (Alt.docx) — PENDING
+### Group Task 15 — Images ALT site-wide (Alt.docx) — DONE 2026-07-12
 Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to all images it covers.
 
-- Note: the rebuilt service pages (Groups 2–8) already got their alts from `Alt.docx` during the rebuild. The real remaining scope is everywhere else: `index.html`, `about-us.html`, products pages (14), blog pages (4), `projects.html`, plus any service-page image the doc covers that was missed.
-- Plan: extract the full text of `Alt.docx` → build image↔alt mapping table → scan every HTML file for `<img>` with missing/empty/generic alts (`alt=""`, `alt="image"`) → apply the doc's alt where it has one, flag images the doc doesn't cover (author matching-style alts for those, same convention as during the rebuild).
-- Status: ☐
+- Extracted the full text of `Alt.docx` (278 paragraphs) — confirmed it's entirely alts for the Groups 2–8 service-page images already applied during the original rebuild (Waterheat-insulation, epoxy, service-injection, service-support folders + the 4 category hub cards). Nothing new to apply there.
+- Scanned every HTML file for `<img>` tags with a missing or generic alt (`alt=""`/`alt="image"`/`alt="img"` etc, excluding logos): found **123 problem images across 48 pages**.
+- Applied real, descriptive Arabic alt text to **74 images across 16 pages**: `index.html` (24), `about-us.html` (15), `blogs.html`/`concrete-crack-repair-techniques.html`/`excavation-shoring-support.html`/`roof-waterproofing-thermal-insulation.html` (blog sidebar thumbnails, 3 each), the 7 product pages with swapped/generic product-card images (`bitumen-primer-base.html`, `polyfilm-insulation-membrane.html`, `topsel-insulation-membrane.html`, `insulation-drain.html`, `insulation-rolls.html`, `adhesive-materials.html`, `rainwater-drain.html`, `max-plug-hydraulic-cement.html`, `max-seal-super-waterproofing.html`, `nitoprime-zinc-rich-primer.html`). `index.html`'s 6 project-gallery thumbnails got per-project alts derived from each card's own caption link text.
+- **Real bug found and fixed along the way:** on `cementitious-waterproofing-products.html` and `construction-materials.html`, the "related product" cards for 4 products (نيتوبرايمر زنك رتش / رندروك اف سي / ماكس بلج / ماكس سيل سوبر) had their **images AND titles criss-crossed** — e.g. a card linking to `nitoprime-zinc-rich-primer.html` showed the ماكس بلج photo and title instead of نيتوبرايمر's. Same swap repeated in the "related products" widget on all 4 of those products' own detail pages. Fixed the image `src` + title text on all 6 affected files to match their actual link targets — verified by opening both source images and reading the product labels on the cans/bags.
+- Remaining 49 of the original 123 "flagged" images are correctly left as `alt=""` — decorative icons (download icon next to visible "تحميل البروفايل" text, feature icons next to feature titles, generic reviewer-avatar placeholders in a review widget) where empty alt is the accessible best practice, not a gap. `thermal-insulation.html`/`waterproofing-insulation.html` initially flagged as "no alt" were a false positive from a double-quote-only regex — both already have full single-quoted alts from the Group 2/3 builds.
+- Verified: HTML tag-balance check on all 19 edited files — only 2 pre-existing (not caused by this edit) minor issues found, both confirmed present in `git show HEAD` before any change today.
 
 ---
 
@@ -536,6 +539,9 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 | 2026-07-12 | 12 | size-reduction-report.md created — file version of the Group 12 report, re-measured (incl. honest .git analysis: 0 MB garbage, squash-only savings) | ✅ Done |
 | 2026-07-12 | — | Arranged management.md: status dashboard added, stale facts corrected (git now committed, banner questions resolved), sections reordered | ✅ Done |
 | 2026-07-12 | 14, 15 | New tasks from newtasks.md arranged into Group 14 (services layout: side-images + H3 size) and Group 15 (site-wide alts from Alt.docx) — planned, not started | 📋 Pending |
+| 2026-07-12 | 14.2 | H3 font-size fix — scoped `.rs-services-details-wrapper h3` rule in main.css, covers all 28 detail pages | ✅ Done |
+| 2026-07-12 | 14.1 | Side-image layout pilot built on epoxy-flooring-car-parks-warehouses.html | ✅ Done (rollout pending approval) |
+| 2026-07-12 | 15 | Site-wide image alts from Alt.docx — 74 alts fixed across 16 pages; found + fixed a pre-existing product-card image/title swap bug on 6 pages | ✅ Done |
 
 ---
 
@@ -664,6 +670,28 @@ Source: `newtasks.md` (2026-07-12). Use `updates/Alt.docx` to add alt text to al
 - Found ~15.5MB of confirmed-unused files by cross-checking every candidate against actual HTML/CSS references (grep, not guesswork): `assets/scss/` (921KB), `assets/maps/main.css.map` (848KB), ~11MB of unused Font Awesome weights + ~1MB Remixicon demo files, ~1.8MB of unreferenced theme-template image folders, and the 5 duplicate HTML files.
 - Awaiting the user's go-ahead before deleting any of this.
 
+### 2026-07-12 — Group Task 14.2: H3 font-size fix (site-wide, one CSS rule)
+- Investigated the shared wrapper before touching anything: every service detail page (Groups 2, 3, 4-system, 5, 6, 7 — 28 pages total) uses `.rs-services-details-wrapper` around its content, and the oversized H3s came from the theme's global `--rs-fs-h3: 38px` variable, which renders bigger than the 20px `.section-heading` H2 directly above each H3 sub-step.
+- Added exactly one rule to `assets/css/main.css`: `.rs-services-details-wrapper h3:not(.accordion-header) { font-size: 17px; font-weight: 700; color: #0d1b2a; margin: 24px 0 10px; }` — excludes the FAQ accordion buttons (also `<h3>`, but sized by their own button style) so accordion headers are untouched. Same single-source-of-truth approach used for the Group 11 small-laptop breakpoint — no per-page inline styles, no SCSS touched.
+- Verified all 28 pages share the wrapper class, so the fix applies everywhere with zero page edits.
+
+### 2026-07-12 — Group Task 14.1: side-image layout pilot
+- Read the user's example markup in `newtasks.md`: a `col-lg-6` split (text one side, image the other) with `order-*` classes for mobile-first stacking, `img-fluid rounded shadow-lg` on the image.
+- Built it on `epoxy-flooring-car-parks-warehouses.html`'s "مراحل التنفيذ" section: converted the 4 H3 steps (previously stacked full-width under 2 full-width images) into 2 side-by-side rows — steps 1–2 beside image 2, steps 3–4 beside image 3, images mirrored left/right between the two rows for visual rhythm. Left the intro image (section 1) and everything else full-width, per "images on the side is an option" — only converting sections that naturally pair one image with a block of related text.
+- Caught and avoided a silent bug: the user's example used a `mb-30` class, which doesn't actually exist anywhere in this theme's CSS (grepped `assets/css/main.css` and the Bootstrap vendor file) — it would've been a no-op spacing class. Used Bootstrap's real `.mb-4`/`.mb-lg-0` utilities instead.
+- Kept the existing `<picture>` webp+png fallback, alt text, and lazy-loading exactly as they were — only the layout wrapper changed, no image sources or alts touched.
+- Verified: HTML tag-balance parse (no stray/unclosed tags), opened in browser for visual check.
+- **Holding here** — rollout to the other ~27 detail pages (Groups 2, 3, 4-system, 5 remaining 6, 6, 7) is queued but not started, pending your approval of the pilot's look.
+
+### 2026-07-12 — Group Task 15: site-wide image alts (Alt.docx)
+- Extracted the full text of `updates/Alt.docx` (278 paragraphs, read via zipfile+regex since no python-docx is installed) — confirmed every alt in it is for the Groups 2–8 service-page images, all of which were already applied during the original rebuild. Nothing new to extract from the doc itself.
+- Wrote a scan across every HTML file (excluding the 5 files already marked for deletion and 2 internal planning docs) for `<img>` tags with a missing, empty, or generic alt (`alt="image"`, `alt="img"`, `alt="photo"`, case-insensitive, logos excluded) — found 123 flagged images across 48 pages.
+- Built a source→alt mapping for every distinct image src that recurred with a generic alt, authoring descriptive Arabic alt text matching the site's existing style (company name, service/product identified, location where relevant) — applied to 74 images across 16 pages: `index.html` (24: services/products/blog/projects card images), `about-us.html` (15: same shared homepage image set), 4 blog-adjacent pages (`blogs.html`, `concrete-crack-repair-techniques.html`, `excavation-shoring-support.html`, `roof-waterproofing-thermal-insulation.html` — sidebar "related articles" thumbnails), and 10 product pages (bitumen-primer-base, polyfilm/topsel insulation membranes, insulation-drain, insulation-rolls, adhesive-materials, rainwater-drain, max-plug, max-seal-super, nitoprime-zinc-rich-primer — "related products" card images shared across multiple product pages).
+- `index.html`'s 6 homepage project-gallery images got individual alts derived from each card's own project-name caption rather than one repeated generic alt.
+- **Bug found while mapping images to pages:** on `cementitious-waterproofing-products.html` and `construction-materials.html`, the two "related product" cards for نيتوبرايمر زنك رتش / رندروك اف سي (on the cementitious page) and ماكس بلج / ماكس سيل سوبر (on the construction-materials page) had their images AND visible titles swapped with each other — e.g. the card linking to `nitoprime-zinc-rich-primer.html` displayed the ماكس بلج can photo and "ماكس بلج" as its title. The same swapped pair also appeared in the "related products" sidebar widget on all 4 of those products' own detail pages (`nitoprime-zinc-rich-primer.html`, `renderoc-fc-repair-mortar.html`, `max-plug-hydraulic-cement.html`, `max-seal-super-waterproofing.html`) and cross-linked from `rainwater-drain.html`. Verified the correct pairing by opening and reading both product photos (can/bag labels), then fixed the `src` and title text on all 6 files so every card's image and title now matches its own link target.
+- Left 49 of the original 123 flagged images untouched — confirmed by inspecting their surrounding markup that they're intentionally decorative (a download icon next to visible "تحميل البروفايل" text, feature icons next to their own feature titles, generic reviewer-avatar placeholders in a review widget) where `alt=""` is the correct accessible choice, not a gap. Also confirmed `thermal-insulation.html`/`waterproofing-insulation.html` were false positives in the initial scan (single-quoted `alt='...'` attributes that a double-quote-only regex missed) — both already have complete alts from their Group 2/3 builds.
+- Verified: ran an HTML tag-balance parser over all 19 edited files. 2 files (`excavation-shoring-support.html`, `cementitious-waterproofing-products.html`) flagged minor pre-existing tag mismatches unrelated to this edit — confirmed via `git show HEAD` that both were already present before today's changes (only `alt="..."` attribute text was touched on those lines, no tags added/removed).
+
 ### 2026-07-12 — size-reduction-report.md (file version of the Group 12 report)
 - Created `size-reduction-report.md` in the repo root — re-measured everything and expanded the Group 12 findings (see the Group Task 12 section above for the full delta, including the honest `.git` analysis: zero unreachable garbage, squash-only savings, don't squash before the rebuild is fully wrapped).
 
@@ -701,6 +729,11 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone.
 | 2026-07-11 | Group Task 13 — banners on all remaining pages | 7 pages (path fix), certificates.html, blog-rainfilters.html, our-services.html, + 14 product pages | `c39ae73` | Only `data-background` attribute values changed — no images renamed/moved this round |
 | 2026-07-11 | Group Task 6 follow-up — concrete-repair-injection.html hub restyle | concrete-repair-injection.html | `c39ae73` | Only the card-grid section markup replaced; no data/links/SEO changed |
 | 2026-07-12 | size-reduction-report.md + management.md arrange | size-reduction-report.md (new), management.md | `bac8187` | Documentation only — no site files touched |
+| 2026-07-12 | Group Task 14.2 — H3 font-size fix | assets/css/main.css | `bac8187` | 1 additive scoped rule only — no existing rules changed or removed |
+| 2026-07-12 | Group Task 14.1 — side-image pilot | epoxy-flooring-car-parks-warehouses.html | `bac8187` | Only the "مراحل التنفيذ" section markup restructured; image sources, alts, and all other sections untouched |
+| 2026-07-12 | Group Task 15 — site-wide alts + swapped-image bug fix | index.html, about-us.html, blogs.html, concrete-crack-repair-techniques.html, excavation-shoring-support.html, roof-waterproofing-thermal-insulation.html, bitumen-primer-base.html, polyfilm-insulation-membrane.html, topsel-insulation-membrane.html, insulation-drain.html, insulation-rolls.html, adhesive-materials.html, rainwater-drain.html, max-plug-hydraulic-cement.html, max-seal-super-waterproofing.html, nitoprime-zinc-rich-primer.html, renderoc-fc-repair-mortar.html, cementitious-waterproofing-products.html, construction-materials.html | `bac8187` | Alt text + (on 6 files) swapped product image `src`/title corrections only — no structural changes |
+
+**Note:** the commits above list `bac8187`/`6d4606e` as the pre-change references because everything from Group 14/15 onward was committed together as `6d4606e "new updates --"` (which also folded in the earlier size-report/management-arrange work). For a clean per-file rollback use `git log --oneline -- <file>` to find that file's specific last-good commit.
 
 **How to revert a task:**
 1. Find the task's row in the Revert Ability table.
