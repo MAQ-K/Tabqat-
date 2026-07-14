@@ -48,3 +48,18 @@ i want u to use it and add alt to all images on this file
 file :
 [text](updates/Alt.docx)
 
+~~~~~~~~~~~~~~~~~ from here ~~~~~~~~~~~~~~~~~~~~~~~
+
+### Group tasks —— profile btn 
+i want a profile btn open/download
+in all pages navbars
+fix the already exist one and add it to all pages
+in ur way fix and make sure the sidebar btn working in all pages 
+
+### Group tasks —— sidebar content 
+fix side bar content and make it look a bit modern 
+
+
+
+
+

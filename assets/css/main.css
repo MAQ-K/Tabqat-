@@ -2238,6 +2238,7 @@ textarea:focus {
 }
 .offcanvas-area.info-open {
   inset-inline-end: 0%;
+  z-index: 1001; /* above .whatsapp-float (1000) so the panel's own contact info, incl. email, isn't hidden behind it */
 }
 .offcanvas-area .mean-container .mean-nav ul li.active > a {
   color: var(--rs-theme-orange);
@@ -5594,13 +5595,21 @@ html.lenis body {
   transition: all 0.3s ease;
 }
 
-/* بعد السكروول */
-.rs-header-one .rs-header-inner.sticky {
-  background-color: #000;   /* أسود بعد النزول */
+/* بعد السكروول — JS يضيف class="rs-sticky" على #header-sticky (مو .rs-header-inner)،
+   والخلفية السوداء الفعلية معرّفة في .rs-sticky بآخر الملف. هذا القسم يتحكم فقط
+   بلون النصوص والأيقونة بعد ما تصير الخلفية غامقة. */
+.rs-header-one.rs-sticky .rs-header-inner a {
+  color: #fff;   /* النصوص تصير بيضاء */
 }
 
-.rs-header-one .rs-header-inner.sticky a {
-  color: #fff;   /* النصوص تصير بيضاء */
+/* أيقونة القائمة الجانبية (hamburger) لونها ثابت SVG، لازم تتغير يدوي بعد السكروول */
+.rs-header-one.rs-sticky .bar-icon svg path {
+  fill: #fff;
+}
+
+/* يمنع أيقونة القائمة الجانبية من الانضغاط لعرض صفري لو الهيدر ضاق (شاشات لابتوب صغيرة) */
+.rs-header-one .rs-header-hamburger {
+  flex-shrink: 0;
 }
 
 @media only screen and (max-width: 1600px) {
@@ -25931,6 +25940,43 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, li {
 .side-img {
     margin: 20px 0;
 }
+
+
+/* ── Offcanvas mobile nav menu
+   Static, modern replacement for the theme's empty meanmenu placeholder
+   (meanmenu never actually rendered inside the offcanvas panel).
+   Usage: <div class="offcanvas-menu-block"><ul class="offcanvas-nav-list">...
+   ─────────────────────────────────────────────────── */
+.offcanvas-menu-block { margin-bottom: 25px; }
+.offcanvas-nav-list { list-style: none; padding: 0; margin: 0; }
+.offcanvas-nav-list > li { border-bottom: 1px solid #eee; }
+.offcanvas-nav-list > li:last-child { border-bottom: none; }
+.offcanvas-nav-list > li > a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 2px;
+    color: #0d1b2a;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color .2s;
+}
+.offcanvas-nav-list > li > a:hover { color: #3fada2; }
+.offcanvas-nav-list > li > a i { font-size: 18px; color: #888; transition: transform .3s, color .3s; }
+.offcanvas-nav-list > li > a[aria-expanded="true"] { color: #3fada2; }
+.offcanvas-nav-list > li > a[aria-expanded="true"] i { transform: rotate(180deg); color: #3fada2; }
+.offcanvas-submenu { list-style: none; padding: 2px 0 8px 16px; margin: 0; border: none; }
+.offcanvas-submenu li { border: none; }
+.offcanvas-submenu li a {
+    display: block;
+    padding: 8px 0;
+    color: #666;
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: color .2s;
+}
+.offcanvas-submenu li a:hover { color: #3fada2; }
 
 
 /* ── END SERVICE PAGE COMPONENTS ─────────────────── */
