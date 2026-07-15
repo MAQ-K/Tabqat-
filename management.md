@@ -8,7 +8,9 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 
 ## 📌 Current Status (updated 2026-07-15)
 
-**Groups 1–22 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12. Group 16 (2 new services: تيرازو + مايكروسمنت) and Group 17 (profile open/download button) finished 2026-07-13. Group 18 replaced five service breadcrumb-banner families with the supplied WebP assets on 2026-07-13. Group 19 broke up long monotonous runs of side-by-side step images (3+ in a row) on 6 pages by converting select rows to full-width, on 2026-07-14. Group 20 modernized the old orange-accented legacy `.sidebar-widget` sidebar (36 pages) into the site's established teal `.sidebar-card`/`.sidebar-nav-list` system, on 2026-07-14. Group 21 fixed index.html's missing Terrazzo/Microcement nav links, discovered the mobile offcanvas menu's navigation section was genuinely empty site-wide (a dead `meanmenu` placeholder), and gave every page a real working modern nav menu inside the offcanvas — on 2026-07-14. **Group 22 (2026-07-15) fixed two site-wide sticky-header/offcanvas bugs: the hamburger icon going invisible after scrolling (dead CSS selector never fired), and the offcanvas panel's email link being hidden behind the floating WhatsApp button (z-index conflict).** Nothing active right now.
+**Groups 1–22 are all DONE.** Group 14 (services layout: H3 size + side-image rows) finished its full rollout on 2026-07-12. Group 16 (2 new services: تيرازو + مايكروسمنت) and Group 17 (profile open/download button) finished 2026-07-13. Group 18 replaced five service breadcrumb-banner families with the supplied WebP assets on 2026-07-13. Group 19 broke up long monotonous runs of side-by-side step images (3+ in a row) on 6 pages by converting select rows to full-width, on 2026-07-14. Group 20 modernized the old orange-accented legacy `.sidebar-widget` sidebar (36 pages) into the site's established teal `.sidebar-card`/`.sidebar-nav-list` system, on 2026-07-14. Group 21 fixed index.html's missing Terrazzo/Microcement nav links, discovered the mobile offcanvas menu's navigation section was genuinely empty site-wide (a dead `meanmenu` placeholder), and gave every page a real working modern nav menu inside the offcanvas — on 2026-07-14. Group 22 (2026-07-15) fixed two site-wide sticky-header/offcanvas bugs: the hamburger icon going invisible after scrolling (dead CSS selector never fired), and the offcanvas panel's email link being hidden behind the floating WhatsApp button (z-index conflict).
+
+**Group 23 is NEW and not yet started (logged 2026-07-15 from `assets/Tabqat Review.docx`, a client review-round feedback doc):** 14 items covering image swaps/deletes/resizes and content fixes on 12 specific pages (microcement, terrazzo, concrete-jacketing, steel-jacketing, soil-injection, epoxy-coating-wastewater-sewage-tanks, anti-static-epoxy-flooring, both waterproofing hubs, bitumen-waterproofing, epdm-waterproofing, thermal-insulation hub, waterproofing-thermal-insulation-system) plus 3 site-wide items (profile link everywhere, bigger FAQ font everywhere, stop using duplicated-png-instead-of-webp images). Full breakdown in Group Task 23 below. One item (23.12, removing the perlite card from the thermal-insulation hub) needs a scope confirmation from the user before implementation — see its note. The docx also contains 11 embedded images (new banners etc.) not yet extracted into `assets/`.
 
 **Still open (standing cleanup items):**
 | # | Item | Where tracked |
@@ -647,6 +649,89 @@ Source: user report with 2 screenshots — "in the navbar in sub pages the Offca
 **Scope:** both fixes are single, surgical CSS-only changes in `main.css`, no HTML touched anywhere — they apply site-wide automatically since every page shares the same stylesheet (no 60-page propagation needed this time).
 
 **Verified:** re-checked JS (`main.js` lines 378-383) to confirm the exact class name (`rs-sticky`) before writing the fix, rather than guessing; confirmed `blogs.html`'s hamburger markup was intact and unmodified by any earlier bulk edit (ruling out accidental corruption as the cause before landing on the CSS-selector diagnosis).
+
+### Group Task 23 — Review-round fixes from client feedback doc — NEW 2026-07-15 — PENDING
+Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 embedded reference images — mostly the "new banner" attachments called out below — still sitting in the docx's `word/media/`, not yet pulled into `assets/`).
+
+| # | Page | Task summary | Status |
+|---|---|---|---|
+| 23.1 | microcement-flooring.html | Banner swap, FAQ section fixes, image-count trims | ☐ Pending |
+| 23.2 | terrazzo-flooring.html | Title rename, banner swap, table + FAQ styling, image trim | ☐ Pending |
+| 23.3 | concrete-jacketing.html | Re-pair execution-stage text against the 2 images | ☐ Pending |
+| 23.4 | steel-jacketing.html | Image format swap + duplicate-image delete | ☐ Pending |
+| 23.5 | soil-injection.html | Rewrite intro paragraph, reposition image #3 | ☐ Pending |
+| 23.6 | epoxy-coating-wastewater-sewage-tanks.html | Delete image #4 | ☐ Pending |
+| 23.7 | anti-static-epoxy-flooring.html | Resize image #2 to square, delete duplicate image | ☐ Pending |
+| 23.8 | waterproofing-thermal-insulation.html (hub) | Swap the "waterproofing" (العزل المائي) image | ☐ Pending |
+| 23.9 | bitumen-waterproofing.html | Fix sidebar dropping below content at page bottom | ☐ Pending |
+| 23.10 | waterproofing-insulation.html (hub) | Swap the cementitious waterproofing image | ☐ Pending |
+| 23.11 | epdm-waterproofing.html | Reflow مزايا/تطبيقات EPDM sections onto 2 lines so they're not too long | ☐ Pending |
+| 23.12 | thermal-insulation.html (hub) | Remove the "العزل بالبيرلايت" card; replace every service card image with one pulled from that service's own page | ☐ Pending |
+| 23.13 | waterproofing-thermal-insulation-system.html | Image reordering/resizing, delete duplicate, add icon for feature #2 | ☐ Pending |
+| 23.14 | Site-wide (all pages) | Add profile link everywhere, enlarge FAQ question font site-wide, fix the png-duplicate-instead-of-original-webp bug | ☐ Pending |
+
+**Per-page detail (translated from the docx, tasks kept exactly as written — no interpretation applied yet):**
+
+**23.1 — microcement-flooring.html**
+- [ ] Change the page banner (new banner image is attached in the docx).
+- [ ] Section "لماذا يختار عملاؤنا المايكروسمنت؟" (why clients choose microcement) — add an icon for the 4th feature/benefit.
+- [ ] Section "الأسئلة الشائعة" (FAQ) — question font size is too small compared to the rest of the page.
+- [ ] Delete FAQ question: "ما سعر متر مايكروسمنت بالرياض؟"
+- [ ] Delete FAQ question: "كم تستغرق مدة التنفيذ؟"
+- [ ] Section "تطبيقات المايكروسيمنت – أين يستخدم؟" — keep only 2 images (delete the 3rd), and put 3 use-cases in front of each remaining image.
+- [ ] Section "كيف تنفذ طبقات المايكروسمنت؟" — keep only 3 images (delete the 4th), and split the 7 execution stages across the 3 remaining images.
+
+**23.2 — terrazzo-flooring.html**
+- [ ] Rename the page title from "تيرازو" to "بلاط تيرازو".
+- [ ] Change the page banner (new banner image is attached in the docx).
+- [ ] Section "التيرازو أم الرخام؟ أيهما أفضل؟" — reformat the comparison table to better highlight the comparison.
+- [ ] Section "كيف تُنفّذ طبقات أرضيات التيرازو؟" — keep only 3 images (delete the 4th).
+- [ ] Section "الأسئلة الشائعة" (FAQ) — question font size is too small.
+
+**23.3 — concrete-jacketing.html**
+- [ ] Section "كيف يُنفَّذ القميص الخرساني؟" — put the "التقييم الهندسي الأولي وتجهيز السطح" (initial engineering assessment + surface prep) stage in front of image 1; put the "التسليح والصب" (reinforcement + pouring) and "الفحص والتسليم" (inspection + handover) stages in front of image 2.
+
+**23.4 — steel-jacketing.html**
+- [ ] Section "متى يكون التدعيم بقطاعات الحديد هو الخيار الأنسب؟" — swap `1.png` for `1.webp`, then delete `1.png`.
+- [ ] Section "مرحلة التنفيذ" — delete `2.png` (it duplicates another image already used in the same section).
+
+**23.5 — soil-injection.html**
+- [ ] Replace the page intro paragraph. Old text: *"حقن التربة هي عملية هندسية متخصصة تهدف إلى رفع كفاءة التربة الضعيفة أو المتراخية لتصبح قادرة على حمل المنشأ وفق متطلبات التصميم الإنشائي. تُنفّذ شركة طبقات المتعددة هذه الخدمة بالرياض للمباني التي تعاني من هبوط في الأساسات أو تشققات ناتجة عن ضعف التربة، وتشمل أيضًا المشاريع الجديدة التي تتطلب تحسين التربة قبل بدء البناء."* New text: *"إذا كان مبناك يعاني من هبوط الأساسات أو ظهرت فيه تشققات متصاعدة — فأنت تحتاج حقن التربة لا مجرد ترميم مؤقت للجدران. حقن التربة يُعالج السبب الحقيقي: التربة الضعيفة أو المتكهفة تحت الأساسات. يُضخ خليط أسمنتي أو مواد بوليمرية تحت ضغط مُحكم ليملأ الفراغات ويُصلّب التربة ويوقف الهبوط من جذوره."*
+- [ ] Use image #3, sized square, placed in front of the "مراحل تنفيذ حقن التربة" (soil-injection execution stages) section.
+
+**23.6 — epoxy-coating-wastewater-sewage-tanks.html**
+- [ ] Delete image #4 from the page.
+
+**23.7 — anti-static-epoxy-flooring.html**
+- [ ] Use image #2 at square size.
+- [ ] Delete the duplicated image.
+
+**23.8 — waterproofing-thermal-insulation.html (hub)**
+- [ ] Change the "العزل المائي" (waterproofing) card/section image.
+
+**23.9 — bitumen-waterproofing.html**
+- [ ] Fix the bug where the sidebar drops below the main content at the bottom of the page.
+
+**23.10 — waterproofing-insulation.html (hub)**
+- [ ] Change the "العزل الأسمنتي" (cementitious waterproofing) card/section image.
+
+**23.11 — epdm-waterproofing.html**
+- [ ] Improve the shape/layout of the "مزايا لفات EPDM" (EPDM advantages) and "تطبيقات لفات EPDM" (EPDM applications) sections — split each list across two lines so entries aren't too long/cramped.
+
+**23.12 — thermal-insulation.html (hub)**
+- [ ] Remove the "العزل بالبيرلايت" (perlite insulation) page/card from this hub. ⚠️ Note: `perlite-thermal-insulation.html` itself was fully built in Group 3 (2026-07-11) — confirm with the user whether this means unlisting the card only (page stays live, just unlinked from the hub) or deleting the page entirely, before implementing.
+- [ ] Replace every remaining service card's image on this hub page with an image pulled from inside that service's own detail page (instead of whatever generic image is currently used).
+
+**23.13 — waterproofing-thermal-insulation-system.html**
+- [ ] Use image #3 instead of image #2 in its current slot.
+- [ ] Use image #2 at square size, placed in front of the "تطبيقات نظام العزل المائي والحراري" (combined system applications) section.
+- [ ] Delete the duplicated image.
+- [ ] Add an icon for feature #2 in the benefits section.
+
+**23.14 — Site-wide (all pages)**
+- [ ] Add the profile link/button on every page (docx says "in all pages" — cross-check against Group 17's existing profile button work and standing cleanup item #7, since `assets/profile.pdf` still doesn't exist).
+- [ ] Increase the FAQ question font size on every page (docx says "in all pages" — broader than just 23.1/23.2's specific FAQ mentions).
+- [ ] Fix the bug where a duplicate `.png` copy of an image was generated and used on pages instead of the original `.webp` — find and correct every page doing this.
 
 ---
 
