@@ -239,6 +239,7 @@ Sidebar Toggle
                 autoplay: autoplay,  // data-autoplay="true" => Delay | .swiper-slide | data-swiper-autoplay="2000">
                 direction: direction,
                 effect: effect,
+                fadeEffect: { crossFade: true }, // without this, the outgoing slide's text can stay stacked on top of the incoming one (loop + fade + pagination-jump bug)
                 enabled: fridgeMovement,
                 grabCursor: grabCursor,
                 oneWayMovement: oneWayMovement,
