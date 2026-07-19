@@ -5595,9 +5595,14 @@ html.lenis body {
   transition: all 0.3s ease;
 }
 
-/* بعد السكروول — JS يضيف class="rs-sticky" على #header-sticky (مو .rs-header-inner)،
-   والخلفية السوداء الفعلية معرّفة في .rs-sticky بآخر الملف. هذا القسم يتحكم فقط
-   بلون النصوص والأيقونة بعد ما تصير الخلفية غامقة. */
+/* بعد السكروول — JS يضيف class="rs-sticky" على #header-sticky (مو .rs-header-inner).
+   .rs-header-inner نفسه عنده خلفية بيضاء ثابتة (position:fixed مستقلة) فوق العنصر
+   الأب، فلازم نغيّر خلفيته هو بالذات، مو بس نعتمد على خلفية .rs-sticky بالأب اللي
+   ما تظهر أصلاً لأنها متغطّية بخلفية .rs-header-inner البيضاء. */
+.rs-header-one.rs-sticky .rs-header-inner {
+  background-color: rgb(0, 8, 7);   /* نفس لون .rs-sticky عشان التناسق */
+}
+
 .rs-header-one.rs-sticky .rs-header-inner a {
   color: #fff;   /* النصوص تصير بيضاء */
 }
@@ -25774,8 +25779,13 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, li {
 .check-list li{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #f3f3f3;font-size:15px;color:#444;line-height:1.8}
 .check-list li:last-child{border-bottom:none}
 .check-list li::before{content:"\ea73";font-family:"remixicon";color:#3fada2;font-size:20px;flex-shrink:0;margin-top:1px}
+.check-list-2col{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.check-list-2col li{border-bottom:none;padding:10px 0}
+@media(max-width:575px){.check-list-2col{grid-template-columns:1fr}}
 .info-box{background:#eff9f8;border:1px solid #b6e8e4;border-radius:12px;padding:22px 26px;font-size:15px;color:#1b4332;line-height:1.9}
 .info-box i{font-size:22px;color:#3fada2;margin-left:10px;vertical-align:middle}
+.accordion .accordion-button{font-size:18px;font-weight:700;color:#0d1b2a}
+@media(max-width:575px){.accordion .accordion-button{font-size:16.5px}}
 .srv-sidebar{position:sticky;top:100px}
 .sidebar-cta{display:block;width:100%;padding:16px;background:linear-gradient(135deg,#3fada2,#2f7d75);color:#fff;font-size:18px;font-weight:700;text-align:center;border-radius:12px;border:none;cursor:pointer;text-decoration:none;margin-bottom:28px;transition:all .3s ease;box-shadow:0 4px 16px rgba(63,173,162,.35)}
 .sidebar-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(63,173,162,.45);color:#fff}
