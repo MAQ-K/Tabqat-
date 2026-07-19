@@ -6,7 +6,16 @@
         xhr.open('GET', url, false); // synchronous — header/footer are in DOM before jQuery/main.js run
         xhr.send(null);
         if (xhr.status === 200) {
-            el.innerHTML = xhr.responseText;
+            // Local dev servers with live-reload (e.g. VS Code "Live Server") inject their
+            // own <script> into every .html response, including this XHR fetch — and it can
+            // land mid-markup (e.g. inside an inline <svg>), corrupting the fragment when set
+            // via innerHTML. Strip any such injected block before using the response. This is
+            // a no-op in production, where responses never contain it.
+            var html = xhr.responseText.replace(
+                /<!--\s*Code injected by live-server\s*-->[\s\S]*?<\/script>/gi,
+                ''
+            );
+            el.innerHTML = html;
         }
     }
 

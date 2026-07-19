@@ -5600,16 +5600,7 @@ html.lenis body {
    الأب، فلازم نغيّر خلفيته هو بالذات، مو بس نعتمد على خلفية .rs-sticky بالأب اللي
    ما تظهر أصلاً لأنها متغطّية بخلفية .rs-header-inner البيضاء. */
 .rs-header-one.rs-sticky .rs-header-inner {
-  background-color: rgb(0, 8, 7);   /* نفس لون .rs-sticky عشان التناسق */
-}
-
-.rs-header-one.rs-sticky .rs-header-inner a {
-  color: #fff;   /* النصوص تصير بيضاء */
-}
-
-/* أيقونة القائمة الجانبية (hamburger) لونها ثابت SVG، لازم تتغير يدوي بعد السكروول */
-.rs-header-one.rs-sticky .bar-icon svg path {
-  fill: #fff;
+  background-color: #fff;   /* أبيض بعد السكروول برضه، بدون تغيير لون */
 }
 
 /* يمنع أيقونة القائمة الجانبية من الانضغاط لعرض صفري لو الهيدر ضاق (شاشات لابتوب صغيرة) */

@@ -731,7 +731,7 @@ Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 
 **23.14 — Site-wide (all pages)**
 - [ ] Add the profile link/button on every page (docx says "in all pages" — cross-check against Group 17's existing profile button work and standing cleanup item #7, since `assets/profile.pdf` still doesn't exist).
 - [ ] Increase the FAQ question font size on every page (docx says "in all pages" — broader than just 23.1/23.2's specific FAQ mentions).
-- [ ] Fix the bug where a duplicate `.png` copy of an image was generated and used on pages instead of the original `.webp` — find and correct every page doing this.
+- [x] Fix the bug where a duplicate `.png` copy of an image was generated and used on pages instead of the original `.webp` — find and correct every page doing this. **DONE 2026-07-19.**
 
 ---
 
@@ -776,6 +776,7 @@ Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 
 | 2026-07-14 | 20 | Modernized the legacy orange-accented `.sidebar-widget` sidebar on 36 pages (27 core + 6 product + 3 blog) into the site's teal `.sidebar-card`/`.sidebar-nav-list` system; removed a dead "Filter by price" widget on 6 product pages | ✅ Done |
 | 2026-07-14 | 21 | Fixed index.html's missing 2 services in its own inline navbar; discovered the offcanvas mobile menu was genuinely empty everywhere (dead meanmenu placeholder) and built a real modern nav menu, applied to 64 pages + index.html's previously-empty offcanvas + the shared component | ✅ Done |
 | 2026-07-15 | 22 | Fixed sticky-header hamburger icon going invisible after scroll (dead CSS selector never matched what JS actually applies) and the offcanvas email link being hidden behind the floating WhatsApp button (z-index conflict) — 2 CSS-only site-wide fixes | ✅ Done |
+| 2026-07-19 | 23.14 | Site-wide png-duplicate-instead-of-webp bug fixed: 90 duplicate `.png`/`.jpg` files deleted from `assets/my-images/our-services/`, all references (meta og:image/twitter:image, `<img src>`, `<picture><source>`) repointed to the existing `.webp` across 30 pages | ✅ Done |
 
 ---
 
@@ -1007,6 +1008,15 @@ Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 
 - Corrected stale facts: the "everything is uncommitted on top of c39ae73" warnings (all work is now committed through `bac8187`), the our-services banner open question (resolved by Group 13), the "Groups 9–12" milestone wording (13 exists), and the banner reference list.
 - Reordered into clear sections: Status → Context → Brief/Workflow → Reference (mind map + names tables) → Group Tasks 1–13 (each stamped with its DONE date) → Timeline → History → Revert Ability. Cleaned the leftover empty-bullet notes block and placeholder headings. No information was removed — documentation-only change, no site files touched.
 
+### 2026-07-19 — Group Task 23.14 (partial): png-duplicate-instead-of-webp bug fixed site-wide
+- User asked directly to find the duplicated `.png`+`.webp` image pairs under `assets/my-images/our-services/`, delete the `.png`, and make sure pages actually serve the `.webp` — this is exactly the 3rd bullet of the already-logged, still-pending Group Task 23.14.
+- Scanned every folder under `our-services/` for files sharing a basename with only the extension differing (`.png`/`.jpg` vs `.webp`) — found 90 true duplicate pairs (not the whole folder: root-level `Waterheat-insulation/1.png, 11.png, 2.png, 22.png, 3.jpg, 33.jpg` were correctly left alone since they have no `.webp` counterpart and are the only copy of those images).
+- Two usage patterns existed on pages: (a) `<picture><source srcset="X.webp"><img src="X.png"></picture>` — webp was already the primary source, png was just the fallback `<img>`; (b) plain `<img src="X.png">` with no picture wrapper at all and no webp used anywhere (this second pattern is the actual "bug" — pages fully ignoring an existing lighter webp). Also fixed `og:image`/`twitter:image` meta tags, which universally still pointed at the `.png`.
+- Fixed by literal-string replacing every `our-services/.../X.(png|jpg)` reference with `X.webp` across all 68 root/`components` HTML files (30 files actually contained a match), then deleting all 90 now-unreferenced `.png`/`.jpg` files. Verified zero remaining references to any deleted path (checked HTML, JS, CSS, MD) and zero remaining true duplicates in the folder before deleting.
+- Left the `<picture><source></picture>` wrapper markup itself in place on the ~20 pages that had it (both `source` and `img` now point at the same `.webp` — redundant but harmless) rather than restructuring markup that wasn't part of the ask; simplifying those to a plain `<img>` is a small optional follow-up, not done here.
+- Noted in passing: `assets/css/main.css` had an unrelated uncommitted change (sticky-header background color rule) already sitting in the working tree at the start of this task, not made by this task — left untouched.
+- Checked off the 3rd bullet of Group Task 23.14 (`png-duplicate-instead-of-webp bug`) in the Group Tasks table; the other two 23.14 bullets (profile link, FAQ font size) remain pending, as does the rest of Group Task 23.
+
 ---
 
 ## ⏪ Revert Ability
@@ -1047,6 +1057,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone.
 | 2026-07-14 | Group Task 20 — modernize legacy sidebar (36 pages) | 27 core service detail pages, adhesive-materials.html, cementitious-waterproofing-products.html, construction-materials.html, insulation-drain.html, insulation-rolls.html, product-rain.html, concrete-crack-repair-techniques.html, excavation-shoring-support.html, roof-waterproofing-thermal-insulation.html | `949f8dc` (commit before this task) | Only sidebar wrapper/list classes changed (`.sidebar-widget` system → `.sidebar-card`/`.sidebar-nav-list`) plus removal of a dead commented-out widget on 6 product pages; every link/href/label preserved. `git checkout 949f8dc -- <file>` reverts any single page to its old-theme sidebar |
 | 2026-07-14 | Group Task 21 — index.html nav gap + offcanvas mobile menu fix | index.html, components/offcanvas.html, assets/css/main.css, + all 64 pages with a baked offcanvas copy | `949f8dc` (commit before this task) | index.html: 2 new `<li>` links + the previously-empty offcanvas div now baked with full content. All other pages: only the `.mobile-menu` empty-nav block replaced with a real nav list, plus an inserted profile-download block; no other content touched. `git checkout 949f8dc -- <file>` reverts any single file |
 | 2026-07-15 | Group Task 22 — sticky header hamburger + offcanvas email visibility | assets/css/main.css | `949f8dc` (commit before this task) | 2 corrected/added CSS rules only (sticky selector fix + hamburger fill + flex-shrink; offcanvas z-index bump) — no HTML changed on any page. `git checkout 949f8dc -- assets/css/main.css` reverts (would also undo Group 19/20/21's CSS additions since they're in the same file — use `git diff 949f8dc -- assets/css/main.css` to isolate just this change if a partial revert is needed) |
+| 2026-07-19 | Group Task 23.14 (partial) — png-duplicate-instead-of-webp bug fix | 30 HTML pages (all `<img>`/`<source>`/meta og:image/twitter:image refs repointed to `.webp`), 90 deleted files under `assets/my-images/our-services/` (see full path list in the 2026-07-19 History entry above) | `91974e1` (commit before this task) | Deletions can't be un-deleted by `git checkout` alone since the files are gone from the working tree — use `git checkout 91974e1 -- assets/my-images/our-services/` to restore all 90 png/jpg files, plus `git checkout 91974e1 -- <page>.html` per page to revert its refs back to `.png`/`.jpg`. No content/text changed on any page, only image-reference attributes. |
 
 **Note:** the commits above list `bac8187`/`6d4606e` as the pre-change references because everything from Group 14/15 onward was committed together as `6d4606e "new updates --"` (which also folded in the earlier size-report/management-arrange work). For a clean per-file rollback use `git log --oneline -- <file>` to find that file's specific last-good commit.
 
