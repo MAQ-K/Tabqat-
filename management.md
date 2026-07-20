@@ -24,6 +24,8 @@ This file (renamed from `the-rebuild.md`) is the working log for the Tabqat webs
 | 7 | `assets/profile.pdf` doesn't exist — every profile-download button on the site (sidebar widget, footer, and the new navbar/offcanvas buttons) is wired correctly but 404s until the actual PDF is uploaded to that path | Group Task 17 note |
 | 8 | `components/header-home.html` is dead code — no page sets `data-header="home"` so it's never loaded live; either wire a page to use it or delete it | Group Task 17 note |
 
+**Latest update (2026-07-20):** Added compact in-content conversion CTAs to the 37 service pages only. The shared script classifies long detail pages by article-text length and inserts two CTAs at spaced points; shorter detail pages and service hubs receive one. Existing sidebar CTAs remain unchanged. Styling is responsive and shared through `assets/css/main.css`.
+
 ---
 
 ## 🧠 READ THIS FIRST — Full Context (written so a fresh session can pick up with zero memory)
@@ -739,6 +741,7 @@ Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 
 
 | Date | Group | Task | Status |
 |---|---|---|---|
+| 2026-07-20 | — | Added 1 compact in-content CTA to short service pages and 2 to long service detail pages; existing sidebar CTA preserved | ✅ Done |
 | 2026-07-09 | — | Set up the-rebuild.md structure | ✅ Done |
 | 2026-07-09 | — | Services mind map + old→new page names table (from Excel) | ✅ Done |
 | 2026-07-09 | — | Defined per-page workflow (content pass + SEO pass) | ✅ Done |
@@ -1017,6 +1020,13 @@ Source: `assets/Tabqat Review.docx` (extracted via python-docx; doc also has 11 
 - Noted in passing: `assets/css/main.css` had an unrelated uncommitted change (sticky-header background color rule) already sitting in the working tree at the start of this task, not made by this task — left untouched.
 - Checked off the 3rd bullet of Group Task 23.14 (`png-duplicate-instead-of-webp bug`) in the Group Tasks table; the other two 23.14 bullets (profile link, FAQ font size) remain pending, as does the rest of Group Task 23.
 
+### 2026-07-20 — Service-page in-content CTAs
+- Added a shared, service-only inline CTA component through `assets/js/main.js`; its explicit allowlist covers the 37 pages in the Services mind map and excludes products, blogs, projects, and general pages.
+- Long detail pages (at least 2,500 characters of article text) receive two CTAs placed at approximately 38% and 76% of the content flow. Short detail pages and service hubs receive one CTA.
+- Each CTA offers WhatsApp and telephone actions, uses accessible labels and keyboard focus styles, and collapses into full-width stacked buttons below 768px. Reduced-motion preferences are respected.
+- Preserved every existing sidebar CTA unchanged. Added only the shared responsive styles in `assets/css/main.css`; no service copy, SEO metadata, URLs, or HTML files were modified.
+- Validation: `node --check assets/js/main.js` and `git diff --check` passed. Browser rendering could not be run because no browser runtime was available in this environment.
+
 ---
 
 ## ⏪ Revert Ability
@@ -1027,6 +1037,7 @@ Each entry below is a checkpoint to roll back to if a task needs to be undone.
 
 | Date | Task | Files touched | Revert reference | Notes |
 |---|---|---|---|---|
+| 2026-07-20 | Service-page in-content CTAs | assets/js/main.js, assets/css/main.css, management.md | `331b656` | Shared allowlisted component only. Restoring the two asset files from this commit removes all new CTAs without touching any service HTML page. |
 | 2026-07-09 | Set up the-rebuild.md | the-rebuild.md | n/a | Initial doc, nothing to revert |
 | 2026-07-09 | Group Task 1 — SEO meta tags | index.html, about-us.html, certificates.html, projects.html, blogs.html, contact-us.html | `6dd5282` | `git checkout 6dd5282 -- <file>` restores the pre-SEO head for any of the 6 files |
 | 2026-07-09 | Group Task 4 — waterproofing-thermal-insulation.html (content + SEO) | waterproofing-thermal-insulation.html, waterproofing-insulation.html, thermal-insulation.html | `c39ae73` | `git checkout c39ae73 -- <file>` restores the pre-rebuild version |

@@ -842,3 +842,98 @@ Sidebar Toggle
 
 })(jQuery);
 
+/* Service-page inline CTAs.
+ * Kept here so every service page gets the same component while product,
+ * project, blog, and general pages remain untouched.
+ */
+(function () {
+    'use strict';
+
+    const servicePages = new Set([
+        'our-services.html',
+        'waterproofing-insulation.html', 'bitumen-waterproofing.html',
+        'cementitious-waterproofing.html', 'polyurethane-waterproofing.html',
+        'acrylic-waterproofing-coating.html', 'polyurea-spray-waterproofing.html',
+        'pvc-waterproofing.html', 'epdm-waterproofing.html',
+        'thermal-insulation.html', 'perlite-thermal-insulation.html',
+        'polystyrene-board-thermal-insulation.html',
+        'polyurethane-board-thermal-insulation.html',
+        'rockwool-board-thermal-insulation.html',
+        'waterproofing-thermal-insulation.html',
+        'waterproofing-thermal-insulation-system.html',
+        'epoxy-flooring-coating.html', 'epoxy-flooring-car-parks-warehouses.html',
+        'epoxy-flooring-cold-storage-freezer-rooms.html',
+        'epoxy-coating-wastewater-sewage-tanks.html',
+        'epoxy-lining-potable-water-tanks.html',
+        'epoxy-flooring-food-processing-facilities.html',
+        'anti-static-epoxy-flooring.html', 'epoxy-mortar-flooring-systems.html',
+        'concrete-repair-injection.html',
+        'concrete-repair-structural-materials.html',
+        'polyurethane-injection-concrete-leak-stopping.html',
+        'epoxy-injection-concrete-repair.html',
+        'structural-strengthening.html', 'concrete-jacketing.html',
+        'carbon-fiber-strengthening.html', 'steel-jacketing.html',
+        'soil-injection.html', 'shotcrete.html', 'excavation-shoring.html',
+        'terrazzo-flooring.html', 'microcement-flooring.html'
+    ]);
+
+    function createInlineCta(isSecond) {
+        const cta = document.createElement('aside');
+        cta.className = 'service-inline-cta wow fadeIn';
+        cta.setAttribute('aria-label', 'طلب معاينة وعرض سعر');
+        cta.innerHTML = `
+            <div class="service-inline-cta__content">
+                <span class="service-inline-cta__eyebrow">معاينة مجانية في الرياض</span>
+                <h2>${isSecond ? 'جاهز لبدء مشروعك؟' : 'تحتاج حلاً مناسباً لمشروعك؟'}</h2>
+                <p>${isSecond ? 'تحدث مع فريق طبقات واحصل على توصية فنية وعرض سعر واضح.' : 'نعاين الموقع ونقترح النظام الأنسب وفق احتياج المشروع وميزانيته.'}</p>
+            </div>
+            <div class="service-inline-cta__actions">
+                <a class="service-inline-cta__primary" href="https://wa.me/966581032502" target="_blank" rel="noopener" aria-label="اطلب عرض سعر عبر واتساب">
+                    <i class="ri-whatsapp-line" aria-hidden="true"></i> اطلب عرض سعر
+                </a>
+                <a class="service-inline-cta__phone" href="tel:00966581032502" aria-label="اتصل بشركة طبقات">
+                    <i class="ri-phone-line" aria-hidden="true"></i> 00966581032502
+                </a>
+            </div>`;
+        return cta;
+    }
+
+    function addServiceInlineCtas() {
+        const page = window.location.pathname.split('/').pop() || 'index.html';
+        if (!servicePages.has(page) || document.querySelector('.service-inline-cta')) return;
+
+        const details = document.querySelector('.rs-services-details-wrapper');
+        const host = details || document.querySelector('main .rs-services-area > .container');
+        if (!host) return;
+
+        const contentLength = details ? details.innerText.trim().length : host.innerText.trim().length;
+        const isLongPage = Boolean(details && contentLength >= 2500);
+        const children = Array.from(host.children).filter((child) =>
+            !child.classList.contains('service-inline-cta')
+        );
+
+        if (!details || children.length < 4) {
+            host.appendChild(createInlineCta(false));
+            return;
+        }
+
+        const positions = isLongPage ? [0.38, 0.76] : [0.62];
+        positions.forEach((position, index) => {
+            const currentChildren = Array.from(host.children).filter((child) =>
+                !child.classList.contains('service-inline-cta')
+            );
+            const anchorIndex = Math.min(
+                currentChildren.length - 1,
+                Math.max(1, Math.floor(currentChildren.length * position))
+            );
+            currentChildren[anchorIndex].after(createInlineCta(index === 1));
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addServiceInlineCtas);
+    } else {
+        addServiceInlineCtas();
+    }
+})();
+

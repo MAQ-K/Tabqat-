@@ -25980,6 +25980,94 @@ body, p, h1, h2, h3, h4, h5, h6, span, a, li {
 .offcanvas-submenu li a:hover { color: #3fada2; }
 
 
+/* ── In-content CTA for service pages ────────────── */
+.service-inline-cta {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    margin: 38px 0;
+    padding: 28px 30px;
+    border: 1px solid rgba(63, 173, 162, .28);
+    border-radius: 16px;
+    background: linear-gradient(135deg, #eef9f7 0%, #fff 68%);
+    box-shadow: 0 10px 30px rgba(13, 27, 42, .07);
+}
+.service-inline-cta::after {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    inset-inline-end: -55px;
+    top: -70px;
+    border-radius: 50%;
+    background: rgba(63, 173, 162, .10);
+    pointer-events: none;
+}
+.service-inline-cta__content { position: relative; z-index: 1; }
+.service-inline-cta__eyebrow {
+    display: block;
+    margin-bottom: 5px;
+    color: #2f7d75;
+    font-size: 13px;
+    font-weight: 800;
+}
+.service-inline-cta h2 {
+    margin: 0 0 7px;
+    color: #0d1b2a;
+    font-size: 22px;
+    line-height: 1.45;
+}
+.service-inline-cta p { margin: 0; color: #52606d; font-size: 14.5px; line-height: 1.8; }
+.service-inline-cta__actions {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 12px;
+}
+.service-inline-cta__primary,
+.service-inline-cta__phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 46px;
+    padding: 10px 17px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.service-inline-cta__primary {
+    color: #fff !important;
+    background: linear-gradient(135deg, #3fada2, #2f7d75);
+    box-shadow: 0 5px 14px rgba(63, 173, 162, .28);
+}
+.service-inline-cta__phone { color: #1b4332; background: #fff; border: 1px solid #dbe9e6; }
+.service-inline-cta__primary:hover,
+.service-inline-cta__phone:hover { transform: translateY(-2px); }
+.service-inline-cta__primary:active,
+.service-inline-cta__phone:active { transform: translateY(1px); }
+.service-inline-cta__primary:focus-visible,
+.service-inline-cta__phone:focus-visible { outline: 3px solid rgba(47, 125, 117, .38); outline-offset: 3px; }
+.service-inline-cta__phone:hover { color: #2f7d75; box-shadow: 0 5px 14px rgba(13, 27, 42, .08); }
+@media (max-width: 767px) {
+    .service-inline-cta { align-items: stretch; flex-direction: column; gap: 18px; padding: 23px 20px; }
+    .service-inline-cta h2 { font-size: 19px; }
+    .service-inline-cta__actions { align-items: stretch; flex-direction: column; }
+    .service-inline-cta__primary, .service-inline-cta__phone { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .service-inline-cta__primary,
+    .service-inline-cta__phone { transition: none; }
+}
+
 /* ── END SERVICE PAGE COMPONENTS ─────────────────── */
 
 /*# sourceMappingURL=main.css.map */
